@@ -1,0 +1,11 @@
+.obj*
+.dep*
+.vscode*
+*.pdf*
+*.txt*
+*.o
+*.d
+#*#
+*~
+tests
+tests_*
