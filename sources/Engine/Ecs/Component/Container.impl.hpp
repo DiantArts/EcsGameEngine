@@ -1,27 +1,37 @@
 #pragma once
 
 #include <boost/type_index.hpp>
-#include <Engine/Detail/Meta.hpp>
 
 
 
 // ------------------------------------------------------------------ Construct
 
+// TODO: Unique Types
 template <
     ::engine::ecs::component::ConceptType... ComponentTypes
-> void ::engine::ecs::component::Container::constructSubContainer()
+> requires
+    ::engine::detail::meta::UniqueTypes<ComponentTypes...>::value
+void ::engine::ecs::component::Container::constructSubContainer()
 {
-    ::engine::meta::ForEach<ComponentTypes...>::template run<
+    ::engine::detail::meta::ForEach<ComponentTypes...>::template run<
         []<
             ::engine::ecs::component::ConceptType ComponentType
         >(
             ::engine::ecs::component::Container::Type& container
         ){
-            ::std::pair<Container::SubIDContainerType, Container::SubContainerPointerType> pair {
-                    Container::SubIDContainerType{},
-                    new ::std::vector<ComponentType>{}
-            };
-            container.emplace(ComponentType::getID(), pair);
+            if (container.find(ComponentType::getID()) != container.end()) {
+                throw ::std::runtime_error(
+                    "Container already contain an '"s +
+                        boost::typeindex::type_id<ComponentType>().pretty_name() + "' sub container"
+                );
+            }
+            container.emplace(
+                ComponentType::getID(),
+                ::std::make_pair<Container::SubIDContainerType, Container::SubContainerPointerType>(
+                        Container::SubIDContainerType{},
+                        new ::std::vector<ComponentType>{}
+                )
+            );
         }
     >(m_container);
 }
@@ -66,7 +76,7 @@ template <
 )
     -> ComponentType&
 {
-    auto pairComponentContainer{ this->getPairSubContainer<ComponentType>() };
+    auto& pairComponentContainer{ this->getPairSubContainer<ComponentType>() };
     auto it { ::std::ranges::find(pairComponentContainer.first, entityID) };
     if (it != pairComponentContainer.first.end()) {
         throw ::std::runtime_error(
@@ -86,7 +96,7 @@ template <
 ) const
     -> const ComponentType&
 {
-    auto pairComponentContainer{ this->getPairSubContainer<ComponentType>() };
+    auto& pairComponentContainer{ this->getPairSubContainer<ComponentType>() };
     auto it { ::std::ranges::find(pairComponentContainer.first, entityID) };
     if (it == pairComponentContainer.first.end()) {
         throw ::std::runtime_error(
@@ -107,7 +117,7 @@ template <
 ) const
     -> ::std::size_t
 {
-    auto IDContainer{ this->getPairSubContainer<ComponentType>().first };
+    auto& IDContainer{ this->getPairSubContainer<ComponentType>().first };
     auto it{ ::std::ranges::find(IDContainer, entityID) };
     if (it == IDContainer.end()) {
         throw ::std::runtime_error(
@@ -125,7 +135,7 @@ template <
 ) const
     -> bool
 {
-    auto IDContainer{ this->getPairSubContainer<ComponentType>().first };
+    auto& IDContainer{ this->getPairSubContainer<ComponentType>().first };
     return ::std::ranges::find(IDContainer, entityID) != IDContainer.end();
 }
 

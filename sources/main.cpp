@@ -30,19 +30,12 @@ namespace engine::ecs::component {
 } // namespace engine::ecs::component
 
 
-template<
-    typename T
-> void func()
-{
-    ::std::cout << typeid(T).name() << ::std::endl;
-}
-
 
 int main()
 {
     // func<::engine::ecs::component::Movable>();
-    ::engine::ecs::component::Container container;
-    container.constructSubContainer<::engine::ecs::component::Movable>();
+    // ::engine::ecs::component::Container container;
+    // container.constructSubContainer<::engine::ecs::component::Movable>();
     // container.construct<::engine::ecs::component::Movable, ::engine::ecs::component::Transformable>();
 
 

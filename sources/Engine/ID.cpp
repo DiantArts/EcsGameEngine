@@ -33,3 +33,13 @@ void ::engine::ID::increment()
 {
     m_value++;
 }
+
+
+
+// ------------------------------------------------------------------ Others
+
+auto ::engine::ID::operator<=>(const ID& other)
+    -> ::std::weak_ordering
+{
+    return m_value <=> other.m_value;
+}

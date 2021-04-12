@@ -3,6 +3,7 @@
 #include <Engine/ID.hpp>
 #include <Engine/Ecs/Entity.hpp>
 #include <Engine/Ecs/AComponent.hpp>
+#include <Engine/Detail/Meta.hpp>
 
 
 
@@ -42,7 +43,7 @@ public:
 
     // ------------------------------------------------------------------ *structors
 
-    Container();
+    explicit Container();
 
     ~Container();
 
@@ -52,7 +53,9 @@ public:
 
     template <
         ::engine::ecs::component::ConceptType... ComponentTypes
-    > void constructSubContainer();
+    > requires
+        ::engine::detail::meta::UniqueTypes<ComponentTypes...>::value
+    void constructSubContainer();
 
     template <
         ::engine::ecs::component::ConceptType ComponentType

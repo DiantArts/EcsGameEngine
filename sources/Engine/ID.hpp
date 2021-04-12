@@ -90,6 +90,13 @@ public:
 
 
 
+    // ------------------------------------------------------------------ Others
+
+    auto operator<=>(const ID& other)
+        -> ::std::weak_ordering;
+
+
+
 private:
 
     ID::Type m_value;
