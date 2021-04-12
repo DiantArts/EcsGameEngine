@@ -1,5 +1,7 @@
 #pragma once
 
+#include <boost/container_hash/hash.hpp>
+
 
 
 namespace engine {
@@ -11,22 +13,42 @@ public:
 
     using Type = ::std::size_t;
 
+    struct Hasher;
+
 public:
 
     // ------------------------------------------------------------------ *structors
 
     // default value is 0
     constexpr ID()
-        : m_id{ 0 }
+        : m_value{ 0 }
     {}
 
-    constexpr ID(ID::Type baseValue)
-        : m_id{ baseValue }
+    constexpr ID(
+        ID::Type baseValue
+    )
+        : m_value{ baseValue }
     {}
-
-    ID(ID& idGiver);
 
     constexpr ~ID() = default;
+
+
+
+    // ------------------------------------------------------------------ Copy
+
+    constexpr ID(
+        const ID& idGiver
+    ) noexcept
+    {
+        m_value = idGiver;
+    }
+
+    void operator=(
+        ID idGiver
+    ) noexcept
+    {
+        m_value = idGiver;
+    }
 
 
 
@@ -35,21 +57,34 @@ public:
     constexpr auto get() const
         -> ID::Type
     {
-        return m_id;
+        return m_value;
     }
 
     constexpr operator ID::Type() const
     {
-        return m_id;
+        return m_value;
     }
+
+    operator ::std::string() const
+    {
+        return ::std::to_string(m_value);
+    }
+
+
+
+    // ------------------------------------------------------------------ Set
+
+    void operator=(ID::Type value);
+
 
 
     // ------------------------------------------------------------------ Incrementation
 
-    void operator++();
+    auto operator++()
+        -> ID::Type;
 
     auto operator++(int)
-        -> int;
+        -> ID::Type;
 
     void increment();
 
@@ -57,7 +92,25 @@ public:
 
 private:
 
-    ID::Type m_id;
+    ID::Type m_value;
+
+};
+
+
+
+struct ID::Hasher {
+
+public:
+
+    auto operator () (
+        const ::engine::ID& id
+    ) const
+        -> ::std::size_t
+    {
+        ::std::size_t seed = 0;
+        boost::hash_combine(seed, id.get());
+        return seed;
+    }
 
 };
 

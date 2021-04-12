@@ -1,3 +1,4 @@
+.build*
 .obj*
 .dep*
 .vscode*
@@ -7,5 +8,6 @@
 *.d
 #*#
 *~
+binaries
 tests
 tests_*

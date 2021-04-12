@@ -3,32 +3,33 @@
 
 
 
-// ------------------------------------------------------------------ *structors
+// ------------------------------------------------------------------ Set
 
-::engine::ID::ID(ID& idGiver)
-    : m_id{ idGiver.get() }
+void ::engine::ID::operator=(ID::Type value)
 {
-    idGiver++;
+    m_value = value;
 }
 
 
 
 // ------------------------------------------------------------------ Incrementation
 
-void ::engine::ID::operator++()
+auto ::engine::ID::operator++()
+    -> ID::Type
 {
-    m_id++;
+    m_value++;
+    return m_value;
 }
 
 auto ::engine::ID::operator++(int)
-    -> int
+    -> ID::Type
 {
-    auto id { m_id };
-    m_id++;
-    return id;
+    auto value { m_value };
+    m_value++;
+    return value;
 }
 
 void ::engine::ID::increment()
 {
-    m_id++;
+    m_value++;
 }

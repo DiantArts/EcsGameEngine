@@ -89,7 +89,7 @@ public:
 private:
 
     static inline Entity::IDType m_IDGiver;
-    const Entity::IDType m_id { m_IDGiver };
+    const Entity::IDType m_id { ++m_IDGiver };
 
     Entity::SignatureType m_signature;
 

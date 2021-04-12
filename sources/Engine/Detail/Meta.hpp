@@ -11,10 +11,10 @@ template <
 > struct ForEach
 {
     template <
-        auto Function
+        auto function
     > static constexpr void run(auto&&... args)
     {
-        (Function.template operator()<ComponentTypes>(std::forward<decltype(args)>(args)...), ...);
+        (function.template operator()<ComponentTypes>(std::forward<decltype(args)>(args)...), ...);
     }
 };
 
