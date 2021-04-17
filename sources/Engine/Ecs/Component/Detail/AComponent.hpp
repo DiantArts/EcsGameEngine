@@ -6,6 +6,8 @@
 
 namespace engine::ecs::component::detail {
 
+
+
 template <
     template <typename...> class Base,
     typename Derived
@@ -42,6 +44,7 @@ template <
     typename Derived
 > inline constexpr bool is_base_of_template_v =
         ::engine::ecs::component::detail::is_base_of_template<Base,Derived>::value;
+
 
 
 } // namespace engine::ecs::component::detail

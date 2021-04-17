@@ -9,14 +9,14 @@ namespace engine::detail::meta {
 // ------------------------------------------------------------------ ForEach
 
 template <
-    typename... Types
+    typename... Rest
 > struct ForEach
 {
     template <
         auto function
     > static constexpr void run(auto&&... args)
     {
-        (function.template operator()<Types>(std::forward<decltype(args)>(args)...), ...);
+        (function.template operator()<Rest>(std::forward<decltype(args)>(args)...), ...);
     }
 };
 
@@ -25,22 +25,22 @@ template <
 // ------------------------------------------------------------------ UniqueTypes
 
 template <
-    typename... Types
+    typename... Rest
 > struct UniqueTypes;
 
 template <
     typename Type1,
     typename Type2,
-    typename... Types
+    typename... Rest
 > struct UniqueTypes<
     Type1,
     Type2,
-    Types...
+    Rest...
 >{
     static constexpr bool value{
         !::std::is_same<Type1, Type2>::value &&
-        engine::detail::meta::UniqueTypes<Type1, Types...>::value &&
-        engine::detail::meta::UniqueTypes<Type2, Types...>::value
+        engine::detail::meta::UniqueTypes<Type1, Rest...>::value &&
+        engine::detail::meta::UniqueTypes<Type2, Rest...>::value
     };
 };
 
@@ -50,6 +50,23 @@ template <
     Type1
 >{
     static constexpr bool value{ true };
+};
+
+
+
+// ------------------------------------------------------------------ Contains
+
+template <
+    typename... Rest
+> struct List {
+
+    template <
+        typename Type
+    > static constexpr bool contains()
+    {
+        return (std::is_same_v<Type, Rest> || ...);
+    }
+
 };
 
 

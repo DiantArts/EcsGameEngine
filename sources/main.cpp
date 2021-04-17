@@ -1,5 +1,6 @@
 #include <pch.hpp>
 #include <Engine/AScene.hpp>
+#include <Engine/Ecs/Signature.hpp>
 
 
 
@@ -29,14 +30,11 @@ namespace engine::ecs::component {
 
 } // namespace engine::ecs::component
 
-
-
 int main()
 {
-    // func<::engine::ecs::component::Movable>();
-    // ::engine::ecs::component::Container container;
-    // container.constructSubContainer<::engine::ecs::component::Movable>();
-    // container.construct<::engine::ecs::component::Movable, ::engine::ecs::component::Transformable>();
+    // auto signature1{ ::engine::ecs::Signature::generate<::engine::ecs::component::Movable>() };
+    // auto signature2{ ::engine::ecs::Signature::generate<::engine::ecs::component::Transformable>() };
+    // ::std::cout << signature1 << ::std::endl;
 
 
     // ::AScene scene;

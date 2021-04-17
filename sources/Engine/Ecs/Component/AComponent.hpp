@@ -55,10 +55,4 @@ constexpr ::engine::ID maxID { ::engine::ecs::component::declaration::detail::nu
 
 } // namespace engine::ecs::component
 
-namespace engine::ecs {
-    template <
-        typename ComponentType
-    > using AComponent = ::engine::ecs::component::AComponent<ComponentType>;
-}
-
 #include <Engine/Ecs/Component/AComponent.impl.hpp>

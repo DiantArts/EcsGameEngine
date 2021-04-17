@@ -98,5 +98,3 @@ private:
 
 
 } // namespace engine::ecs::entity
-
-namespace engine::ecs { using Entity = ::engine::ecs::entity::Entity; }

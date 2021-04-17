@@ -51,7 +51,7 @@ CPPM_FLAGS		:=	-std=c++20
 PCH_FLAGS		:=	-std=c++20
 
 ## -I
-COMMON_CPPFLAGS	:=	$(INCDIR) $(SRCDIR)
+COMMON_CPPFLAGS	:=	$(INCDIR) $(SRCDIR) $(EXTERNDIR) $(EXTERNDIR)/HdrOnly $(LIBDIR)
 C_CPPFLAGS		:=
 CXX_CPPFLAGS	:=
 
@@ -127,7 +127,7 @@ TST_CPP_SRC		!=	find $(TSTDIR) -type f -name \*$(CPP_SRCEXT)
 # TEST_CPPM_SRC		!=	find $(TSTDIR) -type f -name \*$(CPPM_SRCEXT)
 
 FOUNDLIBS		!=	find $(LIBDIR) -maxdepth 1 -type d ! -path $(LIBDIR)
-FOUNDEXTERN		!=	find $(EXTERNDIR) -maxdepth 1 -type d ! -path $(EXTERNDIR)
+FOUNDEXTERN		!=	find $(EXTERNDIR) -maxdepth 1 -type d ! -path $(EXTERNDIR) ! -path $(EXTERNDIR)/HdrOnly
 
 CPP_PCH			:=	$(INCDIR)/pch$(CPP_HDREXT)
 
@@ -185,8 +185,6 @@ CPP_PCHFLAGS	+=	$(MODE_FLAGS)
 CPPFLAGS		+=	$(foreach inc, $(COMMON_CPPFLAGS),$(addprefix -I,$(inc)))
 CPPFLAGS		+=	$(foreach inc, $(C_CPPFLAGS),$(addprefix -I,$(inc)))
 CPPFLAGS		+=	$(foreach inc, $(CXX_CPPFLAGS),$(addprefix -I,$(inc)))
-CPPFLAGS		+=	$(addprefix -I,$(LIBDIR))
-CPPFLAGS		+=	$(addprefix -I,$(EXTERNDIR))
 
 ## libraries
 FOUNDLIBS		:=	$(patsubst $(LIBDIR)/%,%,$(FOUNDLIBS))

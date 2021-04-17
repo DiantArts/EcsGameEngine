@@ -37,9 +37,17 @@
 #include <utility>
 #include <concepts>
 #include <bitset>
+#include <initializer_list>
+#include <compare>
+
+
 
 using std::string_literals::operator""s;
 using std::literals::string_view_literals::operator""sv;
+
+
+
+#include <Cbitset/Cbitset.hpp>
 
 
 
