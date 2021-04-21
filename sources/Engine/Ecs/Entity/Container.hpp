@@ -16,8 +16,6 @@ public:
 
     using Type = ::std::vector<::engine::ecs::Entity>;
 
-    class iterator;
-    class const_iterator;
 
 
 
@@ -25,7 +23,9 @@ public:
 
     // ------------------------------------------------------------------ *structors
 
-    Container(::engine::ecs::component::Container& componentContainer);
+    explicit Container(
+        ::engine::ecs::component::Container& componentContainer
+    );
 
     ~Container();
 
@@ -54,53 +54,29 @@ public:
 
     // ------------------------------------------------------------------ Get
 
-    auto operator[](
+    [[ nodiscard ]] auto operator[](
         ::engine::ID entityID
     ) const
         -> const ::engine::ecs::Entity&;
 
-    auto operator[](
+    [[ nodiscard ]] auto operator[](
         ::engine::ID entityID
     )
         -> ::engine::ecs::entity::Reference;
 
-    auto get(
+    [[ nodiscard ]] auto get(
         ::engine::ID entityID
     ) const
         -> const ::engine::ecs::Entity&;
-
-
-
-    // ------------------------------------------------------------------ Iterator
-
-    auto begin()
-        -> Container::iterator;
-
-    auto begin() const
-        -> Container::const_iterator;
-
-    auto cbegin() const
-        -> Container::const_iterator;
-
-
-
-    auto end()
-        -> Container::iterator;
-
-    auto end() const
-        -> Container::const_iterator;
-
-    auto cend() const
-        -> Container::const_iterator;
 
 
 
 
 private:
 
-    Container::Type m_entityContainer;
+    Container::Type m_entities;
 
-    ::engine::ecs::component::Container& componentContainer;
+    ::engine::ecs::component::Container& m_components;
 
 };
 

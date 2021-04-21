@@ -36,9 +36,23 @@ public:
         const ID& idGiver
     ) noexcept;
 
-    void operator=(
-        ID idGiver
+    [[ nodiscard ]] auto operator=(
+        const ID& idGiver
+    ) noexcept
+        -> ID&;
+
+
+
+    // ------------------------------------------------------------------ Move
+
+    constexpr ID(
+        ID&& idGiver
     ) noexcept;
+
+    [[ nodiscard ]] auto operator=(
+        ID&& idGiver
+    ) noexcept
+        -> ID&;
 
 
 

@@ -17,14 +17,22 @@ constexpr ::engine::ID::~ID() = default;
 
 
 
+
+
+
 // ------------------------------------------------------------------ Copy
 
 constexpr ::engine::ID::ID(
     const ID& idGiver
-) noexcept
-{
-    m_value = idGiver;
-}
+) noexcept = default;
+
+
+
+// ------------------------------------------------------------------ Move
+
+constexpr ::engine::ID::ID(
+    ID&& idGiver
+) noexcept = default;
 
 
 

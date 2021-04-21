@@ -23,6 +23,32 @@ public:
 
 
 
+    // ------------------------------------------------------------------ Copy
+
+    Entity(
+        const Entity& that
+    ) = delete;
+
+    [[ nodiscard ]] auto operator=(
+        const Entity& that
+    )
+        -> Entity& = delete;
+
+
+
+    // ------------------------------------------------------------------ Move
+
+    Entity(
+        Entity&& that
+    ) noexcept;
+
+    [[ nodiscard ]] auto operator=(
+        Entity&& that
+    ) noexcept
+        -> Entity&;
+
+
+
     // ------------------------------------------------------------------ AddComponent
 
     template <
@@ -89,7 +115,7 @@ public:
 private:
 
     static inline ::engine::ID m_IDGiver;
-    const ::engine::ID m_id { ++m_IDGiver };
+    ::engine::ID m_id { ++m_IDGiver };
 
     ::engine::ecs::Signature m_signature;
 

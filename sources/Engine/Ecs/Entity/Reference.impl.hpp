@@ -1,7 +1,5 @@
 #pragma once
 
-#include <Engine/Ecs/Entity/Container.hpp>
-
 
 
 // ------------------------------------------------------------------ AddComponent
@@ -11,14 +9,14 @@ template <
 > auto ::engine::ecs::entity::Reference::addComponent() const
     -> ComponentType&
 {
-    return m_entityReference.addComponent<ComponentType>();
+    return m_entity.addComponent<ComponentType>(m_components);
 }
 
 template <
     ::engine::ecs::component::ConceptType... ComponentTypes
 > void ::engine::ecs::entity::Reference::addComponents()
 {
-    m_entityReference.addComponents<ComponentTypes...>();
+    m_entity.addComponents<ComponentTypes...>(m_components);
 }
 
 
@@ -31,7 +29,7 @@ template <
 > auto ::engine::ecs::entity::Reference::hasComponent() const
     -> bool
 {
-    return m_entityReference.hasComponent<ComponentType>();
+    return m_entity.hasComponent<ComponentType>();
 }
 
 template <
@@ -39,7 +37,7 @@ template <
 > auto ::engine::ecs::entity::Reference::hasComponents() const
     -> bool
 {
-    return m_entityReference.hasComponents<ComponentTypes...>();
+    return m_entity.hasComponents<ComponentTypes...>();
 }
 
 
@@ -50,12 +48,12 @@ template <
     ::engine::ecs::component::ConceptType ComponentType
 > void ::engine::ecs::entity::Reference::removeComponent()
 {
-    m_entityReference.removeComponent<ComponentType>();
+    m_entity.removeComponent<ComponentType>(m_components);
 }
 
 template <
     ::engine::ecs::component::ConceptType... ComponentTypes
 > void ::engine::ecs::entity::Reference::removeComponents()
 {
-    m_entityReference.removeComponents<ComponentTypes...>();
+    m_entity.removeComponents<ComponentTypes...>(m_components);
 }

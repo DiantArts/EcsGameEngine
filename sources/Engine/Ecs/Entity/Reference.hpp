@@ -3,10 +3,9 @@
 #include <Engine/Ecs/Entity.hpp>
 
 
+namespace engine::ecs::component { class Container; }
 
 namespace engine::ecs::entity {
-
-class Container;
 
 
 
@@ -17,13 +16,13 @@ public:
     // ------------------------------------------------------------------ *structors
 
     explicit Reference(
-        ::engine::ecs::entity::Container& entityContainer,
-        ::engine::ecs::Entity& entityReference
+        ::engine::ecs::component::Container& components,
+        ::engine::ecs::Entity& entity
     );
 
     explicit Reference(
-        ::engine::ecs::Entity& entityReference,
-        ::engine::ecs::entity::Container& entityContainer
+        ::engine::ecs::Entity& entity,
+        ::engine::ecs::component::Container& components
     );
 
     ~Reference();
@@ -84,11 +83,19 @@ public:
 
 
 
+    // ------------------------------------------------------------------ Implicit Conversion
+
+    [[ nodiscard ]] operator ::engine::ecs::Entity&();
+
+    [[ nodiscard ]] operator const ::engine::ecs::Entity&() const;
+
+
+
 
 private:
 
-    ::engine::ecs::entity::Container& m_entityContainer;
-    ::engine::ecs::Entity& m_entityReference;
+    ::engine::ecs::component::Container& m_components;
+    ::engine::ecs::Entity& m_entity;
 
 };
 

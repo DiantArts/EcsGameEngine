@@ -6,17 +6,17 @@
 // ------------------------------------------------------------------ *structors
 
 ::engine::ecs::entity::Reference::Reference(
-    ::engine::ecs::entity::Container& entityContainer,
-    ::engine::ecs::Entity& entityReference
+    ::engine::ecs::component::Container& components,
+    ::engine::ecs::Entity& entity
 )
-    : m_entityContainer{ entityContainer }, m_entityReference{ entityReference }
+    : m_components{ components }, m_entity{ entity }
 {}
 
 ::engine::ecs::entity::Reference::Reference(
-    ::engine::ecs::Entity& entityReference,
-    ::engine::ecs::entity::Container& entityContainer
+    ::engine::ecs::Entity& entity,
+    ::engine::ecs::component::Container& components
 )
-    : m_entityContainer{ entityContainer }, m_entityReference{ entityReference }
+    : m_components{ components }, m_entity{ entity }
 {}
 
 ::engine::ecs::entity::Reference::~Reference() = default;
@@ -28,7 +28,7 @@
 auto ::engine::ecs::entity::Reference::getSignature() const
     -> const ::engine::ecs::Signature&
 {
-    return m_entityReference.getSignature();
+    return m_entity.getSignature();
 }
 
 
@@ -38,5 +38,18 @@ auto ::engine::ecs::entity::Reference::getSignature() const
 auto ::engine::ecs::entity::Reference::getID() const
     -> ::engine::ID
 {
-    return m_entityReference.getID();
+    return m_entity.getID();
+}
+
+
+// ------------------------------------------------------------------ Implicit Conversion
+
+[[ nodiscard ]] ::engine::ecs::entity::Reference::operator ::engine::ecs::Entity&()
+{
+    return m_entity;
+}
+
+[[ nodiscard ]] ::engine::ecs::entity::Reference::operator const ::engine::ecs::Entity&() const
+{
+    return m_entity;
 }
