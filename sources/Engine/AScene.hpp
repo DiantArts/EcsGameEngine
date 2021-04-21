@@ -45,7 +45,7 @@ public:
 
 protected:
 
-    ::engine::ecs::component::Container m_components;
+    // ::engine::ecs::component::Container m_components;
     // ::engine::ecs::entity::Container m_actors { m_components };
     // ::engine::ecs::system::Container m_systems;
 

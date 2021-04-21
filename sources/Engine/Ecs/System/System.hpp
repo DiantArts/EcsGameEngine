@@ -16,7 +16,7 @@ public:
 
     // using Type = void(*)(FuncType);
 
-    using SignatureType = ::std::bitset<::engine::ecs::component::Container::getMaxComponentID()>;
+    using SignatureType = ::std::bitset<::engine::ecs::component::Container::getMaxID()>;
 
 
 

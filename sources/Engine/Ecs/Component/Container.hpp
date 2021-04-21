@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Engine/ID.hpp>
-#include <Engine/Ecs/Entity.hpp>
 #include <Engine/Ecs/AComponent.hpp>
 #include <Engine/Detail/Meta.hpp>
 
@@ -15,26 +14,16 @@ class Container {
 
 public:
 
-    using ComponentID = ::engine::ID;
-    using EntityID = ::engine::ecs::Entity::IDType;
-
-    // SubContainer
-    using SubContainerPointerType = void*;
     template <
         ::engine::ecs::component::ConceptType ComponentType
     > using SubContainerType = ::std::vector<ComponentType>;
 
-    // SubIDContainer
-    using SubIDContainerType = ::std::vector<EntityID>;
+    // map[ComponentID].first == vector<ID>
+    // map[ComponentID].second  == vector<ComponentType>
+    using SubPairContainerType = ::std::pair<::std::vector<::engine::ID>, void*>;
 
-    // SubPairContainer
-    using SubPairContainerType =
-        ::std::pair<Container::SubIDContainerType, Container::SubContainerPointerType>;
-
-    // map[ComponentID].first  == vector<ComponentType>
-    // map[ComponentID].second == vector<ID>
     using Type = ::std::unordered_map<
-        Container::ComponentID, Container::SubPairContainerType, Container::ComponentID::Hasher
+        ::engine::ID, Container::SubPairContainerType, ::engine::ID::Hasher
     >;
 
 
@@ -59,7 +48,7 @@ public:
 
     template <
         ::engine::ecs::component::ConceptType ComponentType
-    > auto getSubContainer() const
+    > [[ nodiscard ]] auto getSubContainer() const
         -> const Container::SubContainerType<ComponentType>&;
 
 
@@ -68,51 +57,54 @@ public:
 
     template <
         ::engine::ecs::component::ConceptType ComponentType
-    > constexpr auto getComponentID() const
-        -> Container::ComponentID;
+    > [[ nodiscard ]] constexpr auto getID() const
+        -> ::engine::ID;
 
-    static constexpr auto getMaxComponentID()
-        -> Container::ComponentID;
+    [[ nodiscard ]] static constexpr auto getMaxID()
+        -> ::engine::ID;
 
 
 
-    // ------------------------------------------------------------------ Component
+    // ------------------------------------------------------------------ Emplace/Remove
 
     template <
         ::engine::ecs::component::ConceptType ComponentType
-    > auto emplaceComponent(
-        Container::EntityID entityID,
+    > auto emplace(
+        ::engine::ID entityID,
         auto&&... args
     )
         -> ComponentType&;
 
     template <
         ::engine::ecs::component::ConceptType ComponentType
-    > auto getComponent(
-        Container::EntityID entityID
+    > void remove(
+        ::engine::ID entityID
+    );
+
+
+
+    // ------------------------------------------------------------------ Get
+
+    template <
+        ::engine::ecs::component::ConceptType ComponentType
+    > [[ nodiscard ]] auto get(
+        ::engine::ID entityID
     ) const
         -> const ComponentType&;
 
     template <
         ::engine::ecs::component::ConceptType ComponentType
-    > auto getComponentIndex(
-        Container::EntityID entityID
+    > [[ nodiscard ]] auto getIndex(
+        ::engine::ID entityID
     ) const
         -> ::std::size_t;
 
     template <
         ::engine::ecs::component::ConceptType ComponentType
-    > auto componentExists(
-        Container::EntityID entityID
+    > [[ nodiscard ]] auto exists(
+        ::engine::ID entityID
     ) const
         -> bool;
-
-
-
-    // ------------------------------------------------------------------ Others
-
-    auto getSize() const
-        -> ::std::size_t;
 
 
 
@@ -122,19 +114,18 @@ private:
 
     template <
         ::engine::ecs::component::ConceptType ComponentType
-    > auto getPairSubContainer()
+    > [[ nodiscard ]] auto getPairSubContainer()
         -> SubPairContainerType&;
 
     template <
         ::engine::ecs::component::ConceptType ComponentType
-    > auto getPairSubContainer() const
+    > [[ nodiscard ]] auto getPairSubContainer() const
         -> const SubPairContainerType&;
 
 
 
 private:
 
-    Container::SubIDContainerType m_IDContainer;
     Container::Type m_container;
 
 

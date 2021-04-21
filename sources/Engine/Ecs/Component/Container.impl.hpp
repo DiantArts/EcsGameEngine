@@ -27,9 +27,9 @@ void ::engine::ecs::component::Container::constructSubContainer()
             }
             container.emplace(
                 ComponentType::getID(),
-                ::std::make_pair<Container::SubIDContainerType, Container::SubContainerPointerType>(
-                        Container::SubIDContainerType{},
-                        new ::std::vector<ComponentType>{}
+                ::std::make_pair<::std::vector<::engine::ID>, void*>(
+                    ::std::vector<::engine::ID>{},
+                    new ::std::vector<ComponentType>{}
                 )
             );
         }
@@ -52,26 +52,26 @@ template <
 
 template <
     ::engine::ecs::component::ConceptType ComponentType
-> constexpr auto ::engine::ecs::component::Container::getComponentID() const
-    -> Container::ComponentID
+> constexpr auto ::engine::ecs::component::Container::getID() const
+    -> ::engine::ID
 {
     return ComponentType::getID();
 }
 
-constexpr auto ::engine::ecs::component::Container::getMaxComponentID()
-    -> Container::ComponentID
+constexpr auto ::engine::ecs::component::Container::getMaxID()
+    -> ::engine::ID
 {
     return ::engine::ecs::component::maxID;
 }
 
 
 
-// ------------------------------------------------------------------ Component
+// ------------------------------------------------------------------ Emplace/Remove
 
 template <
     ::engine::ecs::component::ConceptType ComponentType
-> auto ::engine::ecs::component::Container::emplaceComponent(
-    Container::EntityID entityID,
+> auto ::engine::ecs::component::Container::emplace(
+    ::engine::ID entityID,
     auto&&... args
 )
     -> ComponentType&
@@ -91,8 +91,19 @@ template <
 
 template <
     ::engine::ecs::component::ConceptType ComponentType
-> auto ::engine::ecs::component::Container::getComponent(
-    Container::EntityID entityID
+> void ::engine::ecs::component::Container::remove(
+    ::engine::ID entityID
+)
+{}
+
+
+
+// ------------------------------------------------------------------ Get
+
+template <
+    ::engine::ecs::component::ConceptType ComponentType
+> auto ::engine::ecs::component::Container::get(
+    ::engine::ID entityID
 ) const
     -> const ComponentType&
 {
@@ -107,13 +118,12 @@ template <
     return (*static_cast<Container::SubContainerType<ComponentType>*>(pairComponentContainer.second))[
         it - pairComponentContainer.first.begin()
     ];
-
 }
 
 template <
     ::engine::ecs::component::ConceptType ComponentType
-> auto ::engine::ecs::component::Container::getComponentIndex(
-    Container::EntityID entityID
+> auto ::engine::ecs::component::Container::getIndex(
+    ::engine::ID entityID
 ) const
     -> ::std::size_t
 {
@@ -130,8 +140,8 @@ template <
 
 template <
     ::engine::ecs::component::ConceptType ComponentType
-> auto ::engine::ecs::component::Container::componentExists(
-    Container::EntityID entityID
+> auto ::engine::ecs::component::Container::exists(
+    ::engine::ID entityID
 ) const
     -> bool
 {

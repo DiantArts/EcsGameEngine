@@ -30,6 +30,9 @@ namespace engine::ecs::component {
 
 } // namespace engine::ecs::component
 
+
+
+
 int main()
 {
     // auto signature1{ ::engine::ecs::Signature::generate<::engine::ecs::component::Movable>() };

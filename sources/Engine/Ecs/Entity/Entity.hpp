@@ -2,6 +2,8 @@
 
 #include <Engine/ID.hpp>
 #include <Engine/Ecs/AComponent.hpp>
+#include <Engine/Ecs/Component/Container.hpp>
+#include <Engine/Ecs/Signature.hpp>
 
 
 
@@ -13,18 +15,9 @@ class Entity {
 
 public:
 
-    using SignatureType = ::std::bitset<::engine::ecs::component::maxID>;
-
-    using IDType = ::engine::ID;
-
-
-
-
-public:
-
     // ------------------------------------------------------------------ *structors
 
-    Entity();
+    explicit Entity();
 
     ~Entity();
 
@@ -34,13 +27,16 @@ public:
 
     template <
         ::engine::ecs::component::ConceptType ComponentType
-    > auto addComponent() const
-        -> bool;
+    > auto addComponent(
+        ::engine::ecs::component::Container& container
+    )
+        -> ComponentType&;
 
     template <
         ::engine::ecs::component::ConceptType... ComponentTypes
-    > auto addComponents()
-        -> bool;
+    > void addComponents(
+        ::engine::ecs::component::Container& container
+    );
 
 
 
@@ -49,12 +45,12 @@ public:
 
     template <
         ::engine::ecs::component::ConceptType ComponentType
-    > auto hasComponent() const
+    > [[ nodiscard ]] auto hasComponent() const
         -> bool;
 
     template <
         ::engine::ecs::component::ConceptType... ComponentTypes
-    > auto hasComponents() const
+    > [[ nodiscard ]] auto hasComponents() const
         -> bool;
 
 
@@ -63,38 +59,44 @@ public:
 
     template <
         ::engine::ecs::component::ConceptType ComponentType
-    > void removeComponent();
+    > void removeComponent(
+        ::engine::ecs::component::Container& container
+    );
 
     template <
         ::engine::ecs::component::ConceptType... ComponentTypes
-    > void removeComponents();
+    > void removeComponents(
+        ::engine::ecs::component::Container& container
+    );
 
 
 
     // ------------------------------------------------------------------ Signature
 
-    auto getSignature() const
-        -> Entity::SignatureType;
+    [[ nodiscard ]] auto getSignature() const
+        -> const ::engine::ecs::Signature&;
 
 
 
     // ------------------------------------------------------------------ ID
 
-    auto getID() const
-        -> Entity::IDType;
+    [[ nodiscard ]] auto getID() const
+        -> ::engine::ID;
 
 
 
 
 private:
 
-    static inline Entity::IDType m_IDGiver;
-    const Entity::IDType m_id { ++m_IDGiver };
+    static inline ::engine::ID m_IDGiver;
+    const ::engine::ID m_id { ++m_IDGiver };
 
-    Entity::SignatureType m_signature;
+    ::engine::ecs::Signature m_signature;
 
 };
 
 
 
 } // namespace engine::ecs::entity
+
+#include <Engine/Ecs/Entity/Entity.impl.hpp>

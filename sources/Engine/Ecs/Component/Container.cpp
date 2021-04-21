@@ -8,13 +8,3 @@
 ::engine::ecs::component::Container::Container() = default;
 
 ::engine::ecs::component::Container::~Container() = default;
-
-
-
-// ------------------------------------------------------------------ Others
-
-auto ::engine::ecs::component::Container::getSize() const
-    -> ::std::size_t
-{
-    return m_container.size();
-}

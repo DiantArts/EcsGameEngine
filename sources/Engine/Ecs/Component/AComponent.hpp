@@ -2,7 +2,7 @@
 
 #include <Engine/ID.hpp>
 #include <Engine/Ecs/Component/Declaration.hpp>
-#include <Engine/Ecs/Component/Detail/AComponent.hpp>
+#include <Engine/Detail/Meta.hpp>
 
 
 
@@ -19,15 +19,9 @@ template <
 
 public:
 
-    using IDType = ::engine::ID;
-
-
-
-public:
-
     // ------------------------------------------------------------------ *structors
 
-    AComponent();
+    explicit AComponent();
 
     virtual ~AComponent() = 0;
 
@@ -42,14 +36,14 @@ private:
 template <
     typename ComponentType
 > concept ConceptType =
-    ::engine::ecs::component::detail::is_base_of_template_v<
+    ::engine::detail::meta::IsBaseOfTemplate<
         ::engine::ecs::component::AComponent,
         ComponentType
-    >;
+    >::value;
 
 
 
-constexpr ::engine::ID maxID { ::engine::ecs::component::declaration::detail::numberOfIDs };
+static constexpr ::engine::ID maxID { ::engine::ecs::component::declaration::detail::numberOfIDs };
 
 
 

@@ -20,17 +20,13 @@ public:
     // ------------------------------------------------------------------ *structors
 
     // default value is 0
-    constexpr ID()
-        : m_value{ 0 }
-    {}
+    constexpr ID();
 
     constexpr ID(
-        ID::Type baseValue
-    )
-        : m_value{ baseValue }
-    {}
+        ::std::integral auto baseValue
+    );
 
-    constexpr ~ID() = default;
+    constexpr ~ID();
 
 
 
@@ -38,37 +34,22 @@ public:
 
     constexpr ID(
         const ID& idGiver
-    ) noexcept
-    {
-        m_value = idGiver;
-    }
+    ) noexcept;
 
     void operator=(
         ID idGiver
-    ) noexcept
-    {
-        m_value = idGiver;
-    }
+    ) noexcept;
 
 
 
     // ------------------------------------------------------------------ Get
 
-    constexpr auto get() const
-        -> ID::Type
-    {
-        return m_value;
-    }
+    [[ nodiscard ]] constexpr auto get() const
+        -> ID::Type;
 
-    constexpr operator ID::Type() const
-    {
-        return m_value;
-    }
+    [[ nodiscard ]] constexpr operator ID::Type() const;
 
-    operator ::std::string() const
-    {
-        return ::std::to_string(m_value);
-    }
+    [[ nodiscard ]] operator ::std::string() const;
 
 
 
@@ -83,7 +64,7 @@ public:
     auto operator++()
         -> ID::Type;
 
-    auto operator++(int)
+    [[ nodiscard ]] auto operator++(int)
         -> ID::Type;
 
     void increment();
@@ -92,7 +73,7 @@ public:
 
     // ------------------------------------------------------------------ Others
 
-    auto operator<=>(const ID& other)
+    [[ nodiscard ]] auto operator<=>(const ID& other)
         -> ::std::weak_ordering;
 
 
@@ -104,23 +85,6 @@ private:
 };
 
 
-
-struct ID::Hasher {
-
-public:
-
-    auto operator () (
-        const ::engine::ID& id
-    ) const
-        -> ::std::size_t
-    {
-        ::std::size_t seed = 0;
-        boost::hash_combine(seed, id.get());
-        return seed;
-    }
-
-};
-
-
-
 } // namespace engine
+
+#include <Engine/ID.impl.hpp>
