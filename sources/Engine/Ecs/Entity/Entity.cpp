@@ -17,7 +17,7 @@
     Entity&& that
 ) noexcept = default;
 
-[[ nodiscard ]] auto ::engine::ecs::entity::Entity::operator=(
+auto ::engine::ecs::entity::Entity::operator=(
     Entity&& that
 ) noexcept
     -> Entity& = default;

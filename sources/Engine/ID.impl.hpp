@@ -17,25 +17,6 @@ constexpr ::engine::ID::~ID() = default;
 
 
 
-
-
-
-// ------------------------------------------------------------------ Copy
-
-constexpr ::engine::ID::ID(
-    const ID& idGiver
-) noexcept = default;
-
-
-
-// ------------------------------------------------------------------ Move
-
-constexpr ::engine::ID::ID(
-    ID&& idGiver
-) noexcept = default;
-
-
-
 // ------------------------------------------------------------------ Get
 
 constexpr auto ::engine::ID::get() const

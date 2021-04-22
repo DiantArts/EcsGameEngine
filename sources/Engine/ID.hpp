@@ -30,32 +30,6 @@ public:
 
 
 
-    // ------------------------------------------------------------------ Copy
-
-    constexpr ID(
-        const ID& idGiver
-    ) noexcept;
-
-    [[ nodiscard ]] auto operator=(
-        const ID& idGiver
-    ) noexcept
-        -> ID&;
-
-
-
-    // ------------------------------------------------------------------ Move
-
-    constexpr ID(
-        ID&& idGiver
-    ) noexcept;
-
-    [[ nodiscard ]] auto operator=(
-        ID&& idGiver
-    ) noexcept
-        -> ID&;
-
-
-
     // ------------------------------------------------------------------ Get
 
     [[ nodiscard ]] constexpr auto get() const

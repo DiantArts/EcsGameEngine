@@ -18,7 +18,7 @@ public:
         ::engine::ecs::component::ConceptType ComponentType
     > using SubContainerType = ::std::vector<ComponentType>;
 
-    // map[ComponentID].first == vector<ID>
+    // map[ComponentID].first == vector<EntityID>
     // map[ComponentID].second  == vector<ComponentType>
     using SubPairContainerType = ::std::pair<::std::vector<::engine::ID>, void*>;
 
@@ -38,7 +38,17 @@ public:
 
 
 
+    // ------------------------------------------------------------------ Genetate
+
+    template <
+        ::engine::ecs::component::ConceptType... ComponentTypes
+    > [[ nodiscard ]] static constexpr auto generate()
+        -> ::engine::ecs::component::Container;
+
+
+
     // ------------------------------------------------------------------ SubContainer
+    // Each sub container for each Component
 
     template <
         ::engine::ecs::component::ConceptType... ComponentTypes
@@ -76,8 +86,20 @@ public:
         -> ComponentType&;
 
     template <
+        ::engine::ecs::component::ConceptType... ComponentTypes
+    > void emplaceMany(
+        ::engine::ID entityID
+    );
+
+    template <
         ::engine::ecs::component::ConceptType ComponentType
     > void remove(
+        ::engine::ID entityID
+    );
+
+    template <
+        ::engine::ecs::component::ConceptType... ComponentTypes
+    > void removeMany(
         ::engine::ID entityID
     );
 

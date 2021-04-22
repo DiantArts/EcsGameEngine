@@ -29,7 +29,7 @@ public:
         const Entity& that
     ) = delete;
 
-    [[ nodiscard ]] auto operator=(
+    auto operator=(
         const Entity& that
     )
         -> Entity& = delete;
@@ -42,10 +42,21 @@ public:
         Entity&& that
     ) noexcept;
 
-    [[ nodiscard ]] auto operator=(
+    auto operator=(
         Entity&& that
     ) noexcept
         -> Entity&;
+
+
+
+    // ------------------------------------------------------------------ Genetate
+
+    template <
+        ::engine::ecs::component::ConceptType... ComponentTypes
+    > [[ nodiscard ]] static constexpr auto generate(
+        ::engine::ecs::component::Container& componentContainer
+    )
+        -> ::engine::ecs::entity::Entity;
 
 
 

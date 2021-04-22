@@ -10,7 +10,7 @@ template <
     -> ::engine::ecs::entity::Reference
 {
     auto entity{ m_entities.emplace_back() };
-    if constexpr (sizeof(ComponentTypes) != 0) {
+    if constexpr (sizeof...(ComponentTypes) != 0) {
         entity.addComponent<ComponentTypes...>(m_components);
     }
     return ::engine::ecs::entity::Reference{ m_components, entity };

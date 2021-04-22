@@ -2,6 +2,33 @@
 
 
 
+// ------------------------------------------------------------------ Genetate
+
+template <
+    ::engine::ecs::component::ConceptType... ComponentTypes
+> [[ nodiscard ]] constexpr auto ::engine::ecs::entity::Entity::generate(
+    ::engine::ecs::component::Container& componentContainer
+)
+    -> ::engine::ecs::entity::Entity
+{
+    ::engine::ecs::entity::Entity entity;
+
+    ::engine::detail::meta::ForEach<ComponentTypes...>::template run<
+        []<
+            ::engine::ecs::component::ConceptType ComponentType
+        >(
+            ::engine::ecs::entity::Entity& entity,
+            ::engine::ecs::component::Container& componentContainer
+        ){
+            entity.addComponent<ComponentType>(componentContainer);
+        }
+    >(entity, componentContainer);
+
+    return entity;
+}
+
+
+
 // ------------------------------------------------------------------ AddComponent
 
 template <
@@ -22,7 +49,7 @@ template <
 )
 {
     m_signature.set<ComponentTypes...>();
-    componentContainer.emplace<ComponentTypes...>(m_id);
+    componentContainer.emplaceMany<ComponentTypes...>(m_id);
 }
 
 
@@ -67,5 +94,5 @@ template <
 )
 {
     m_signature.reset<ComponentTypes...>();
-    componentContainer.remove<ComponentTypes...>(m_id);
+    componentContainer.removeMany<ComponentTypes...>(m_id);
 }

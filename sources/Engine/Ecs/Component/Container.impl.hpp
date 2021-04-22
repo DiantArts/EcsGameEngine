@@ -4,6 +4,20 @@
 
 
 
+// ------------------------------------------------------------------ Genetate
+
+template <
+    ::engine::ecs::component::ConceptType... ComponentTypes
+> [[ nodiscard ]] constexpr auto ::engine::ecs::component::Container::generate()
+    -> ::engine::ecs::component::Container
+{
+    ::engine::ecs::component::Container components;
+    components.constructSubContainer<ComponentTypes...>();
+    return components;
+}
+
+
+
 // ------------------------------------------------------------------ Construct
 
 // TODO: Unique Types
@@ -90,11 +104,40 @@ template <
 }
 
 template <
+    ::engine::ecs::component::ConceptType... ComponentTypes
+> void ::engine::ecs::component::Container::emplaceMany(
+    ::engine::ID entityID
+)
+{
+    (this->emplace<ComponentTypes>(entityID), ...);
+}
+
+
+template <
     ::engine::ecs::component::ConceptType ComponentType
 > void ::engine::ecs::component::Container::remove(
     ::engine::ID entityID
 )
-{}
+{
+    auto& pairComponentContainer{ this->getPairSubContainer<ComponentType>() };
+    auto it { ::std::ranges::find(pairComponentContainer.first, entityID) };
+    if (it == pairComponentContainer.first.end()) {
+        throw ::std::runtime_error(
+            "Entity '"s + static_cast<::std::string>(entityID) + "' doesn't contain an '"s +
+                boost::typeindex::type_id<ComponentType>().pretty_name() + "' component"
+        );
+    }
+    pairComponentContainer.first.erase(it);
+}
+
+template <
+    ::engine::ecs::component::ConceptType... ComponentTypes
+> void ::engine::ecs::component::Container::removeMany(
+    ::engine::ID entityID
+)
+{
+    (this->remove<ComponentTypes>(entityID), ...);
+}
 
 
 

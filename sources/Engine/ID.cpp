@@ -2,24 +2,6 @@
 #include <Engine/ID.hpp>
 
 
-
-// ------------------------------------------------------------------ Copy
-
-[[ nodiscard ]] auto ::engine::ID::operator=(
-    const ID& idGiver
-) noexcept
-    -> ID& = default;
-
-
-
-// ------------------------------------------------------------------ Move
-
-[[ nodiscard ]] auto ::engine::ID::operator=(
-    ID&& idGiver
-) noexcept
-    -> ID& = default;
-
-
 // ------------------------------------------------------------------ Get
 
 ::engine::ID::operator ::std::string() const
