@@ -42,7 +42,13 @@ auto ::engine::ecs::entity::Reference::getID() const
 }
 
 
-// ------------------------------------------------------------------ Implicit Conversion
+// ------------------------------------------------------------------ Conversion
+
+[[ nodiscard ]] auto ::engine::ecs::entity::Reference::get() const
+    -> const ::engine::ecs::Entity&
+{
+    return m_entity;
+}
 
 [[ nodiscard ]] ::engine::ecs::entity::Reference::operator ::engine::ecs::Entity&()
 {

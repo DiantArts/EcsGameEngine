@@ -2,6 +2,7 @@
 
 #include <Engine/Ecs/Entity/Entity.hpp>
 #include <Engine/Ecs/Entity/Reference.hpp>
+#include <Engine/Ecs/Entity/ConstReference.hpp>
 #include <Engine/Ecs/Component/Container.hpp>
 
 
@@ -57,7 +58,7 @@ public:
     [[ nodiscard ]] auto operator[](
         ::engine::ID entityID
     ) const
-        -> const ::engine::ecs::Entity&;
+        -> ::engine::ecs::entity::ConstReference;
 
     [[ nodiscard ]] auto operator[](
         ::engine::ID entityID
@@ -67,7 +68,26 @@ public:
     [[ nodiscard ]] auto get(
         ::engine::ID entityID
     ) const
-        -> const ::engine::ecs::Entity&;
+        -> ::engine::ecs::entity::ConstReference;
+
+    [[ nodiscard ]] auto unsafeGet(
+        ::engine::ID entityID
+    )
+        -> ::engine::ecs::entity::Reference;
+
+    [[ nodiscard ]] auto unsafeGet(
+        ::engine::ID entityID
+    ) const
+        -> ::engine::ecs::entity::ConstReference;
+
+
+
+    // ------------------------------------------------------------------ Contains
+
+    [[ nodiscard ]] auto contains(
+        ::engine::ID entityID
+    ) const
+        -> bool;
 
 
 
@@ -83,3 +103,5 @@ private:
 
 
 } // namespace engine::ecs::entity
+
+#include <Engine/Ecs/Entity/Container.impl.hpp>

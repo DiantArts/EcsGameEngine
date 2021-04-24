@@ -41,7 +41,7 @@ void ::engine::ecs::entity::Container::remove(
         ](
             const ::engine::ecs::Entity& entity
         ){
-            return &entity == &static_cast<const engine::ecs::Entity&>(reference);
+            return &entity == &reference.get();
         }
     ));
 }
@@ -53,9 +53,18 @@ void ::engine::ecs::entity::Container::remove(
 [[ nodiscard ]] auto ::engine::ecs::entity::Container::operator[](
     ::engine::ID entityID
 ) const
-    -> const ::engine::ecs::Entity&
+    -> ::engine::ecs::entity::ConstReference
 {
-    return m_entities[entityID];
+    auto it{ ::std::ranges::find_if(m_entities,
+        [entityID](const ::engine::ecs::Entity& entity){
+            return entity.getID() == entityID;
+        }
+    ) };
+    if (it == m_entities.end()) {
+        throw ::std::runtime_error("Entity '"s + static_cast<::std::string>(entityID) +
+                "' inst't present in the EntityContainer");
+    }
+    return ::engine::ecs::entity::ConstReference{ *it };
 }
 
 [[ nodiscard ]] auto ::engine::ecs::entity::Container::operator[](
@@ -63,13 +72,71 @@ void ::engine::ecs::entity::Container::remove(
 )
     -> ::engine::ecs::entity::Reference
 {
-    return ::engine::ecs::entity::Reference{m_components, m_entities[entityID] };
+    auto it{ ::std::ranges::find_if(m_entities,
+        [entityID](const ::engine::ecs::Entity& entity){
+            return entity.getID() == entityID;
+        }
+    ) };
+    if (it == m_entities.end()) {
+        throw ::std::runtime_error("Entity '"s + static_cast<::std::string>(entityID) +
+                "' inst't present in the EntityContainer");
+    }
+    return ::engine::ecs::entity::Reference{m_components, *it };
 }
 
 [[ nodiscard ]] auto ::engine::ecs::entity::Container::get(
     ::engine::ID entityID
 ) const
-    -> const ::engine::ecs::Entity&
+    -> ::engine::ecs::entity::ConstReference
 {
-    return m_entities[entityID];
+    auto it{ ::std::ranges::find_if(m_entities,
+        [entityID](const ::engine::ecs::Entity& entity){
+            return entity.getID() == entityID;
+        }
+    ) };
+    if (it == m_entities.end()) {
+        throw ::std::runtime_error("Entity '"s + static_cast<::std::string>(entityID) +
+                "' inst't present in the EntityContainer");
+    }
+    return ::engine::ecs::entity::ConstReference{ *it };
+}
+
+[[ nodiscard ]] auto ::engine::ecs::entity::Container::unsafeGet(
+    ::engine::ID entityID
+)
+    -> ::engine::ecs::entity::Reference
+{
+    return ::engine::ecs::entity::Reference{ m_components, *::std::ranges::find_if(m_entities,
+        [entityID](const ::engine::ecs::Entity& entity){
+            return entity.getID() == entityID;
+        }
+    ) };
+}
+
+[[ nodiscard ]] auto ::engine::ecs::entity::Container::unsafeGet(
+    ::engine::ID entityID
+) const
+    -> ::engine::ecs::entity::ConstReference
+{
+    return ::engine::ecs::entity::ConstReference{ *::std::ranges::find_if(m_entities,
+        [entityID](const ::engine::ecs::Entity& entity){
+            return entity.getID() == entityID;
+        }
+    ) };
+}
+
+
+
+// ------------------------------------------------------------------ Contains
+
+[[ nodiscard ]] auto ::engine::ecs::entity::Container::contains(
+    ::engine::ID entityID
+) const
+    -> bool
+{
+    return ::std::ranges::find_if(m_entities,
+        [entityID](const ::engine::ecs::Entity& entity){
+            return entity.getID() == entityID;
+        }
+    ) != m_entities.end();
 }

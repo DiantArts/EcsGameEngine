@@ -23,32 +23,6 @@ public:
 
 
 
-    // ------------------------------------------------------------------ Copy
-
-    Entity(
-        const Entity& that
-    ) = delete;
-
-    auto operator=(
-        const Entity& that
-    )
-        -> Entity& = delete;
-
-
-
-    // ------------------------------------------------------------------ Move
-
-    Entity(
-        Entity&& that
-    ) noexcept;
-
-    auto operator=(
-        Entity&& that
-    ) noexcept
-        -> Entity&;
-
-
-
     // ------------------------------------------------------------------ Genetate
 
     template <

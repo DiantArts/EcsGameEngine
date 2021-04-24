@@ -24,7 +24,7 @@ template <
     > static constexpr auto compare(auto&... args)
         -> bool
     {
-        return (function.template operator()<Rest>(std::forward<decltype(args)>(args)...) || ...);
+        return (function.template operator()<Rest>(std::forward<decltype(args)>(args)...) && ...);
     }
 };
 
@@ -66,7 +66,7 @@ template <
 
 template <
     typename... Rest
-> struct List {
+> struct TypeList {
 
     template <
         typename Type

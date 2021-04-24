@@ -83,7 +83,10 @@ public:
 
 
 
-    // ------------------------------------------------------------------ Implicit Conversion
+    // ------------------------------------------------------------------ Conversion
+
+    [[ nodiscard ]] auto get() const
+        -> const ::engine::ecs::Entity&;
 
     [[ nodiscard ]] operator ::engine::ecs::Entity&();
 

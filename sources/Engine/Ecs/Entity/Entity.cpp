@@ -11,19 +11,6 @@
 
 
 
-// ------------------------------------------------------------------ Move
-
-::engine::ecs::entity::Entity::Entity(
-    Entity&& that
-) noexcept = default;
-
-auto ::engine::ecs::entity::Entity::operator=(
-    Entity&& that
-) noexcept
-    -> Entity& = default;
-
-
-
 // ------------------------------------------------------------------ Signature
 
 auto ::engine::ecs::entity::Entity::getSignature() const

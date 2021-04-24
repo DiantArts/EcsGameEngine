@@ -6,6 +6,7 @@
 *.txt*
 *.o
 *.d
+*.gch
 #*#
 *~
 binaries/*
