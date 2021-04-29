@@ -2,56 +2,69 @@
 
 #include <Engine/Ecs/AComponent.hpp>
 #include <Engine/Ecs/Component/Container.hpp>
+#include <Engine/Ecs/Signature.hpp>
+#include <Engine/Detail/Meta/Function.hpp>
 
 
 
 namespace engine::ecs::system {
 
 
+
 template <
-    ::engine::ecs::component::ConceptType... ComponentTypes
+    auto function
 > class System {
-
-public:
-
-    // using Type = void(*)(FuncType);
-
-    using SignatureType = ::std::bitset<::engine::ecs::component::Container::getMaxID()>;
-
-
 
 public:
 
     // ------------------------------------------------------------------ *structors
 
-    System(void(&func)(ComponentTypes...));
+    System()
+    {}
 
-    ~System();
+    ~System()
+    {}
 
 
 
     // ------------------------------------------------------------------ Run
 
-    void operator()();
+    auto operator()(
+        auto... args
+    )
+    {
+        return function(::std::forward<decltype(args)>(args)...);
+    }
 
-    void run();
+    void run(
+        auto... args
+    )
+    {
+        return function(::std::forward<decltype(args)>(args)...);
+    }
 
 
 
     // ------------------------------------------------------------------ Signature
 
-    const System::SignatureType& getSignature() const;
+    auto getSignature() const
+        -> const ::engine::ecs::Signature&
+    {
+        return m_signature;
+    }
 
 
 
 private:
 
-    void(*m_func)(ComponentTypes...);
-
-    System::SignatureType m_signature;
+    static inline constexpr auto m_signature{
+        ::engine::detail::meta::Function<decltype(function)>::Arguments::signature
+    };
 
 };
 
 
 
 } // namespace engine::ecs::system
+
+#include <Engine/Ecs/System/System.impl.hpp>

@@ -42,6 +42,8 @@
 
 #include <experimental/type_traits>
 
+#include <boost/fusion/algorithm/iteration/for_each.hpp>
+
 
 
 using std::string_literals::operator""s;

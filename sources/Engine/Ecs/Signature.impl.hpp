@@ -1,10 +1,11 @@
 #pragma once
 
-#include <Engine/Detail/Meta.hpp>
+#include <Engine/Detail/Meta/ForEach.hpp>
 
 
 
 // ------------------------------------------------------------------ *structors
+
 
 constexpr ::engine::ecs::Signature::~Signature() = default;
 

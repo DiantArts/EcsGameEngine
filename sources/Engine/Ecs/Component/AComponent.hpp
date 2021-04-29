@@ -2,7 +2,7 @@
 
 #include <Engine/ID.hpp>
 #include <Engine/Ecs/Component/Declaration.hpp>
-#include <Engine/Detail/Meta.hpp>
+#include <Engine/Detail/Meta/IsBaseOfTemplate.hpp>
 
 
 

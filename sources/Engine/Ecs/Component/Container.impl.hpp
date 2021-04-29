@@ -1,6 +1,7 @@
 #pragma once
 
 #include <boost/type_index.hpp>
+#include <Engine/Detail/Meta/ForEach.hpp>
 
 
 

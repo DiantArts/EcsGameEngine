@@ -2,7 +2,7 @@
 
 #include <Engine/ID.hpp>
 #include <Engine/Ecs/AComponent.hpp>
-#include <Engine/Detail/Meta.hpp>
+#include <Engine/Detail/Meta/UniqueTypes.hpp>
 
 
 

@@ -2,8 +2,8 @@
 
 #include <Engine/Ecs/System/System.hpp>
 
-namespace engine::ecs {
-    template <
-        ::engine::ecs::component::ConceptType... ComponentTypes
-    > using System = ::engine::ecs::system::System<ComponentTypes...>;
-}
+// namespace engine::ecs {
+    // template <
+        // typename func
+    // > using System = ::engine::ecs::system::System<func>;
+// }
