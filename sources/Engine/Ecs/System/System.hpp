@@ -19,39 +19,28 @@ public:
 
     // ------------------------------------------------------------------ *structors
 
-    System()
-    {}
+    System();
 
-    ~System()
-    {}
+    ~System();
 
 
 
     // ------------------------------------------------------------------ Run
 
     auto operator()(
-        auto... args
-    )
-    {
-        return function(::std::forward<decltype(args)>(args)...);
-    }
+        ::engine::ecs::component::ConceptType auto&... args
+    );
 
-    void run(
-        auto... args
-    )
-    {
-        return function(::std::forward<decltype(args)>(args)...);
-    }
+    auto run(
+        ::engine::ecs::component::ConceptType auto&... args
+    );
 
 
 
     // ------------------------------------------------------------------ Signature
 
-    auto getSignature() const
-        -> const ::engine::ecs::Signature&
-    {
-        return m_signature;
-    }
+    static constexpr auto getSignature()
+        -> const ::engine::ecs::Signature&;
 
 
 
