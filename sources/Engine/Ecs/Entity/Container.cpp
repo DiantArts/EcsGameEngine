@@ -140,3 +140,43 @@ void ::engine::ecs::entity::Container::remove(
         }
     ) != m_entities.end();
 }
+
+
+
+// ------------------------------------------------------------------ Iterator
+
+[[ nodiscard ]] auto ::engine::ecs::entity::Container::begin()
+    -> Container::Type::iterator
+{
+    return m_entities.begin();
+}
+
+[[ nodiscard ]] auto ::engine::ecs::entity::Container::begin() const
+    -> Container::Type::const_iterator
+{
+    return m_entities.begin();
+}
+
+[[ nodiscard ]] auto ::engine::ecs::entity::Container::cbegin() const
+    -> Container::Type::const_iterator
+{
+    return m_entities.cbegin();
+}
+
+[[ nodiscard ]] auto ::engine::ecs::entity::Container::end()
+    -> Container::Type::iterator
+{
+    return m_entities.end();
+}
+
+[[ nodiscard ]] auto ::engine::ecs::entity::Container::end() const
+    -> Container::Type::const_iterator
+{
+    return m_entities.end();
+}
+
+[[ nodiscard ]] auto ::engine::ecs::entity::Container::cend() const
+    -> Container::Type::const_iterator
+{
+    return m_entities.cend();
+}

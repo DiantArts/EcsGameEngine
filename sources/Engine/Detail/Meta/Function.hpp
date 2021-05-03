@@ -28,6 +28,13 @@ template <
 
 };
 
+template <
+    typename RetType,
+    typename... ArgsType
+> struct Function<RetType(*)(ArgsType...)>
+    : public ::engine::detail::meta::Function<RetType(ArgsType...)>
+{};
+
 
 
 } // namespace engine::detail::meta

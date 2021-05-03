@@ -38,7 +38,7 @@ template <
 > concept ConceptType =
     ::engine::detail::meta::IsBaseOfTemplate<
         ::engine::ecs::component::AComponent,
-        ComponentType
+        ::std::remove_cvref_t<ComponentType>
     >::value;
 
 

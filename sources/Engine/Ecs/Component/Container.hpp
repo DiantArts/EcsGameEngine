@@ -16,7 +16,7 @@ public:
 
     template <
         ::engine::ecs::component::ConceptType ComponentType
-    > using SubContainerType = ::std::vector<ComponentType>;
+    > using SubContainerType = ::std::vector<std::remove_reference_t<ComponentType>>;
 
     // map[ComponentID].first == vector<EntityID>
     // map[ComponentID].second  == vector<ComponentType>
@@ -59,7 +59,7 @@ public:
     template <
         ::engine::ecs::component::ConceptType ComponentType
     > [[ nodiscard ]] auto getSubContainer() const
-        -> const Container::SubContainerType<ComponentType>&;
+        -> const Container::SubContainerType<::std::remove_reference_t<ComponentType>>&;
 
 
 
@@ -113,6 +113,13 @@ public:
         ::engine::ID entityID
     ) const
         -> const ComponentType&;
+
+    template <
+        ::engine::ecs::component::ConceptType ComponentType
+    > [[ nodiscard ]] auto get(
+        ::engine::ID entityID
+    )
+        -> ComponentType&;
 
     template <
         ::engine::ecs::component::ConceptType ComponentType

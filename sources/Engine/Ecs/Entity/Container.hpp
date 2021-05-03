@@ -91,6 +91,28 @@ public:
 
 
 
+    // ------------------------------------------------------------------ Iterator
+
+    [[ nodiscard ]] auto begin()
+        -> Container::Type::iterator;
+
+    [[ nodiscard ]] auto begin() const
+        -> Container::Type::const_iterator;
+
+    [[ nodiscard ]] auto cbegin() const
+        -> Container::Type::const_iterator;
+
+    [[ nodiscard ]] auto end()
+        -> Container::Type::iterator;
+
+    [[ nodiscard ]] auto end() const
+        -> Container::Type::const_iterator;
+
+    [[ nodiscard ]] auto cend() const
+        -> Container::Type::const_iterator;
+
+
+
 
 private:
 

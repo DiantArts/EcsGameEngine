@@ -10,14 +10,14 @@ template <
 {
     template <
         auto function
-    > static constexpr void run(auto&... args)
+    > static inline constexpr void run(auto&... args)
     {
         (function.template operator()<Rest>(std::forward<decltype(args)>(args)...), ...);
     }
 
     template <
         auto function
-    > static constexpr auto compare(auto&... args)
+    > static inline constexpr auto compare(auto&... args)
         -> bool
     {
         return (function.template operator()<Rest>(std::forward<decltype(args)>(args)...) && ...);

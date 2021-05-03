@@ -16,12 +16,6 @@ public:
 
     explicit Signature();
 
-    // template <
-        // ::engine::ecs::component::ConceptType... ComponentTypes
-    // > constexpr Signature(
-        // const ::std::tuple<ComponentTypes...>&
-    // );
-
     constexpr ~Signature();
 
 
@@ -32,13 +26,6 @@ public:
         ::engine::ecs::component::ConceptType... ComponentTypes
     > [[ nodiscard ]] static constexpr auto generate()
         -> ::engine::ecs::Signature;
-
-    // template <
-        // ::engine::ecs::component::ConceptType... ComponentTypes
-    // > [[ nodiscard ]] static constexpr auto generate(
-        // const ::std::tuple<ComponentTypes...>&
-    // )
-        // -> ::engine::ecs::Signature;
 
 
 

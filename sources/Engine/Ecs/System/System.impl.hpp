@@ -1,37 +1,32 @@
 #pragma once
 
-
-
-// ------------------------------------------------------------------ *structors
-
-template <
-    auto function
-> ::engine::ecs::system::System<function>::System() = default;
-
-template <
-    auto function
-> ::engine::ecs::system::System<function>::~System() = default;
+#include <Engine/Ecs/AComponent.hpp>
+#include <Engine/Ecs/System/Detail/System.hpp>
 
 
 
 // ------------------------------------------------------------------ Run
 
 template <
-    auto function
-> auto ::engine::ecs::system::System<function>::operator()(
-    ::engine::ecs::component::ConceptType auto&... args
+    auto func
+> void ::engine::ecs::system::System<func>::run(
+    ::engine::ecs::entity::Container& entities,
+    ::engine::ecs::component::Container& components
 )
 {
-    return function(args...);
-}
+    auto isMatching{ [](const ::engine::ecs::Entity& entity){
+        return entity.getSignature() == ::engine::ecs::system::System<func>::getSignature();
+    }};
+    auto getID{ [](const ::engine::ecs::Entity& entity){ return entity.getID(); }};
 
-template <
-    auto function
-> auto ::engine::ecs::system::System<function>::run(
-    ::engine::ecs::component::ConceptType auto&... args
-)
-{
-    return function(args...);
+    for (auto entityID : entities | std::views::filter(isMatching) | ::std::views::transform(getID)) {
+        // get every args into a tupple
+        using TupleType = ::engine::detail::meta::Function<decltype(func)>::Arguments::Type;
+        auto args{ ::engine::ecs::system::detail::TupleHelper<func, TupleType>::fill(components, entityID) };
+
+        // exec the func
+        ::std::apply(func, args);
+    }
 }
 
 
@@ -39,9 +34,9 @@ template <
 // ------------------------------------------------------------------ Signature
 
 template <
-    auto function
-> constexpr auto ::engine::ecs::system::System<function>::getSignature()
+    auto func
+> constexpr auto ::engine::ecs::system::System<func>::getSignature()
     -> const ::engine::ecs::Signature&
 {
-    return m_signature;
+    return ::engine::detail::meta::Function<decltype(func)>::Arguments::signature;
 }

@@ -1,8 +1,9 @@
 #pragma once
 
+#include <Engine/Ecs/Signature.hpp>
 #include <Engine/Ecs/AComponent.hpp>
 #include <Engine/Ecs/Component/Container.hpp>
-#include <Engine/Ecs/Signature.hpp>
+#include <Engine/Ecs/Entity/Container.hpp>
 #include <Engine/Detail/Meta/Function.hpp>
 
 
@@ -12,27 +13,30 @@ namespace engine::ecs::system {
 
 
 template <
-    auto function
+    auto func
 > class System {
+
+public:
+
+    static constexpr auto function{ func };
+
+
 
 public:
 
     // ------------------------------------------------------------------ *structors
 
-    System();
+    System() = delete;
 
-    ~System();
+    ~System() = delete;
 
 
 
     // ------------------------------------------------------------------ Run
 
-    auto operator()(
-        ::engine::ecs::component::ConceptType auto&... args
-    );
-
-    auto run(
-        ::engine::ecs::component::ConceptType auto&... args
+    static void run(
+        ::engine::ecs::entity::Container& entities,
+        ::engine::ecs::component::Container& components
     );
 
 
@@ -45,10 +49,6 @@ public:
 
 
 private:
-
-    static inline constexpr auto m_signature{
-        ::engine::detail::meta::Function<decltype(function)>::Arguments::signature
-    };
 
 };
 

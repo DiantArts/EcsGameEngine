@@ -12,7 +12,7 @@
     template <> \
     class engine::ecs::component::declaration::detail::WithID<className> { \
     public: \
-        static constexpr ::std::size_t getID() { return m_id; } \
+        static inline constexpr ::std::size_t getID() { return m_id; } \
     private: \
         static constexpr auto m_id { __COUNTER__ - ecs::declaration::detail::baseIDCounter }; \
     }
@@ -22,7 +22,7 @@
     template <> \
     class engine::ecs::component::declaration::detail::WithID<namespaceName::className> { \
     public: \
-        static constexpr ::std::size_t getID() { return m_id; } \
+        static inline constexpr ::std::size_t getID() { return m_id; } \
     private: \
         static constexpr auto m_id { __COUNTER__ - ::engine::ecs::component::declaration::detail::baseIDCounter }; \
     }

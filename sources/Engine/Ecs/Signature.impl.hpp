@@ -6,7 +6,6 @@
 
 // ------------------------------------------------------------------ *structors
 
-
 constexpr ::engine::ecs::Signature::~Signature() = default;
 
 
@@ -28,7 +27,7 @@ template <
                 ::cbitset::Cbitset<::engine::ecs::component::maxID>& signature,
                 int i
             ){
-                if (ComponentType::getID() == i) {
+                if (std::remove_cvref_t<ComponentType>::getID() == i) {
                     signature.set(i);
                 }
             }
