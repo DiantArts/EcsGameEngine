@@ -32,12 +32,13 @@ template <
 // ------------------------------------------------------------------ AddComponent
 
 template <
-    ::engine::ecs::component::ConceptType ComponentType
+    ::engine::ecs::component::ConceptType RawComponentType
 > auto ::engine::ecs::entity::Entity::addComponent(
     ::engine::ecs::component::Container& componentContainer
 )
-    -> ComponentType&
+    -> RawComponentType&
 {
+    using ComponentType = std::remove_reference_t<RawComponentType>;
     m_signature.set<ComponentType>();
     return componentContainer.emplace<ComponentType>(m_id);
 }
@@ -58,10 +59,11 @@ template <
 // ------------------------------------------------------------------ HasComponent
 
 template <
-    ::engine::ecs::component::ConceptType ComponentType
+    ::engine::ecs::component::ConceptType RawComponentType
 > [[ nodiscard ]] auto ::engine::ecs::entity::Entity::hasComponent() const
     -> bool
 {
+    using ComponentType = std::remove_reference_t<RawComponentType>;
     return m_signature.contains<ComponentType>();
 }
 
@@ -78,11 +80,12 @@ template <
 // ------------------------------------------------------------------ RemoveComponent
 
 template <
-    ::engine::ecs::component::ConceptType ComponentType
+    ::engine::ecs::component::ConceptType RawComponentType
 > void ::engine::ecs::entity::Entity::removeComponent(
     ::engine::ecs::component::Container& componentContainer
 )
 {
+    using ComponentType = std::remove_reference_t<RawComponentType>;
     m_signature.reset<ComponentType>();
     componentContainer.remove<ComponentType>(m_id);
 }

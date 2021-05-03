@@ -5,6 +5,18 @@
 
 
 
+// ------------------------------------------------------------------ *structors
+
+template <
+    auto func
+> ::engine::ecs::system::System<func>::System() = default;
+
+template <
+    auto func
+> ::engine::ecs::system::System<func>::~System() = default;
+
+
+
 // ------------------------------------------------------------------ Run
 
 template <

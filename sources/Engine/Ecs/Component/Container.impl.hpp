@@ -34,7 +34,7 @@ void ::engine::ecs::component::Container::constructSubContainer()
         >(
             ::engine::ecs::component::Container::Type& container
         ){
-            using ComponentType = ::std::remove_reference_t<RawComponentType>;
+            using ComponentType = ::std::remove_cvref_t<RawComponentType>;
             if (container.find(ComponentType::getID()) != container.end()) {
                 throw ::std::runtime_error(
                     "Container already contain an '"s +
@@ -55,9 +55,9 @@ void ::engine::ecs::component::Container::constructSubContainer()
 template <
     ::engine::ecs::component::ConceptType RawComponentType
 > auto ::engine::ecs::component::Container::getSubContainer() const
-    -> const Container::SubContainerType<::std::remove_reference_t<RawComponentType>>&
+    -> const Container::SubContainerType<::std::remove_cvref_t<RawComponentType>>&
 {
-    using ComponentType = ::std::remove_reference_t<RawComponentType>;
+    using ComponentType = ::std::remove_cvref_t<RawComponentType>;
     return *static_cast<Container::SubContainerType<ComponentType>*>(
         m_container.at(ComponentType::getID()).second
     );
@@ -72,7 +72,7 @@ template <
 > constexpr auto ::engine::ecs::component::Container::getID() const
     -> ::engine::ID
 {
-    using ComponentType = ::std::remove_reference_t<RawComponentType>;
+    using ComponentType = ::std::remove_cvref_t<RawComponentType>;
     return ComponentType::getID();
 }
 
@@ -94,7 +94,7 @@ template <
 )
     -> RawComponentType&
 {
-    using ComponentType = ::std::remove_reference_t<RawComponentType>;
+    using ComponentType = ::std::remove_cvref_t<RawComponentType>;
     auto& pairComponentContainer{ this->getPairSubContainer<ComponentType>() };
     auto it { ::std::ranges::find(pairComponentContainer.first, entityID) };
     if (it != pairComponentContainer.first.end()) {
@@ -124,7 +124,7 @@ template <
     ::engine::ID entityID
 )
 {
-    using ComponentType = ::std::remove_reference_t<RawComponentType>;
+    using ComponentType = ::std::remove_cvref_t<RawComponentType>;
     auto& pairComponentContainer{ this->getPairSubContainer<ComponentType>() };
     auto it { ::std::ranges::find(pairComponentContainer.first, entityID) };
     if (it == pairComponentContainer.first.end()) {
@@ -156,7 +156,7 @@ template <
 ) const
     -> const RawComponentType&
 {
-    using ComponentType = ::std::remove_reference_t<RawComponentType>;
+    using ComponentType = ::std::remove_cvref_t<RawComponentType>;
     auto& pairComponentContainer{ this->getPairSubContainer<ComponentType>() };
     auto it { ::std::ranges::find(pairComponentContainer.first, entityID) };
     if (it == pairComponentContainer.first.end()) {
@@ -177,7 +177,7 @@ template <
 )
     -> RawComponentType&
 {
-    using ComponentType = ::std::remove_reference_t<RawComponentType>;
+    using ComponentType = ::std::remove_cvref_t<RawComponentType>;
     auto& pairComponentContainer{ this->getPairSubContainer<ComponentType>() };
     auto it { ::std::ranges::find(pairComponentContainer.first, entityID) };
     if (it == pairComponentContainer.first.end()) {
@@ -198,7 +198,7 @@ template <
 ) const
     -> ::std::size_t
 {
-    using ComponentType = ::std::remove_reference_t<RawComponentType>;
+    using ComponentType = ::std::remove_cvref_t<RawComponentType>;
     auto& IDContainer{ this->getPairSubContainer<ComponentType>().first };
     auto it{ ::std::ranges::find(IDContainer, entityID) };
     if (it == IDContainer.end()) {
@@ -217,7 +217,7 @@ template <
 ) const
     -> bool
 {
-    using ComponentType = ::std::remove_reference_t<RawComponentType>;
+    using ComponentType = ::std::remove_cvref_t<RawComponentType>;
     auto& IDContainer{ this->getPairSubContainer<ComponentType>().first };
     return ::std::ranges::find(IDContainer, entityID) != IDContainer.end();
 }
@@ -231,7 +231,7 @@ template <
 > auto ::engine::ecs::component::Container::getPairSubContainer()
     -> SubPairContainerType&
 {
-    using ComponentType = ::std::remove_reference_t<RawComponentType>;
+    using ComponentType = ::std::remove_cvref_t<RawComponentType>;
     return m_container.at(ComponentType::getID());
 }
 
@@ -240,6 +240,6 @@ template <
 > auto ::engine::ecs::component::Container::getPairSubContainer() const
     -> const SubPairContainerType&
 {
-    using ComponentType = ::std::remove_reference_t<RawComponentType>;
+    using ComponentType = ::std::remove_cvref_t<RawComponentType>;
     return m_container.at(ComponentType::getID());
 }

@@ -12,7 +12,9 @@ template <
 template <
     auto func,
     ::engine::ecs::component::ConceptType... ComponentTypes
-> struct TupleHelper<func, ::std::tuple<ComponentTypes...>> {
+> requires
+    ::engine::detail::meta::UniqueTypes<ComponentTypes...>::value
+struct TupleHelper<func, ::std::tuple<ComponentTypes...>> {
     static inline constexpr auto fill(
         ::engine::ecs::component::Container& components,
         ::engine::ID entityID

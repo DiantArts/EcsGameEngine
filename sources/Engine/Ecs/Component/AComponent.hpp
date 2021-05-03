@@ -14,7 +14,7 @@ namespace engine::ecs::component {
 template <
     typename ComponentType
 > class AComponent
-    : public engine::ecs::component::declaration::detail::WithID<ComponentType>
+    : public engine::ecs::component::declaration::detail::WithID<::std::remove_cvref_t<ComponentType>>
 {
 
 public:

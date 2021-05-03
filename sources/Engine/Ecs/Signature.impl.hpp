@@ -22,12 +22,13 @@ template <
     for (::std::size_t i{ 0 }; i < ::engine::ecs::component::maxID; i++) {
         ::engine::detail::meta::ForEach<ComponentTypes...>::template run<
             []<
-                ::engine::ecs::component::ConceptType ComponentType
+                ::engine::ecs::component::ConceptType RawComponentType
             >(
                 ::cbitset::Cbitset<::engine::ecs::component::maxID>& signature,
                 int i
             ){
-                if (std::remove_cvref_t<ComponentType>::getID() == i) {
+                using ComponentType = std::remove_reference_t<RawComponentType>;
+                if (ComponentType::getID() == i) {
                     signature.set(i);
                 }
             }
@@ -47,10 +48,11 @@ template <
 {
     ::engine::detail::meta::ForEach<ComponentTypes...>::template run<
         []<
-            ::engine::ecs::component::ConceptType ComponentType
+            ::engine::ecs::component::ConceptType RawComponentType
         >(
             ::cbitset::Cbitset<::engine::ecs::component::maxID>& signature
         ){
+            using ComponentType = std::remove_reference_t<RawComponentType>;
             signature.set(ComponentType::getID());
         }
     >(m_bitset);
@@ -62,10 +64,11 @@ template <
 {
     ::engine::detail::meta::ForEach<ComponentTypes...>::template run<
         []<
-            ::engine::ecs::component::ConceptType ComponentType
+            ::engine::ecs::component::ConceptType RawComponentType
         >(
             ::cbitset::Cbitset<::engine::ecs::component::maxID>& signature
         ){
+            using ComponentType = std::remove_reference_t<RawComponentType>;
             signature.reset(ComponentType::getID());
         }
     >(m_bitset);
@@ -90,10 +93,11 @@ template <
 {
     return ::engine::detail::meta::ForEach<ComponentTypes...>::template compare<
         []<
-            ::engine::ecs::component::ConceptType ComponentType
+            ::engine::ecs::component::ConceptType RawComponentType
         >(
             const ::cbitset::Cbitset<::engine::ecs::component::maxID>& bitset
         ){
+            using ComponentType = std::remove_reference_t<RawComponentType>;
             return bitset[ComponentType::getID()];
         }
     >(m_bitset);

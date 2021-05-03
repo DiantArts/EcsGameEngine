@@ -2,9 +2,8 @@
 
 #include <Engine/Ecs/Signature.hpp>
 #include <Engine/Ecs/AComponent.hpp>
-#include <Engine/Ecs/Component/Container.hpp>
-#include <Engine/Ecs/Entity/Container.hpp>
 #include <Engine/Detail/Meta/Function.hpp>
+#include <Engine/Ecs/System/ASystem.hpp>
 
 
 
@@ -14,7 +13,9 @@ namespace engine::ecs::system {
 
 template <
     auto func
-> class System {
+> class System
+    : public ::engine::ecs::system::ASystem
+{
 
 public:
 
@@ -26,18 +27,18 @@ public:
 
     // ------------------------------------------------------------------ *structors
 
-    System() = delete;
+    System();
 
-    ~System() = delete;
+    ~System();
 
 
 
     // ------------------------------------------------------------------ Run
 
-    static void run(
+    virtual void run(
         ::engine::ecs::entity::Container& entities,
         ::engine::ecs::component::Container& components
-    );
+    ) override final;
 
 
 
