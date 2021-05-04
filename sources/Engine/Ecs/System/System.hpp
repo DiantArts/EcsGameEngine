@@ -53,6 +53,12 @@ private:
 
 };
 
+// template <
+    // auto func
+// > class System
+    // : public ::engine::ecs::system::ASystem
+// {
+
 
 
 } // namespace engine::ecs::system
