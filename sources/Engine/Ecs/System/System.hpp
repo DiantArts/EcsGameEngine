@@ -12,16 +12,10 @@ namespace engine::ecs::system {
 
 
 template <
-    auto func
+    auto function
 > class System
     : public ::engine::ecs::system::ASystem
 {
-
-public:
-
-    static constexpr auto function{ func };
-
-
 
 public:
 
@@ -39,6 +33,11 @@ public:
         ::engine::ecs::entity::Container& entities,
         ::engine::ecs::component::Container& components
     ) override final;
+
+    void run(
+        ::engine::ecs::component::Container& components,
+        ::engine::ecs::entity::Container& entities
+    );
 
 
 

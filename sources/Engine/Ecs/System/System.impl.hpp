@@ -26,10 +26,10 @@ template <
     ::engine::ecs::component::Container& components
 )
 {
-    auto isMatching{ [](const ::engine::ecs::Entity& entity){
-        return entity.getSignature() == ::engine::ecs::system::System<func>::getSignature();
-    }};
-    auto getID{ [](const ::engine::ecs::Entity& entity){ return entity.getID(); }};
+    auto isMatching{ [](const ::engine::ecs::Entity& entity) {
+        return entity.getSignature().contains(::engine::ecs::system::System<func>::getSignature());
+    } };
+    auto getID{ [](const ::engine::ecs::Entity& entity) { return entity.getID(); } };
 
     for (auto entityID : entities | std::views::filter(isMatching) | ::std::views::transform(getID)) {
         // get every args into a tupple
@@ -39,6 +39,16 @@ template <
         // exec the func
         ::std::apply(func, args);
     }
+}
+
+template <
+    auto func
+> void ::engine::ecs::system::System<func>::run(
+    ::engine::ecs::component::Container& components,
+    ::engine::ecs::entity::Container& entities
+)
+{
+    this->run(entities, components);
 }
 
 
