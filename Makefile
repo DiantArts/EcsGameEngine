@@ -59,7 +59,8 @@ CXX_CPPFLAGS	:=
 LIBLOCATION		:=
 
 ## -l
-LIBBIN			:=
+LIBBIN			:=	glfw dl assimp z
+
 
 # ============================================================================= Mode debug
 ifeq (debug,$(findstring debug,$(MAKECMDGOALS)))

@@ -42,7 +42,9 @@
 
 #include <experimental/type_traits>
 
+#include <boost/type_index.hpp>
 #include <boost/fusion/algorithm/iteration/for_each.hpp>
+#include <boost/container_hash/hash.hpp>
 
 
 
@@ -52,10 +54,6 @@ using std::literals::string_view_literals::operator""sv;
 
 
 #include <Cbitset/Cbitset.hpp>
-
-
-
-#include <Tools/Iterator.hpp>
 
 
 

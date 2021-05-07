@@ -1,0 +1,65 @@
+#pragma once
+
+#include <Engine/Core/Ecs/Signature.hpp>
+#include <Engine/Core/Ecs/AComponent.hpp>
+#include <Engine/Core/Detail/Meta/Function.hpp>
+#include <Engine/Core/Ecs/System/ASystem.hpp>
+
+
+
+namespace engine::core::ecs::system {
+
+
+
+template <
+    auto function
+> class System
+    : public ::engine::core::ecs::system::ASystem
+{
+
+public:
+
+    // ------------------------------------------------------------------ *structors
+
+    System();
+
+    ~System();
+
+
+
+    // ------------------------------------------------------------------ Run
+
+    virtual void run(
+        ::engine::core::ecs::entity::Container& entities,
+        ::engine::core::ecs::component::Container& components
+    ) override final;
+
+    void run(
+        ::engine::core::ecs::component::Container& components,
+        ::engine::core::ecs::entity::Container& entities
+    );
+
+
+
+    // ------------------------------------------------------------------ Signature
+
+    static constexpr auto getSignature()
+        -> const ::engine::core::ecs::Signature&;
+
+
+
+private:
+
+};
+
+// template <
+    // auto func
+// > class System
+    // : public ::engine::core::ecs::system::ASystem
+// {
+
+
+
+} // namespace engine::core::ecs::system
+
+#include <Engine/Core/Ecs/System/System.impl.hpp>

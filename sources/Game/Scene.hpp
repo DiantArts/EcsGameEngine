@@ -1,12 +1,14 @@
 #pragma once
 
-#include <Engine/AScene.hpp>
+#include <Engine/Core/AScene.hpp>
+
+
 
 namespace game {
 
 
 
-class Scene : public ::engine::AScene {
+class Scene : public ::engine::core::AScene {
 
 public:
 
