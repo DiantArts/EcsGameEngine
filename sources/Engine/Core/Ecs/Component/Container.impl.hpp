@@ -4,66 +4,6 @@
 
 
 
-// ------------------------------------------------------------------ Genetate
-
-template <
-    ::engine::core::ecs::component::ConceptType... ComponentTypes
-> [[ nodiscard ]] constexpr auto ::engine::core::ecs::component::Container::generate()
-    -> ::engine::core::ecs::component::Container
-{
-    ::engine::core::ecs::component::Container components;
-    components.constructSubContainer<ComponentTypes...>();
-    return components;
-}
-
-
-
-// ------------------------------------------------------------------ Construct
-
-// TODO: Unique Types
-template <
-    ::engine::core::ecs::component::ConceptType... ComponentTypes
-> requires
-    ::engine::core::detail::meta::UniqueTypes<ComponentTypes...>::value
-void ::engine::core::ecs::component::Container::constructSubContainer()
-{
-    ::engine::core::detail::meta::ForEach<ComponentTypes...>::template run<
-        []<
-            ::engine::core::ecs::component::ConceptType RawComponentType
-        >(
-            ::engine::core::ecs::component::Container::Type& container
-        ){
-            using ComponentType = ::std::remove_cvref_t<RawComponentType>;
-            if (container.find(ComponentType::getID()) != container.end()) {
-                throw ::std::runtime_error(
-                    "Container already contain an '"s +
-                        boost::typeindex::type_id<ComponentType>().pretty_name() + "' sub container"
-                );
-            }
-            container.emplace(
-                ComponentType::getID(),
-                ::std::make_pair<::std::vector<::engine::core::ID>, void*>(
-                    ::std::vector<::engine::core::ID>{},
-                    new ::std::vector<ComponentType>{}
-                )
-            );
-        }
-    >(m_container);
-}
-
-template <
-    ::engine::core::ecs::component::ConceptType RawComponentType
-> auto ::engine::core::ecs::component::Container::getSubContainer() const
-    -> const Container::SubContainerType<::std::remove_cvref_t<RawComponentType>>&
-{
-    using ComponentType = ::std::remove_cvref_t<RawComponentType>;
-    return *static_cast<Container::SubContainerType<ComponentType>*>(
-        m_container.at(ComponentType::getID()).second
-    );
-}
-
-
-
 // ------------------------------------------------------------------ ID
 
 template <
@@ -95,7 +35,7 @@ template <
 {
     using ComponentType = ::std::remove_cvref_t<RawComponentType>;
     auto& pairComponentContainer{ this->getPairSubContainer<ComponentType>() };
-    auto it { ::std::ranges::find(pairComponentContainer.first, entityID) };
+    auto it{ ::std::ranges::find(pairComponentContainer.first, entityID) };
     if (it != pairComponentContainer.first.end()) {
         throw ::std::runtime_error(
             "Entity '"s + static_cast<::std::string>(entityID) + "' already contain an '"s +
@@ -125,7 +65,7 @@ template <
 {
     using ComponentType = ::std::remove_cvref_t<RawComponentType>;
     auto& pairComponentContainer{ this->getPairSubContainer<ComponentType>() };
-    auto it { ::std::ranges::find(pairComponentContainer.first, entityID) };
+    auto it{ ::std::ranges::find(pairComponentContainer.first, entityID) };
     if (it == pairComponentContainer.first.end()) {
         throw ::std::runtime_error(
             "Entity '"s + static_cast<::std::string>(entityID) + "' doesn't contain an '"s +
@@ -157,7 +97,7 @@ template <
 {
     using ComponentType = ::std::remove_cvref_t<RawComponentType>;
     auto& pairComponentContainer{ this->getPairSubContainer<ComponentType>() };
-    auto it { ::std::ranges::find(pairComponentContainer.first, entityID) };
+    auto it{ ::std::ranges::find(pairComponentContainer.first, entityID) };
     if (it == pairComponentContainer.first.end()) {
         throw ::std::runtime_error(
             "Entity '"s + static_cast<::std::string>(entityID) + "' doesn't contain an '"s +
@@ -178,7 +118,7 @@ template <
 {
     using ComponentType = ::std::remove_cvref_t<RawComponentType>;
     auto& pairComponentContainer{ this->getPairSubContainer<ComponentType>() };
-    auto it { ::std::ranges::find(pairComponentContainer.first, entityID) };
+    auto it{ ::std::ranges::find(pairComponentContainer.first, entityID) };
     if (it == pairComponentContainer.first.end()) {
         throw ::std::runtime_error(
             "Entity '"s + static_cast<::std::string>(entityID) + "' doesn't contain an '"s +
@@ -217,8 +157,11 @@ template <
     -> bool
 {
     using ComponentType = ::std::remove_cvref_t<RawComponentType>;
-    auto& IDContainer{ this->getPairSubContainer<ComponentType>().first };
-    return ::std::ranges::find(IDContainer, entityID) != IDContainer.end();
+    auto it{ m_container.find(ComponentType::getID()) };
+    if (it == m_container.end()) {
+        return false;
+    }
+    return ::std::ranges::find(it->second.first, entityID) != it->second.first.end();
 }
 
 
@@ -231,7 +174,14 @@ template <
     -> SubPairContainerType&
 {
     using ComponentType = ::std::remove_cvref_t<RawComponentType>;
-    return m_container.at(ComponentType::getID());
+
+    return m_container.try_emplace(
+        ComponentType::getID(),
+        ::std::make_pair<::std::vector<::engine::core::ID>, void*>(
+            ::std::vector<::engine::core::ID>{},
+            new ::std::vector<ComponentType>{}
+        )
+    ).first->second;
 }
 
 template <

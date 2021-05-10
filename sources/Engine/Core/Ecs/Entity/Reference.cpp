@@ -5,27 +5,27 @@
 
 // ------------------------------------------------------------------ *structors
 
-::engine::core::ecs::entity::Reference::Reference(
+::engine::core::ecs::Entity::Reference::Reference(
     ::engine::core::ecs::component::Container& components,
     ::engine::core::ecs::Entity& entity
 )
     : m_components{ components }, m_entity{ entity }
 {}
 
-::engine::core::ecs::entity::Reference::Reference(
+::engine::core::ecs::Entity::Reference::Reference(
     ::engine::core::ecs::Entity& entity,
     ::engine::core::ecs::component::Container& components
 )
     : m_components{ components }, m_entity{ entity }
 {}
 
-::engine::core::ecs::entity::Reference::~Reference() = default;
+::engine::core::ecs::Entity::Reference::~Reference() = default;
 
 
 
 // ------------------------------------------------------------------ Signature
 
-auto ::engine::core::ecs::entity::Reference::getSignature() const
+auto ::engine::core::ecs::Entity::Reference::getSignature() const
     -> const ::engine::core::ecs::Signature&
 {
     return m_entity.getSignature();
@@ -35,7 +35,7 @@ auto ::engine::core::ecs::entity::Reference::getSignature() const
 
 // ------------------------------------------------------------------ ID
 
-auto ::engine::core::ecs::entity::Reference::getID() const
+auto ::engine::core::ecs::Entity::Reference::getID() const
     -> ::engine::core::ID
 {
     return m_entity.getID();
@@ -44,18 +44,18 @@ auto ::engine::core::ecs::entity::Reference::getID() const
 
 // ------------------------------------------------------------------ Conversion
 
-[[ nodiscard ]] auto ::engine::core::ecs::entity::Reference::get() const
+[[ nodiscard ]] auto ::engine::core::ecs::Entity::Reference::get() const
     -> const ::engine::core::ecs::Entity&
 {
     return m_entity;
 }
 
-[[ nodiscard ]] ::engine::core::ecs::entity::Reference::operator ::engine::core::ecs::Entity&()
+[[ nodiscard ]] ::engine::core::ecs::Entity::Reference::operator ::engine::core::ecs::Entity&()
 {
     return m_entity;
 }
 
-[[ nodiscard ]] ::engine::core::ecs::entity::Reference::operator const ::engine::core::ecs::Entity&() const
+[[ nodiscard ]] ::engine::core::ecs::Entity::Reference::operator const ::engine::core::ecs::Entity&() const
 {
     return m_entity;
 }

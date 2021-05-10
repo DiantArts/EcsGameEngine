@@ -6,7 +6,7 @@
 
 template <
     ::engine::core::ecs::component::ConceptType ComponentType
-> auto ::engine::core::ecs::entity::Reference::addComponent() const
+> auto ::engine::core::ecs::Entity::Reference::addComponent() const
     -> ComponentType&
 {
     return m_entity.addComponent<ComponentType>(m_components);
@@ -14,7 +14,7 @@ template <
 
 template <
     ::engine::core::ecs::component::ConceptType... ComponentTypes
-> void ::engine::core::ecs::entity::Reference::addComponents()
+> void ::engine::core::ecs::Entity::Reference::addComponents()
 {
     m_entity.addComponents<ComponentTypes...>(m_components);
 }
@@ -26,7 +26,7 @@ template <
 
 template <
     ::engine::core::ecs::component::ConceptType ComponentType
-> auto ::engine::core::ecs::entity::Reference::hasComponent() const
+> auto ::engine::core::ecs::Entity::Reference::hasComponent() const
     -> bool
 {
     return m_entity.hasComponent<ComponentType>();
@@ -34,7 +34,7 @@ template <
 
 template <
     ::engine::core::ecs::component::ConceptType... ComponentTypes
-> auto ::engine::core::ecs::entity::Reference::hasComponents() const
+> auto ::engine::core::ecs::Entity::Reference::hasComponents() const
     -> bool
 {
     return m_entity.hasComponents<ComponentTypes...>();
@@ -46,14 +46,14 @@ template <
 
 template <
     ::engine::core::ecs::component::ConceptType ComponentType
-> void ::engine::core::ecs::entity::Reference::removeComponent()
+> void ::engine::core::ecs::Entity::Reference::removeComponent()
 {
     m_entity.removeComponent<ComponentType>(m_components);
 }
 
 template <
     ::engine::core::ecs::component::ConceptType... ComponentTypes
-> void ::engine::core::ecs::entity::Reference::removeComponents()
+> void ::engine::core::ecs::Entity::Reference::removeComponents()
 {
     m_entity.removeComponents<ComponentTypes...>(m_components);
 }

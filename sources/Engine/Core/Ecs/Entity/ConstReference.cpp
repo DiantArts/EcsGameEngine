@@ -5,19 +5,19 @@
 
 // ------------------------------------------------------------------ *structors
 
-::engine::core::ecs::entity::ConstReference::ConstReference(
+::engine::core::ecs::Entity::ConstReference::ConstReference(
     const ::engine::core::ecs::Entity& entity
 )
     : m_entity{ entity }
 {}
 
-::engine::core::ecs::entity::ConstReference::~ConstReference() = default;
+::engine::core::ecs::Entity::ConstReference::~ConstReference() = default;
 
 
 
 // ------------------------------------------------------------------ Signature
 
-auto ::engine::core::ecs::entity::ConstReference::getSignature() const
+auto ::engine::core::ecs::Entity::ConstReference::getSignature() const
     -> const ::engine::core::ecs::Signature&
 {
     return m_entity.getSignature();
@@ -27,7 +27,7 @@ auto ::engine::core::ecs::entity::ConstReference::getSignature() const
 
 // ------------------------------------------------------------------ ID
 
-auto ::engine::core::ecs::entity::ConstReference::getID() const
+auto ::engine::core::ecs::Entity::ConstReference::getID() const
     -> ::engine::core::ID
 {
     return m_entity.getID();
@@ -36,13 +36,13 @@ auto ::engine::core::ecs::entity::ConstReference::getID() const
 
 // ------------------------------------------------------------------ Conversion
 
-[[ nodiscard ]] auto ::engine::core::ecs::entity::ConstReference::get() const
+[[ nodiscard ]] auto ::engine::core::ecs::Entity::ConstReference::get() const
     -> const ::engine::core::ecs::Entity&
 {
     return m_entity;
 }
 
-[[ nodiscard ]] ::engine::core::ecs::entity::ConstReference::operator
+[[ nodiscard ]] ::engine::core::ecs::Entity::ConstReference::operator
     const ::engine::core::ecs::Entity&() const
 {
     return m_entity;

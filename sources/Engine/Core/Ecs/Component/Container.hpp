@@ -38,31 +38,6 @@ public:
 
 
 
-    // ------------------------------------------------------------------ Genetate
-
-    template <
-        ::engine::core::ecs::component::ConceptType... ComponentTypes
-    > [[ nodiscard ]] static constexpr auto generate()
-        -> ::engine::core::ecs::component::Container;
-
-
-
-    // ------------------------------------------------------------------ SubContainer
-    // Each sub container for each Component
-
-    template <
-        ::engine::core::ecs::component::ConceptType... ComponentTypes
-    > requires
-        ::engine::core::detail::meta::UniqueTypes<ComponentTypes...>::value
-    void constructSubContainer();
-
-    template <
-        ::engine::core::ecs::component::ConceptType ComponentType
-    > [[ nodiscard ]] auto getSubContainer() const
-        -> const Container::SubContainerType<::std::remove_cvref_t<ComponentType>>&;
-
-
-
     // ------------------------------------------------------------------ ID
 
     template <
@@ -162,6 +137,6 @@ private:
 
 
 
-} // namespace engine::core::ecs::component
+} // namespace engine::core::ecs::component::
 
 #include <Engine/Core/Ecs/Component/Container.impl.hpp>

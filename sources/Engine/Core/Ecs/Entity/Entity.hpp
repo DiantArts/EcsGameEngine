@@ -15,6 +15,14 @@ class Entity {
 
 public:
 
+    class Container;
+    class ConstReference;
+    class Reference;
+
+
+
+public:
+
     // ------------------------------------------------------------------ *structors
 
     explicit Entity();
@@ -108,6 +116,6 @@ private:
 
 
 
-} // namespace engine::core::ecs::entity
+} // namespace engine::core::ecs::Entity
 
 #include <Engine/Core/Ecs/Entity/Entity.impl.hpp>

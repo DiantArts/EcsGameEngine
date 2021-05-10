@@ -5,11 +5,9 @@
 
 namespace engine::core::ecs::component { class Container; }
 
-namespace engine::core::ecs::entity {
 
 
-
-class Reference {
+class engine::core::ecs::Entity::Reference {
 
 public:
 
@@ -101,9 +99,5 @@ private:
     ::engine::core::ecs::Entity& m_entity;
 
 };
-
-
-
-} // namespace engine::core::ecs::entity
 
 #include <Engine/Core/Ecs/Entity/Reference.impl.hpp>

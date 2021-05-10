@@ -100,10 +100,7 @@ BOOST_AUTO_TEST_SUITE(Container)
 
 BOOST_AUTO_TEST_CASE(mulpiteComponentMulipleEntityMulipleSystem)
 {
-    auto components{ ::engine::core::ecs::component::Container::generate<
-        ::engine::core::ecs::component::Movable,
-        ::engine::core::ecs::component::Transformable
-    >() };
+    ::engine::core::ecs::component::Container components;
     ::engine::core::ecs::entity::Container entities{ components };
     auto e1ID{ entities.emplace<::engine::core::ecs::component::Movable>().getID() };
     auto e2ID{ entities.emplace<::engine::core::ecs::component::Transformable>().getID() };
@@ -143,10 +140,7 @@ BOOST_AUTO_TEST_CASE(mulpiteComponentMulipleEntityMulipleSystem)
 
 BOOST_AUTO_TEST_CASE(lambdaMulpiteComponentMulipleEntityMulipleSystem)
 {
-    auto components{ ::engine::core::ecs::component::Container::generate<
-        ::engine::core::ecs::component::Movable,
-        ::engine::core::ecs::component::Transformable
-    >() };
+    ::engine::core::ecs::component::Container components;
     ::engine::core::ecs::entity::Container entities{ components };
     auto e1ID{ entities.emplace<::engine::core::ecs::component::Movable>().getID() };
     auto e2ID{ entities.emplace<::engine::core::ecs::component::Transformable>().getID() };
@@ -186,10 +180,7 @@ BOOST_AUTO_TEST_CASE(lambdaMulpiteComponentMulipleEntityMulipleSystem)
 
 BOOST_AUTO_TEST_CASE(inlineLambdaMulpiteComponentMulipleEntityMulipleSystem)
 {
-    auto components{ ::engine::core::ecs::component::Container::generate<
-        ::engine::core::ecs::component::Movable,
-        ::engine::core::ecs::component::Transformable
-    >() };
+    ::engine::core::ecs::component::Container components;
     ::engine::core::ecs::entity::Container entities{ components };
     auto e1ID{ entities.emplace<::engine::core::ecs::component::Movable>().getID() };
     auto e2ID{ entities.emplace<::engine::core::ecs::component::Transformable>().getID() };

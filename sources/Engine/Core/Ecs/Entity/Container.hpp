@@ -37,7 +37,7 @@ public:
     template <
         ::engine::core::ecs::component::ConceptType... ComponentTypes
     > auto emplace()
-        -> ::engine::core::ecs::entity::Reference;
+        -> ::engine::core::ecs::Entity::Reference;
 
 
 
@@ -48,7 +48,7 @@ public:
     );
 
     void remove(
-        ::engine::core::ecs::entity::Reference&& reference
+        ::engine::core::ecs::Entity::Reference&& reference
     );
 
 
@@ -58,27 +58,27 @@ public:
     [[ nodiscard ]] auto operator[](
         ::engine::core::ID entityID
     ) const
-        -> ::engine::core::ecs::entity::ConstReference;
+        -> ::engine::core::ecs::Entity::ConstReference;
 
     [[ nodiscard ]] auto operator[](
         ::engine::core::ID entityID
     )
-        -> ::engine::core::ecs::entity::Reference;
+        -> ::engine::core::ecs::Entity::Reference;
 
     [[ nodiscard ]] auto get(
         ::engine::core::ID entityID
     ) const
-        -> ::engine::core::ecs::entity::ConstReference;
+        -> ::engine::core::ecs::Entity::ConstReference;
 
     [[ nodiscard ]] auto unsafeGet(
         ::engine::core::ID entityID
     )
-        -> ::engine::core::ecs::entity::Reference;
+        -> ::engine::core::ecs::Entity::Reference;
 
     [[ nodiscard ]] auto unsafeGet(
         ::engine::core::ID entityID
     ) const
-        -> ::engine::core::ecs::entity::ConstReference;
+        -> ::engine::core::ecs::Entity::ConstReference;
 
 
 

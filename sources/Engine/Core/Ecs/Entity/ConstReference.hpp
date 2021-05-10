@@ -5,11 +5,9 @@
 
 namespace engine::core::ecs::component { class Container; }
 
-namespace engine::core::ecs::entity {
 
 
-
-class ConstReference {
+class engine::core::ecs::Entity::ConstReference {
 
 public:
 
@@ -66,9 +64,5 @@ private:
     const ::engine::core::ecs::Entity& m_entity;
 
 };
-
-
-
-} // namespace engine::core::ecs::entity
 
 #include <Engine/Core/Ecs/Entity/ConstReference.impl.hpp>

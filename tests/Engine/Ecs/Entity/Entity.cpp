@@ -54,7 +54,7 @@ BOOST_AUTO_TEST_SUITE(Component)
 
 BOOST_AUTO_TEST_CASE(addNhas1)
 {
-    auto components{ ::engine::core::ecs::component::Container::generate<::engine::core::ecs::component::Movable>() };
+    ::engine::core::ecs::component::Container components;
     ::engine::core::ecs::Entity entity;
     const auto& component{ entity.addComponent<::engine::core::ecs::component::Movable>(components) };
 
@@ -65,9 +65,7 @@ BOOST_AUTO_TEST_CASE(addNhas1)
 
 BOOST_AUTO_TEST_CASE(addNhas2)
 {
-    auto components{
-        ::engine::core::ecs::component::Container::generate<::engine::core::ecs::component::Transformable>()
-    };
+    ::engine::core::ecs::component::Container components;
     ::engine::core::ecs::Entity entity;
     const auto& component{ entity.addComponent<::engine::core::ecs::component::Transformable>(components) };
 
@@ -79,7 +77,6 @@ BOOST_AUTO_TEST_CASE(addNhas2)
 BOOST_AUTO_TEST_CASE(removeNhas)
 {
     ::engine::core::ecs::component::Container components;
-    components.constructSubContainer<::engine::core::ecs::component::Movable>();
     ::engine::core::ecs::Entity entity;
     entity.addComponent<::engine::core::ecs::component::Movable>(components);
 
@@ -94,8 +91,6 @@ BOOST_AUTO_TEST_CASE(removeNhas)
 BOOST_AUTO_TEST_CASE(addNhasMulti1)
 {
     ::engine::core::ecs::component::Container components;
-    components.constructSubContainer<::engine::core::ecs::component::Movable>();
-    components.constructSubContainer<::engine::core::ecs::component::Transformable>();
     ::engine::core::ecs::Entity entity;
     const auto& comp1{ entity.addComponent<::engine::core::ecs::component::Movable>(components) };
     const auto& comp2{ entity.addComponent<::engine::core::ecs::component::Transformable>(components) };
@@ -110,8 +105,6 @@ BOOST_AUTO_TEST_CASE(addNhasMulti1)
 BOOST_AUTO_TEST_CASE(addNhasMulti2)
 {
     ::engine::core::ecs::component::Container components;
-    components.constructSubContainer<::engine::core::ecs::component::Movable>();
-    components.constructSubContainer<::engine::core::ecs::component::Transformable>();
     ::engine::core::ecs::Entity entity;
     entity.addComponents<
         ::engine::core::ecs::component::Movable,
@@ -129,8 +122,6 @@ BOOST_AUTO_TEST_CASE(addNhasMulti2)
 BOOST_AUTO_TEST_CASE(addNhasMulti3)
 {
     ::engine::core::ecs::component::Container components;
-    components.constructSubContainer<::engine::core::ecs::component::Movable>();
-    components.constructSubContainer<::engine::core::ecs::component::Transformable>();
     ::engine::core::ecs::Entity entity;
     entity.addComponents<
         ::engine::core::ecs::component::Transformable
@@ -147,8 +138,6 @@ BOOST_AUTO_TEST_CASE(addNhasMulti3)
 BOOST_AUTO_TEST_CASE(generate)
 {
     ::engine::core::ecs::component::Container components;
-    components.constructSubContainer<::engine::core::ecs::component::Movable>();
-    components.constructSubContainer<::engine::core::ecs::component::Transformable>();
     auto entity{ ::engine::core::ecs::Entity::generate<
         ::engine::core::ecs::component::Movable,
         ::engine::core::ecs::component::Transformable
@@ -163,8 +152,6 @@ BOOST_AUTO_TEST_CASE(generate)
 BOOST_AUTO_TEST_CASE(removeNhasMulti1)
 {
     ::engine::core::ecs::component::Container components;
-    components.constructSubContainer<::engine::core::ecs::component::Movable>();
-    components.constructSubContainer<::engine::core::ecs::component::Transformable>();
     ::engine::core::ecs::Entity entity;
     entity.addComponents<
         ::engine::core::ecs::component::Movable,
@@ -186,8 +173,6 @@ BOOST_AUTO_TEST_CASE(removeNhasMulti1)
 BOOST_AUTO_TEST_CASE(removeNhasMulti2)
 {
     ::engine::core::ecs::component::Container components;
-    components.constructSubContainer<::engine::core::ecs::component::Movable>();
-    components.constructSubContainer<::engine::core::ecs::component::Transformable>();
     ::engine::core::ecs::Entity entity;
     entity.addComponents<
         ::engine::core::ecs::component::Movable,
@@ -221,8 +206,6 @@ BOOST_AUTO_TEST_SUITE(Signature)
 BOOST_AUTO_TEST_CASE(single)
 {
     ::engine::core::ecs::component::Container components;
-    components.constructSubContainer<::engine::core::ecs::component::Movable>();
-    components.constructSubContainer<::engine::core::ecs::component::Transformable>();
     auto entity{ ::engine::core::ecs::Entity::generate<::engine::core::ecs::component::Movable>(components) };
     auto signature{ ::engine::core::ecs::Signature::generate<::engine::core::ecs::component::Movable>() };
 
@@ -232,8 +215,6 @@ BOOST_AUTO_TEST_CASE(single)
 BOOST_AUTO_TEST_CASE(multi)
 {
     ::engine::core::ecs::component::Container components;
-    components.constructSubContainer<::engine::core::ecs::component::Movable>();
-    components.constructSubContainer<::engine::core::ecs::component::Transformable>();
     auto entity{ ::engine::core::ecs::Entity::generate<
         ::engine::core::ecs::component::Movable,
         ::engine::core::ecs::component::Transformable

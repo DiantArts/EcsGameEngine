@@ -6,7 +6,7 @@
 
 template <
     ::engine::core::ecs::component::ConceptType ComponentType
-> auto ::engine::core::ecs::entity::ConstReference::hasComponent() const
+> auto ::engine::core::ecs::Entity::ConstReference::hasComponent() const
     -> bool
 {
     return m_entity.hasComponent<ComponentType>();
@@ -14,7 +14,7 @@ template <
 
 template <
     ::engine::core::ecs::component::ConceptType... ComponentTypes
-> auto ::engine::core::ecs::entity::ConstReference::hasComponents() const
+> auto ::engine::core::ecs::Entity::ConstReference::hasComponents() const
     -> bool
 {
     return m_entity.hasComponents<ComponentTypes...>();

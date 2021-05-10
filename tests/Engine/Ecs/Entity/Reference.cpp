@@ -55,9 +55,9 @@ BOOST_AUTO_TEST_SUITE(Component)
 
 BOOST_AUTO_TEST_CASE(addNhas)
 {
-    auto components{ ::engine::core::ecs::component::Container::generate<::engine::core::ecs::component::Movable>() };
+    ::engine::core::ecs::component::Container components;
     ::engine::core::ecs::Entity entity;
-    ::engine::core::ecs::entity::Reference ref{ components, entity };
+    ::engine::core::ecs::Entity::Reference ref{ components, entity };
 
     const auto& component{ ref.addComponent<::engine::core::ecs::component::Movable>() };
 
@@ -71,9 +71,9 @@ BOOST_AUTO_TEST_CASE(addNhas)
 
 BOOST_AUTO_TEST_CASE(removeNhas)
 {
-    auto components{ ::engine::core::ecs::component::Container::generate<::engine::core::ecs::component::Movable>() };
+    ::engine::core::ecs::component::Container components;
     ::engine::core::ecs::Entity entity;
-    ::engine::core::ecs::entity::Reference ref{ components, entity };
+    ::engine::core::ecs::Entity::Reference ref{ components, entity };
 
 
     ref.addComponent<::engine::core::ecs::component::Movable>();
@@ -100,12 +100,9 @@ BOOST_AUTO_TEST_SUITE(Signature)
 
 BOOST_AUTO_TEST_CASE(single)
 {
-    auto components{ ::engine::core::ecs::component::Container::generate<
-        ::engine::core::ecs::component::Movable,
-        ::engine::core::ecs::component::Transformable
-    >() };
+    ::engine::core::ecs::component::Container components;
     ::engine::core::ecs::Entity entity;
-    ::engine::core::ecs::entity::Reference ref{ components, entity };
+    ::engine::core::ecs::Entity::Reference ref{ components, entity };
 
     ref.addComponent<::engine::core::ecs::component::Movable>();
     auto signature{ ::engine::core::ecs::Signature::generate<::engine::core::ecs::component::Movable>() };
@@ -128,7 +125,7 @@ BOOST_AUTO_TEST_CASE(incrementation)
 {
     ::engine::core::ecs::component::Container components;
     ::engine::core::ecs::Entity entity;
-    ::engine::core::ecs::entity::Reference ref{components, entity};
+    ::engine::core::ecs::Entity::Reference ref{components, entity};
 
     BOOST_TEST(entity.getID() == ref.getID());
 }
