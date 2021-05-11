@@ -53,6 +53,40 @@ template <
     this->run(entities, components);
 }
 
+template <
+    auto func
+> void ::engine::core::ecs::system::System<func>::run(
+    const ::engine::core::ecs::entity::Container& entities,
+    const ::engine::core::ecs::component::Container& components
+) const
+{
+    auto isMatching{ [](const ::engine::core::ecs::Entity& entity) {
+        return entity.getSignature().contains(::engine::core::ecs::system::System<func>::getSignature());
+    } };
+    auto getID{ [](const ::engine::core::ecs::Entity& entity) { return entity.getID(); } };
+
+    for (auto entityID : entities | std::views::filter(isMatching) | ::std::views::transform(getID)) {
+        // get every args into a tupple
+        using TupleType = ::engine::core::detail::meta::Function<decltype(func)>::Arguments::Type;
+        auto args{
+            ::engine::core::ecs::system::detail::TupleHelper<func, TupleType>::fill(components, entityID)
+        };
+
+        // exec the func
+        ::std::apply(func, args);
+    }
+}
+
+template <
+    auto func
+> void ::engine::core::ecs::system::System<func>::run(
+    const ::engine::core::ecs::component::Container& components,
+    const ::engine::core::ecs::entity::Container& entities
+) const
+{
+    this->run(entities, components);
+}
+
 
 
 // ------------------------------------------------------------------ Signature

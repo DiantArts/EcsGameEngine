@@ -14,7 +14,9 @@ public:
 
     // ------------------------------------------------------------------ *structors
 
-    Scene();
+    Scene(
+        ::engine::core::AWindow& window
+    );
 
     ~Scene();
 

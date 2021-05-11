@@ -19,7 +19,7 @@ public:
 
     // ------------------------------------------------------------------ *structors
 
-    Window();
+    explicit Window();
 
     ~Window();
 
@@ -37,7 +37,7 @@ public:
 
     // ------------------------------------------------------------------ Event
 
-    virtual void handleEvent(
+    virtual void handleEvents(
         ::engine::core::AScene& scene
     ) override;
 

@@ -27,7 +27,7 @@ public:
 
     // ------------------------------------------------------------------ *structors
 
-    AWindow();
+    explicit AWindow();
 
     virtual ~AWindow() = 0;
 
@@ -41,7 +41,8 @@ public:
 
     auto operator=(
         const AWindow&
-    ) noexcept -> AWindow& = delete;
+    ) noexcept
+        -> AWindow& = delete;
 
 
 
@@ -53,7 +54,8 @@ public:
 
     auto operator=(
         AWindow&&
-    ) noexcept -> AWindow&;
+    ) noexcept
+        -> AWindow&;
 
 
 
@@ -69,7 +71,7 @@ public:
 
     // ------------------------------------------------------------------ Event
 
-    virtual void handleEvent(
+    virtual void handleEvents(
         ::engine::core::AScene& scene
     ) = 0;
 

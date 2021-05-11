@@ -29,6 +29,11 @@ public:
         ::engine::core::ecs::component::Container& components
     );
 
+    void run(
+        const ::engine::core::ecs::entity::Container& entities,
+        const ::engine::core::ecs::component::Container& components
+    ) const;
+
 
 
     // ------------------------------------------------------------------ Vectors

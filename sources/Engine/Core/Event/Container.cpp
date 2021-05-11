@@ -19,7 +19,8 @@
 
 auto ::engine::core::event::Container::operator=(
     Container&&
-) noexcept -> Container& = default;
+) noexcept
+    -> Container& = default;
 
 
 

@@ -36,12 +36,13 @@ namespace engine::core::ecs::component {
 
 int main()
 {
-    // ::game::Scene scene;
+    ::engine::graphic::opengl::Window window;
+    ::game::Scene scene{ window };
 
-    // while (!scene.isOver()) {
-        // scene.update();
-        // scene.draw();
-    // }
+    while (!scene.isOver()) {
+        scene.update();
+        scene.draw();
+    }
 
     return 0;
 }

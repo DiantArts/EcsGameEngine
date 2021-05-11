@@ -3,7 +3,9 @@
 
 // ------------------------------------------------------------------ *structors
 
-::engine::core::AWindow::AWindow() = default;
+::engine::core::AWindow::AWindow()
+    : m_size{ 1920, 1080 }
+{}
 
 ::engine::core::AWindow::~AWindow() = default;
 
@@ -17,7 +19,8 @@
 
 auto ::engine::core::AWindow::operator=(
     AWindow&&
-) noexcept -> AWindow& = default;
+) noexcept
+    -> AWindow& = default;
 
 
 

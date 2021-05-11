@@ -1,5 +1,6 @@
 #include <pch.hpp>
 #include <Engine/Core/Event/KeyPressed.hpp>
+#include <Engine/Core/AScene.hpp>
 
 
 
@@ -32,14 +33,14 @@ void ::engine::core::event::KeyPressed::resolve(
         // case GLFW_KEY_ESCAPE: scene.setToOver(); break;
         // }
     // } else {
-        // switch (m_keyCode) {
+        switch (m_keyCode) {
         // case GLFW_KEY_W: scene.m_player->startMovingForward(); break;
         // case GLFW_KEY_S: scene.m_player->startMovingBackward(); break;
         // case GLFW_KEY_D: scene.m_player->startMovingRight(); break;
         // case GLFW_KEY_A: scene.m_player->startMovingLeft(); break;
         // case GLFW_KEY_SPACE: scene.m_player->startMovingUp(); break;
         // case GLFW_KEY_X: scene.m_player->startMovingDown(); break;
-        // case GLFW_KEY_ESCAPE: scene.setToOver(); break;
-        // }
+        case GLFW_KEY_ESCAPE: scene.ends(); break;
+        }
     // }
 }

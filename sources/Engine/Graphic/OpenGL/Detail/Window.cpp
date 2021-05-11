@@ -52,15 +52,14 @@ static void GLAPIENTRY messageCallback(
     const void*
 )
 {
-    std::clog << "ERROR (GL): " << message;
-    std::clog << " (src: " << source << ", type: " << type;
-    std::clog << ", severity: ";
     switch (severity) {
-    case GL_DEBUG_SEVERITY_HIGH: std::clog << "high"; break;
-    case GL_DEBUG_SEVERITY_MEDIUM: std::clog << "medium"; break;
-    case GL_DEBUG_SEVERITY_LOW: std::clog << "low"; break;
+    case GL_DEBUG_SEVERITY_HIGH: std::clog << "ERROR"; break;
+    case GL_DEBUG_SEVERITY_MEDIUM: std::clog << "ERROR"; break;
+    case GL_DEBUG_SEVERITY_LOW: std::clog << "Warning"; break;
     case GL_DEBUG_SEVERITY_NOTIFICATION: std::clog << "notification"; break;
     }
+    std::clog << " (GL): " << message;
+    std::clog << " (src: " << source << ", type: " << type;
     std::clog << ")" << std::endl;
 }
 

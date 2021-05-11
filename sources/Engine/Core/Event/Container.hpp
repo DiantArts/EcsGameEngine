@@ -28,7 +28,8 @@ public:
 
     auto operator=(
         const Container&
-    ) noexcept -> Container& = delete;
+    ) noexcept
+        -> Container& = delete;
 
 
 
@@ -40,7 +41,8 @@ public:
 
     auto operator=(
         Container&&
-    ) noexcept -> Container&;
+    ) noexcept
+        -> Container&;
 
 
 

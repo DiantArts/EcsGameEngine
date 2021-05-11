@@ -6,8 +6,6 @@ namespace engine::graphic::opengl::detail {
 
 
 
-// ------------------------------------------------------------------ Functions
-
 void framebufferSizeCallback(
     GLFWwindow*,
     int width,

@@ -28,6 +28,11 @@ public:
         ::engine::core::ecs::component::Container& components
     ) = 0;
 
+    virtual void run(
+        const ::engine::core::ecs::entity::Container& entities,
+        const ::engine::core::ecs::component::Container& components
+    ) const = 0;
+
 
 
 private:

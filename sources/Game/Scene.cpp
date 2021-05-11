@@ -5,7 +5,11 @@
 
 // ------------------------------------------------------------------ *structors
 
-::game::Scene::Scene() = default;
+::game::Scene::Scene(
+    ::engine::core::AWindow& window
+)
+    : ::engine::core::AScene{ window }
+{}
 
 ::game::Scene::~Scene() = default;
 

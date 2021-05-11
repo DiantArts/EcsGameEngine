@@ -57,7 +57,7 @@ void ::engine::graphic::opengl::Window::draw() const
 
 // ------------------------------------------------------------------ Event
 
-void ::engine::graphic::opengl::Window::handleEvent(
+void ::engine::graphic::opengl::Window::handleEvents(
     ::engine::core::AScene& scene
 )
 {

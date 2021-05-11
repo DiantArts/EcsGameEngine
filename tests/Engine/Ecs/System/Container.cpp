@@ -60,7 +60,8 @@ namespace detail {
     static auto lambda2{
         [](
             ::engine::core::ecs::component::Transformable& t
-        ) -> int
+        )
+            -> int
         {
             t.value++;
             return 0;

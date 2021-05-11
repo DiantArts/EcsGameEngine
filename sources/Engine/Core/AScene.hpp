@@ -17,7 +17,9 @@ public:
 
     // ------------------------------------------------------------------ *structors
 
-    AScene();
+    AScene(
+        ::engine::core::AWindow& window
+    );
 
     virtual ~AScene() = 0;
 
@@ -27,6 +29,8 @@ public:
 
     auto isOver() const
         -> bool;
+
+    void ends();
 
 
 
@@ -48,13 +52,16 @@ public:
 
 protected:
 
-    // ::engine::core::ecs::component::Container m_components;
-    // ::engine::core::ecs::entity::Container m_actors { m_components };
-    // ::engine::core::ecs::system::Container m_systems;
+    ::engine::core::ecs::component::Container m_components;
+    ::engine::core::ecs::entity::Container m_entities { m_components };
+    ::engine::core::ecs::system::Container m_drawSystems;
+    ::engine::core::ecs::system::Container m_systems;
 
 
 
 private:
+
+    ::engine::core::AWindow& m_window;
 
     bool m_isOver { false };
 
