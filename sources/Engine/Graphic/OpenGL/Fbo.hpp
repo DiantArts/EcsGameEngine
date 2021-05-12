@@ -56,10 +56,6 @@ public:
 
 
 
-public:
-protected:
-protected:
-private:
 private:
 
     GLuint m_fbo;

@@ -9,7 +9,7 @@ START_COMPONENT_DECLARATIONS();
 
 
 DECLARE_COMPONENT_IN_NAMESPACE(engine::core::ecs::component, Movable);
-DECLARE_COMPONENT_IN_NAMESPACE(engine::core::ecs::component, Drawable);
+DECLARE_COMPONENT_IN_NAMESPACE(engine::graphic::ecs::component, Drawable);
 DECLARE_COMPONENT_IN_NAMESPACE(engine::core::ecs::component, Controllable);
 DECLARE_COMPONENT_IN_NAMESPACE(engine::core::ecs::component, Transformable);
 DECLARE_COMPONENT_IN_NAMESPACE(engine::core::ecs::component, Attackable);

@@ -16,6 +16,10 @@ public:
 
     explicit Signature();
 
+    explicit constexpr Signature(
+        const ::cbitset::Cbitset<::engine::core::ecs::component::maxID>& bitset
+    );
+
     constexpr ~Signature();
 
 
@@ -23,7 +27,7 @@ public:
     // ------------------------------------------------------------------ Genetate
 
     template <
-        ::engine::core::ecs::component::ConceptType... ComponentTypes
+        typename... Types
     > [[ nodiscard ]] static constexpr auto generate()
         -> ::engine::core::ecs::Signature;
 
@@ -87,16 +91,6 @@ public:
         }
         return os;
     }
-
-
-
-private:
-
-    // ------------------------------------------------------------------ *structors
-
-    explicit constexpr Signature(
-        const ::cbitset::Cbitset<::engine::core::ecs::component::maxID>& bitset
-    );
 
 
 

@@ -1,27 +1,16 @@
-//
-// Akanya, Engine
-// sources/Engine/Graphic/OpenGL/Fbo
-// FrameBuffer Object
-//
-
-#include "pch.hpp"
-
-#include "Fbo.hpp"
-
-
-
-namespace engine::graphic::opengl {
+#include <pch.hpp>
+#include <Engine/Graphic/OpenGL/Fbo.hpp>
 
 
 
 // ---------------------------------- *structors
 
-Fbo::Fbo()
+::engine::graphic::opengl::Fbo::Fbo()
 {
     glGenFramebuffers(1, &m_fbo);
 }
 
-Fbo::~Fbo()
+::engine::graphic::opengl::Fbo::~Fbo()
 {
     glDeleteFramebuffers(1, &m_fbo);
 }
@@ -30,7 +19,7 @@ Fbo::~Fbo()
 
 // ---------------------------------- get
 
-GLuint Fbo::get() const
+GLuint ::engine::graphic::opengl::Fbo::get() const
 {
     return m_fbo;
 }
@@ -39,16 +28,12 @@ GLuint Fbo::get() const
 
 // ---------------------------------- bind
 
-void Fbo::bind() const
+void ::engine::graphic::opengl::Fbo::bind() const
 {
     glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
 }
 
-void Fbo::unbind() const
+void ::engine::graphic::opengl::Fbo::unbind() const
 {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
-
-
-
-} // namespace engine::graphic::opengl

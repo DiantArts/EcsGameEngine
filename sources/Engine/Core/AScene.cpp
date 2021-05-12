@@ -48,8 +48,10 @@ void ::engine::core::AScene::onUpdate()
 
 void ::engine::core::AScene::draw() const
 {
+    m_window.clear();
+    // m_drawSystems.run(m_entities, m_components);
     this->onDraw();
-    m_drawSystems.run(m_entities, m_components);
+    m_window.draw();
 }
 
 void ::engine::core::AScene::onDraw() const

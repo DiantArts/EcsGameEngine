@@ -34,11 +34,11 @@ private:
 
 
 template <
-    typename ComponentType
+    typename Type
 > concept ConceptType =
     ::engine::core::detail::meta::IsBaseOfTemplate<
         ::engine::core::ecs::component::AComponent,
-        ::std::remove_cvref_t<ComponentType>
+        ::std::remove_cvref_t<Type>
     >::value;
 
 

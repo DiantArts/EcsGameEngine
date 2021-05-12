@@ -1,27 +1,16 @@
-//
-// Akanya, Engine
-// sources/Engine/Graphic/OpenGL/Vao
-// Vertex Array Object : Contains vertex attributes pointers to get a simple use of VBOs
-//
-
-#include "pch.hpp"
-
-#include "Vao.hpp"
-
-
-
-namespace engine::graphic::opengl {
+#include <pch.hpp>
+#include <Engine/Graphic/OpenGL/Vao.hpp>
 
 
 
 // ---------------------------------- *structors
 
-Vao::Vao()
+::engine::graphic::opengl::Vao::Vao()
 {
     glGenVertexArrays(1, &m_vao);
 }
 
-Vao::~Vao()
+::engine::graphic::opengl::Vao::~Vao()
 {
     glDeleteVertexArrays(1, &m_vao);
 }
@@ -30,7 +19,7 @@ Vao::~Vao()
 
 // ---------------------------------- get
 
-GLuint Vao::get() const
+GLuint ::engine::graphic::opengl::Vao::get() const
 {
     return m_vao;
 }
@@ -39,16 +28,12 @@ GLuint Vao::get() const
 
 // ---------------------------------- bind
 
-void Vao::bind() const
+void ::engine::graphic::opengl::Vao::bind() const
 {
     glBindVertexArray(m_vao);
 }
 
-void Vao::unbind() const
+void ::engine::graphic::opengl::Vao::unbind() const
 {
     glBindVertexArray(0);
 }
-
-
-
-} // namespace engine::graphic::opengl

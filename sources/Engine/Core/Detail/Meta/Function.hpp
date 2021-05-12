@@ -7,6 +7,7 @@
 namespace engine::core::detail::meta {
 
 
+
 template <
     typename func
 > struct Function

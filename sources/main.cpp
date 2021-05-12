@@ -36,6 +36,7 @@ namespace engine::core::ecs::component {
 
 int main()
 {
+    // ::std::cout << ::engine::core::ecs::entity::ConceptType<::engine::core::ecs::Entity&> << ::std::endl;
     ::engine::graphic::opengl::Window window;
     ::game::Scene scene{ window };
 

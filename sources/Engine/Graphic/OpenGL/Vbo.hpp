@@ -5,9 +5,13 @@ namespace engine::graphic::opengl {
 
 
 class Vbo {
+
 public:
+
     // ---------------------------------- *structors
+
     Vbo();
+
     ~Vbo();
 
 
@@ -37,16 +41,25 @@ public:
         -> Vbo&;
 
 
+
     // ---------------------------------- get
+
     GLuint get() const;
 
 
+
     // ---------------------------------- bind
+
     void bind() const;
+
     void unbind() const;
 
+
+
 private:
+
     GLuint m_vbo;
+
 };
 
 

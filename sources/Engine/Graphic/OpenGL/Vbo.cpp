@@ -1,27 +1,16 @@
-//
-// Akanya, Engine
-// sources/Engine/Graphic/OpenGL/Vbo
-// Vertex Buffer Object : stores a large number of vertices
-//
-
-#include "pch.hpp"
-
-#include "Vbo.hpp"
-
-
-
-namespace engine::graphic::opengl {
+#include <pch.hpp>
+#include <Engine/Graphic/OpenGL/Vbo.hpp>
 
 
 
 // ---------------------------------- *structors
 
-Vbo::Vbo()
+::engine::graphic::opengl::Vbo::Vbo()
 {
     glGenBuffers(1, &m_vbo);
 }
 
-Vbo::~Vbo()
+::engine::graphic::opengl::Vbo::~Vbo()
 {
     glDeleteBuffers(1, &m_vbo);
 }
@@ -30,7 +19,7 @@ Vbo::~Vbo()
 
 // ---------------------------------- get
 
-GLuint Vbo::get() const
+GLuint ::engine::graphic::opengl::Vbo::get() const
 {
     return m_vbo;
 }
@@ -39,16 +28,12 @@ GLuint Vbo::get() const
 
 // ---------------------------------- bind
 
-void Vbo::bind() const
+void ::engine::graphic::opengl::Vbo::bind() const
 {
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
 }
 
-void Vbo::unbind() const
+void ::engine::graphic::opengl::Vbo::unbind() const
 {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
-
-
-
-} // namespace engine::graphic::opengl

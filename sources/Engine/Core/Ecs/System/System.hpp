@@ -39,15 +39,15 @@ public:
         ::engine::core::ecs::entity::Container& entities
     );
 
-    virtual void run(
-        const ::engine::core::ecs::entity::Container& entities,
-        const ::engine::core::ecs::component::Container& components
-    ) const override final;
+    // virtual void run(
+        // const ::engine::core::ecs::entity::Container& entities,
+        // const ::engine::core::ecs::component::Container& components
+    // ) const override final;
 
-    void run(
-        const ::engine::core::ecs::component::Container& components,
-        const ::engine::core::ecs::entity::Container& entities
-    ) const;
+    // void run(
+        // const ::engine::core::ecs::component::Container& components,
+        // const ::engine::core::ecs::entity::Container& entities
+    // ) const;
 
 
 

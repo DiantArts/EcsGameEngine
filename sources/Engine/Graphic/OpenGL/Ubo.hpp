@@ -111,6 +111,7 @@ public:
 
 
 private:
+
     GLuint m_ubo;
 
 };

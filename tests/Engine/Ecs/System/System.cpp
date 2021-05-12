@@ -38,12 +38,14 @@ namespace engine::core::ecs::component {
 namespace detail {
 
     static void function1(
+        ::engine::core::ecs::Entity& e,
         ::engine::core::ecs::component::Movable& m
     ) {
         m.value++;
     }
     static auto lambda1{
         [](
+            ::engine::core::ecs::Entity& e,
             ::engine::core::ecs::component::Movable& m
         ) {
             m.value++;
@@ -51,6 +53,7 @@ namespace detail {
     };
 
     static int function2(
+        ::engine::core::ecs::Entity& e,
         ::engine::core::ecs::component::Transformable& t
     )
     {
@@ -59,6 +62,7 @@ namespace detail {
     }
     static auto lambda2{
         [](
+            ::engine::core::ecs::Entity& e,
             ::engine::core::ecs::component::Transformable& t
         )
             -> int

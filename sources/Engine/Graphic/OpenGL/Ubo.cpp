@@ -1,22 +1,11 @@
-//
-// Akanya, Engine
-// sources/Engine/Graphic/OpenGL/Ubo
-// Uniform Buffer Object : Share memory with multiple shaders
-//
-
-#include "pch.hpp"
-
-#include "Ubo.hpp"
-
-
-
-namespace engine::graphic::opengl {
+#include <pch.hpp>
+#include <Engine/Graphic/OpenGL/Ubo.hpp>
 
 
 
 // ---------------------------------- *structors
 
-Ubo::Ubo(
+::engine::graphic::opengl::Ubo::Ubo(
     size_t size,
     int index
 )
@@ -29,7 +18,7 @@ Ubo::Ubo(
     this->unbind();
 }
 
-Ubo::~Ubo()
+::engine::graphic::opengl::Ubo::~Ubo()
 {
     glDeleteBuffers(1, &m_ubo);
 }
@@ -38,7 +27,7 @@ Ubo::~Ubo()
 
 // ---------------------------------- get
 
-GLuint Ubo::get() const
+GLuint ::engine::graphic::opengl::Ubo::get() const
 {
     return m_ubo;
 }
@@ -47,16 +36,12 @@ GLuint Ubo::get() const
 
 // ---------------------------------- bind
 
-void Ubo::bind() const
+void ::engine::graphic::opengl::Ubo::bind() const
 {
     glBindBuffer(GL_UNIFORM_BUFFER, m_ubo);
 }
 
-void Ubo::unbind() const
+void ::engine::graphic::opengl::Ubo::unbind() const
 {
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
-
-
-
-} // namespace engine::graphic::opengl

@@ -15,7 +15,6 @@ class Entity {
 
 public:
 
-    class Container;
     class ConstReference;
     class Reference;
 
@@ -113,6 +112,16 @@ private:
     ::engine::core::ecs::Signature m_signature;
 
 };
+
+
+
+template <
+    typename Type
+> concept ConceptType =
+    ::std::is_same<
+        ::engine::core::ecs::entity::Entity,
+        ::std::remove_cvref_t<Type>
+    >::value;
 
 
 

@@ -1,27 +1,16 @@
-//
-// Akanya, Engine
-// sources/Engine/Graphic/OpenGL/Ebo
-// Element Buffer Object : help to determine which vertex to draw
-//
-
-#include "pch.hpp"
-
-#include "Ebo.hpp"
-
-
-
-namespace engine::graphic::opengl {
+#include <pch.hpp>
+#include <Engine/Graphic/OpenGL/Ebo.hpp>
 
 
 
 // ---------------------------------- *structors
 
-Ebo::Ebo()
+::engine::graphic::opengl::Ebo::Ebo()
 {
     glGenBuffers(1, &m_ebo);
 }
 
-Ebo::~Ebo()
+::engine::graphic::opengl::Ebo::~Ebo()
 {
     glDeleteBuffers(1, &m_ebo);
 }
@@ -30,7 +19,7 @@ Ebo::~Ebo()
 
 // ---------------------------------- get
 
-GLuint Ebo::get() const
+GLuint ::engine::graphic::opengl::Ebo::get() const
 {
     return m_ebo;
 }
@@ -39,16 +28,12 @@ GLuint Ebo::get() const
 
 // ---------------------------------- bind
 
-void Ebo::bind() const
+void ::engine::graphic::opengl::Ebo::bind() const
 {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ebo);
 }
 
-void Ebo::unbind() const
+void ::engine::graphic::opengl::Ebo::unbind() const
 {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
-
-
-
-} // namespace engine::graphic::opengl

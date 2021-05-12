@@ -1,10 +1,17 @@
 #pragma once
 
 #include <Engine/Core/Detail/Meta/ForEach.hpp>
+#include <Engine/Core/Ecs/Detail/Signature.hpp>
 
 
 
 // ------------------------------------------------------------------ *structors
+
+constexpr ::engine::core::ecs::Signature::Signature(
+    const ::cbitset::Cbitset<::engine::core::ecs::component::maxID>& bitset
+)
+    : m_bitset{ bitset }
+{}
 
 constexpr ::engine::core::ecs::Signature::~Signature() = default;
 
@@ -13,29 +20,11 @@ constexpr ::engine::core::ecs::Signature::~Signature() = default;
 // ------------------------------------------------------------------ Genetate
 
 template <
-    ::engine::core::ecs::component::ConceptType... ComponentTypes
+    typename... Types
 > [[ nodiscard ]] constexpr auto ::engine::core::ecs::Signature::generate()
     -> ::engine::core::ecs::Signature
 {
-    ::cbitset::Cbitset<::engine::core::ecs::component::maxID> signature;
-
-    for (::std::size_t i{ 0 }; i < ::engine::core::ecs::component::maxID; i++) {
-        ::engine::core::detail::meta::ForEach<ComponentTypes...>::template run<
-            []<
-                ::engine::core::ecs::component::ConceptType RawComponentType
-            >(
-                ::cbitset::Cbitset<::engine::core::ecs::component::maxID>& signature,
-                int i
-            ){
-                using ComponentType = std::remove_reference_t<RawComponentType>;
-                if (ComponentType::getID() == i) {
-                    signature.set(i);
-                }
-            }
-        >(signature, i);
-    }
-
-    return Signature{ signature };
+    return engine::core::ecs::detail::signature::Generate<Types...>::value;
 }
 
 
@@ -130,13 +119,3 @@ template <
 {
     return m_bitset != that.m_bitset;
 }
-
-
-
-// ------------------------------------------------------------------ *structors
-
-constexpr ::engine::core::ecs::Signature::Signature(
-    const ::cbitset::Cbitset<::engine::core::ecs::component::maxID>& bitset
-)
-    : m_bitset{ bitset }
-{}
