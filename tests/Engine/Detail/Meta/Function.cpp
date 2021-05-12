@@ -38,8 +38,23 @@ auto lambda2{ [](int, float) -> int { return 0; }};
 static void func3(::engine::core::ecs::component::Movable) {}
 auto lambda3{ [](::engine::core::ecs::component::Movable){} };
 
-static void func4(::engine::core::ecs::component::Movable, ::engine::core::ecs::component::Transformable) {}
-auto lambda4{ [](::engine::core::ecs::component::Movable, ::engine::core::ecs::component::Transformable){} };
+static void func4(
+    ::engine::core::ecs::component::Movable&,
+    ::engine::core::ecs::component::Transformable&
+) {}
+auto lambda4{ [](
+    ::engine::core::ecs::component::Movable&,
+    ::engine::core::ecs::component::Transformable&
+){} };
+
+static void func5(
+    const ::engine::core::ecs::component::Movable&,
+    const ::engine::core::ecs::component::Transformable&
+) {}
+auto lambda5{ [](
+    const ::engine::core::ecs::component::Movable&,
+    const ::engine::core::ecs::component::Transformable&
+){} };
 
 
 
@@ -97,6 +112,18 @@ BOOST_AUTO_TEST_CASE(ArgumentsSignature)
             ::engine::core::ecs::component::Movable,
             ::engine::core::ecs::component::Transformable
         >();
+    BOOST_TEST(value);
+}
+
+BOOST_AUTO_TEST_CASE(ArgumentsAreConst)
+{
+    auto value{ ::engine::core::detail::meta::Function<decltype(func3)>::Arguments::areConst };
+    BOOST_TEST(!value);
+
+    value = ::engine::core::detail::meta::Function<decltype(func4)>::Arguments::areConst;
+    BOOST_TEST(!value);
+
+    value = ::engine::core::detail::meta::Function<decltype(func5)>::Arguments::areConst;
     BOOST_TEST(value);
 }
 

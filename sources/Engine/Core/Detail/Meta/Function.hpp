@@ -25,6 +25,7 @@ template <
 
     struct Arguments {
         using Type = ::std::tuple<ArgsType...>;
+        static constexpr bool areConst{ (::std::is_const<::std::remove_reference_t<ArgsType>>::value && ...) };
         static inline constexpr auto signature{ ::engine::core::ecs::Signature::generate<ArgsType...>() };
     };
 
@@ -56,6 +57,7 @@ template <
 
     struct Arguments {
         using Type = ::std::tuple<ArgsType...>;
+        static constexpr bool areConst{ (::std::is_const<ArgsType>::value && ...) };
         static inline constexpr auto signature{ ::engine::core::ecs::Signature::generate<ArgsType...>() };
     };
 };

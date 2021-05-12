@@ -33,10 +33,15 @@ namespace engine::core::ecs::component {
 
 } // namespace engine::core::ecs::component
 
+void func(const int&){}
 
 int main()
 {
-    // ::std::cout << ::engine::core::ecs::entity::ConceptType<::engine::core::ecs::Entity&> << ::std::endl;
+    ::std::cout << ::engine::core::detail::meta::isModifiable<int> << ::std::endl;
+    ::std::cout << ::engine::core::detail::meta::isModifiable<int&> << ::std::endl;
+    ::std::cout << ::engine::core::detail::meta::isModifiable<const int&> << ::std::endl;
+    ::std::cout << ::engine::core::detail::meta::isModifiable<const int> << ::std::endl;
+    ::std::cout << ::engine::core::detail::meta::Function<decltype(func)>::Arguments::areConst << ::std::endl;
     ::engine::graphic::opengl::Window window;
     ::game::Scene scene{ window };
 

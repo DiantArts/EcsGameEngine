@@ -23,15 +23,15 @@ public:
 
     // ------------------------------------------------------------------ Run
 
-    virtual void run(
+    virtual void operator()(
         ::engine::core::ecs::entity::Container& entities,
         ::engine::core::ecs::component::Container& components
     ) = 0;
 
-    // virtual void run(
-        // const ::engine::core::ecs::entity::Container& entities,
-        // const ::engine::core::ecs::component::Container& components
-    // ) const = 0;
+    virtual void operator()(
+        const ::engine::core::ecs::entity::Container& entities,
+        const ::engine::core::ecs::component::Container& components
+    ) const = 0;
 
 
 

@@ -90,6 +90,13 @@ namespace detail {
         }
     };
 
+    static void function4(
+        const ::engine::core::ecs::Entity& e,
+        const ::engine::core::ecs::component::Movable& m,
+        const ::engine::core::ecs::component::Transformable& t
+    )
+    {}
+
 }
 
 
@@ -114,31 +121,34 @@ BOOST_AUTO_TEST_CASE(mulpiteComponentMulipleEntityMulipleSystem)
     >().getID() };
 
     ::engine::core::ecs::System<detail::function1> system1;
-    system1.run(entities, components);
+    system1(entities, components);
     BOOST_TEST(components.get<::engine::core::ecs::component::Movable>(e1ID).value == 1);
     BOOST_TEST(components.get<::engine::core::ecs::component::Transformable>(e2ID).value == 0);
     BOOST_TEST(components.get<::engine::core::ecs::component::Movable>(e3ID).value == 1);
     BOOST_TEST(components.get<::engine::core::ecs::component::Transformable>(e3ID).value == 0);
 
-    system1.run(components, entities);
+    system1(components, entities);
     BOOST_TEST(components.get<::engine::core::ecs::component::Movable>(e1ID).value == 2);
     BOOST_TEST(components.get<::engine::core::ecs::component::Transformable>(e2ID).value == 0);
     BOOST_TEST(components.get<::engine::core::ecs::component::Movable>(e3ID).value == 2);
     BOOST_TEST(components.get<::engine::core::ecs::component::Transformable>(e3ID).value == 0);
 
     ::engine::core::ecs::System<detail::function2> system2;
-    system2.run(entities, components);
+    system2(entities, components);
     BOOST_TEST(components.get<::engine::core::ecs::component::Movable>(e1ID).value == 2);
     BOOST_TEST(components.get<::engine::core::ecs::component::Transformable>(e2ID).value == 1);
     BOOST_TEST(components.get<::engine::core::ecs::component::Movable>(e3ID).value == 2);
     BOOST_TEST(components.get<::engine::core::ecs::component::Transformable>(e3ID).value == 1);
 
     ::engine::core::ecs::System<detail::function3> system3;
-    system3.run(entities, components);
+    system3(entities, components);
     BOOST_TEST(components.get<::engine::core::ecs::component::Movable>(e1ID).value == 2);
     BOOST_TEST(components.get<::engine::core::ecs::component::Transformable>(e2ID).value == 1);
     BOOST_TEST(components.get<::engine::core::ecs::component::Movable>(e3ID).value == 3);
     BOOST_TEST(components.get<::engine::core::ecs::component::Transformable>(e3ID).value == 2);
+
+    ::engine::core::ecs::System<detail::function4> system4;
+    system4(entities, components);
 }
 
 BOOST_AUTO_TEST_CASE(lambdaMulpiteComponentMulipleEntityMulipleSystem)
@@ -153,27 +163,27 @@ BOOST_AUTO_TEST_CASE(lambdaMulpiteComponentMulipleEntityMulipleSystem)
     >().getID() };
 
     ::engine::core::ecs::System<detail::lambda1> system1;
-    system1.run(entities, components);
+    system1(entities, components);
     BOOST_TEST(components.get<::engine::core::ecs::component::Movable>(e1ID).value == 1);
     BOOST_TEST(components.get<::engine::core::ecs::component::Transformable>(e2ID).value == 0);
     BOOST_TEST(components.get<::engine::core::ecs::component::Movable>(e3ID).value == 1);
     BOOST_TEST(components.get<::engine::core::ecs::component::Transformable>(e3ID).value == 0);
 
-    system1.run(components, entities);
+    system1(components, entities);
     BOOST_TEST(components.get<::engine::core::ecs::component::Movable>(e1ID).value == 2);
     BOOST_TEST(components.get<::engine::core::ecs::component::Transformable>(e2ID).value == 0);
     BOOST_TEST(components.get<::engine::core::ecs::component::Movable>(e3ID).value == 2);
     BOOST_TEST(components.get<::engine::core::ecs::component::Transformable>(e3ID).value == 0);
 
     ::engine::core::ecs::System<detail::lambda2> system2;
-    system2.run(entities, components);
+    system2(entities, components);
     BOOST_TEST(components.get<::engine::core::ecs::component::Movable>(e1ID).value == 2);
     BOOST_TEST(components.get<::engine::core::ecs::component::Transformable>(e2ID).value == 1);
     BOOST_TEST(components.get<::engine::core::ecs::component::Movable>(e3ID).value == 2);
     BOOST_TEST(components.get<::engine::core::ecs::component::Transformable>(e3ID).value == 1);
 
     ::engine::core::ecs::System<detail::lambda3> system3;
-    system3.run(entities, components);
+    system3(entities, components);
     BOOST_TEST(components.get<::engine::core::ecs::component::Movable>(e1ID).value == 2);
     BOOST_TEST(components.get<::engine::core::ecs::component::Transformable>(e2ID).value == 1);
     BOOST_TEST(components.get<::engine::core::ecs::component::Movable>(e3ID).value == 3);
@@ -192,13 +202,13 @@ BOOST_AUTO_TEST_CASE(inlineLambdaMulpiteComponentMulipleEntityMulipleSystem)
     >().getID() };
 
     ::engine::core::ecs::System<[](::engine::core::ecs::component::Movable& m) { m.value++;}> system1;
-    system1.run(entities, components);
+    system1(entities, components);
     BOOST_TEST(components.get<::engine::core::ecs::component::Movable>(e1ID).value == 1);
     BOOST_TEST(components.get<::engine::core::ecs::component::Transformable>(e2ID).value == 0);
     BOOST_TEST(components.get<::engine::core::ecs::component::Movable>(e3ID).value == 1);
     BOOST_TEST(components.get<::engine::core::ecs::component::Transformable>(e3ID).value == 0);
 
-    system1.run(components, entities);
+    system1(components, entities);
     BOOST_TEST(components.get<::engine::core::ecs::component::Movable>(e1ID).value == 2);
     BOOST_TEST(components.get<::engine::core::ecs::component::Transformable>(e2ID).value == 0);
     BOOST_TEST(components.get<::engine::core::ecs::component::Movable>(e3ID).value == 2);
@@ -206,7 +216,7 @@ BOOST_AUTO_TEST_CASE(inlineLambdaMulpiteComponentMulipleEntityMulipleSystem)
 
     ::engine::core::ecs::System<[](::engine::core::ecs::component::Transformable& t) -> int
         { t.value++; return 0; }> system2;
-    system2.run(entities, components);
+    system2(entities, components);
     BOOST_TEST(components.get<::engine::core::ecs::component::Movable>(e1ID).value == 2);
     BOOST_TEST(components.get<::engine::core::ecs::component::Transformable>(e2ID).value == 1);
     BOOST_TEST(components.get<::engine::core::ecs::component::Movable>(e3ID).value == 2);
@@ -220,7 +230,7 @@ BOOST_AUTO_TEST_CASE(inlineLambdaMulpiteComponentMulipleEntityMulipleSystem)
             t.value++;
         }
     > system3;
-    system3.run(entities, components);
+    system3(entities, components);
     BOOST_TEST(components.get<::engine::core::ecs::component::Movable>(e1ID).value == 2);
     BOOST_TEST(components.get<::engine::core::ecs::component::Transformable>(e2ID).value == 1);
     BOOST_TEST(components.get<::engine::core::ecs::component::Movable>(e3ID).value == 3);

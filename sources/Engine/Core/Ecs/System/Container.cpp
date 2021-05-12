@@ -19,16 +19,16 @@ void ::engine::core::ecs::system::Container::run(
 )
 {
     for (auto& system : m_systems) {
-        system->run(entities, components);
+        system->operator()(entities, components);
     }
 }
 
-// void ::engine::core::ecs::system::Container::run(
-    // const ::engine::core::ecs::entity::Container& entities,
-    // const ::engine::core::ecs::component::Container& components
-// ) const
-// {
-    // for (auto& system : m_systems) {
-        // system->run(entities, components);
-    // }
-// }
+void ::engine::core::ecs::system::Container::run(
+    const ::engine::core::ecs::entity::Container& entities,
+    const ::engine::core::ecs::component::Container& components
+) const
+{
+    for (auto& system : m_systems) {
+        system->operator()(entities, components);
+    }
+}
