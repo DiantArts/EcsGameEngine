@@ -3,6 +3,8 @@
 #include <Engine/Core/Ecs/Entity/Container.hpp>
 #include <Engine/Core/Ecs/Component/Container.hpp>
 #include <Engine/Core/Ecs/System/Container.hpp>
+#include <Engine/Core/Ecs/Component/Movable.hpp>
+#include <Engine/Core/Ecs/Component/Controllable.hpp>
 #include <Engine/Core/AWindow.hpp>
 
 
@@ -53,7 +55,7 @@ public:
 protected:
 
     ::engine::core::ecs::component::Container m_components;
-    ::engine::core::ecs::entity::Container m_entities { m_components };
+    ::engine::core::ecs::entity::Container m_entities{ m_components };
     ::engine::core::ecs::system::Container m_drawSystems;
     ::engine::core::ecs::system::Container m_systems;
 
@@ -62,6 +64,11 @@ protected:
 private:
 
     ::engine::core::AWindow& m_window;
+
+    ::engine::core::ecs::Entity& m_camera{ static_cast<::engine::core::ecs::Entity&>(m_entities.emplace<
+        ::engine::core::ecs::component::Movable,
+        ::engine::core::ecs::component::Controllable
+    >()) };
 
     bool m_isOver { false };
 

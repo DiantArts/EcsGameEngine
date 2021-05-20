@@ -9,7 +9,14 @@
     ::engine::core::AWindow& window
 )
     : m_window{ window }
-{}
+{
+    // m_systems.emplace<[](
+        // ::engine::core::ecs::component::Movable& m,
+        // const ::engine::core::ecs::component::Controllable& c
+    // ){
+        // c.updatePosition(m);
+    // }>();
+}
 
 ::engine::core::AScene::~AScene() = default;
 

@@ -97,6 +97,22 @@ namespace detail {
     )
     {}
 
+    // static void function1(
+        // float deltaTime,
+        // ::engine::core::ecs::component::Movable& m
+    // ) {
+        // m.value++;
+    // }
+    // static auto lambda1{
+        // [](
+            // ::engine::core::ecs::Entity& e,
+            // ::engine::core::ecs::component::Movable& m
+        // ) {
+            // m.value++;
+        // }
+    // };
+
+
 }
 
 

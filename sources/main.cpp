@@ -1,6 +1,9 @@
 #include <pch.hpp>
-#include <Game/Scene.hpp>
-#include <Engine/Graphic/OpenGL/Window.hpp>
+// #include <Game/Scene.hpp>
+// #include <Engine/Graphic/OpenGL/Window.hpp>
+
+#include <Engine/Core/Ecs/AComponent.hpp>
+#include <Engine/Core/Ecs/Component/Container.hpp>
 
 namespace engine::core::ecs::component {
 
@@ -12,6 +15,11 @@ namespace engine::core::ecs::component {
     public:
         Movable() = default;
         ~Movable() = default;
+
+        // Movable(const Movable&) = delete;
+        // Movable& operator=(const Movable&) = delete;
+        // Movable(Movable&&) = delete;
+        // Movable& operator=(Movable&&) = delete;
 
         bool operator==(const ::engine::core::ecs::component::Movable& that) const {
             return this == &that;
@@ -33,22 +41,53 @@ namespace engine::core::ecs::component {
 
 } // namespace engine::core::ecs::component
 
-void func(const int&){}
+
 
 int main()
 {
-    ::std::cout << ::engine::core::detail::meta::isModifiable<int> << ::std::endl;
-    ::std::cout << ::engine::core::detail::meta::isModifiable<int&> << ::std::endl;
-    ::std::cout << ::engine::core::detail::meta::isModifiable<const int&> << ::std::endl;
-    ::std::cout << ::engine::core::detail::meta::isModifiable<const int> << ::std::endl;
-    ::std::cout << ::engine::core::detail::meta::Function<decltype(func)>::Arguments::areConst << ::std::endl;
-    ::engine::graphic::opengl::Window window;
-    ::game::Scene scene{ window };
+    ::engine::core::ecs::component::Container container;
 
-    while (!scene.isOver()) {
-        scene.update();
-        scene.draw();
-    }
+    ::engine::core::ecs::component::Movable& movableComponent{ container.emplace<::engine::core::ecs::component::Movable>(1) };
+    ::std::cout << &container.get<::engine::core::ecs::component::Movable>(1) << " == " << container.get<::engine::core::ecs::component::Movable>(1).value << ::std::endl;
+    ::std::cout << &movableComponent.value << " == " << movableComponent.value << "\n" << ::std::endl;
 
+    movableComponent.value++;
+    ::std::cout << &container.get<::engine::core::ecs::component::Movable>(1) << " == " << container.get<::engine::core::ecs::component::Movable>(1).value << ::std::endl;
+    ::std::cout << &movableComponent.value << " == " << movableComponent.value << "\n" << ::std::endl;
+
+    // const auto& movableComponent2{ container.emplace<::engine::core::ecs::component::Movable>(2) };
+    // ::std::cout << &container.get<::engine::core::ecs::component::Movable>(1).value << " == " << container.get<::engine::core::ecs::component::Movable>(1).value << ::std::endl;
+    // ::std::cout << &container.get<::engine::core::ecs::component::Movable>(2).value << " == " << container.get<::engine::core::ecs::component::Movable>(2).value << ::std::endl;
+    // ::std::cout << &movableComponent2.value << " == " << movableComponent2.value << "\n" << ::std::endl;
+
+    // ::std::cout << &container.get<::engine::core::ecs::component::Movable>(2).value << ::std::endl;
+    // ::std::cout << &movableComponent2.value << ::std::endl;
+
+    // const auto& movableComponent3{ container.emplace<::engine::core::ecs::component::Movable>(2) };
+
+    // ::std::cout << &container.get<::engine::core::ecs::component::Movable>(2).value << ::std::endl;
+    // ::std::cout << &movableComponent2.value << ::std::endl;
     return 0;
+
+    // try {
+        // ::engine::graphic::opengl::Window window;
+        // ::game::Scene scene{ window };
+
+        // while (!scene.isOver()) {
+            // scene.update();
+            // scene.draw();
+        // }
+
+        // return EXIT_SUCCESS;
+
+    // } catch (const std::exception& e) {
+        // std::cerr << "ERROR: " << e.what() << std::endl;
+        // return EXIT_FAILURE;
+
+    // } catch (...) {
+        // std::cerr << "ERROR: unknown" << std::endl;
+        // return EXIT_FAILURE;
+
+    // }
+
 }

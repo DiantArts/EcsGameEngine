@@ -1,18 +1,14 @@
 #pragma once
 
-#include <Engine/Core/Time.hpp>
-
-
-
 namespace engine::core {
 
 
 
-class Clock {
+class Time {
 
 public:
 
-    using Type = ::engine::core::Time;
+    using Type = float;
 
 
 
@@ -20,25 +16,28 @@ public:
 
     // ------------------------------------------------------------------ *structors
 
-    Clock();
+    Time(
+        Time::Type t
+    );
 
-    ~Clock();
+    ~Time();
 
 
 
     // ------------------------------------------------------------------ Get
 
-    auto getElapsed()
-        -> Clock::Type;
+    operator Time::Type();
 
-    auto restart()
-        -> Clock::Type;
+    operator const Time::Type&() const;
+
+    auto get() const
+        -> Time::Type;
 
 
 
 private:
 
-    Clock::Type m_lastFrameTime{ 0.0f };
+    Time::Type m_time;
 
 };
 

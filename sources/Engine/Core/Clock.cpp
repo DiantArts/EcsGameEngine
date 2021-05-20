@@ -15,7 +15,7 @@
 auto ::engine::core::Clock::getElapsed()
     -> Clock::Type
 {
-    return static_cast<Clock::Type>(glfwGetTime()) - m_lastFrameTime;
+    return static_cast<Clock::Type::Type>(glfwGetTime()) - static_cast<Clock::Type::Type>(m_lastFrameTime);
 }
 
 auto ::engine::core::Clock::restart()

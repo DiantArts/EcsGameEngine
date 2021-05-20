@@ -94,6 +94,14 @@ BOOST_AUTO_TEST_CASE(multipleComponentValue)
     BOOST_TEST(container.get<::engine::core::ecs::component::Movable>(1).value == 0);
     BOOST_TEST(container.get<::engine::core::ecs::component::Movable>(2).value == 0);
     BOOST_TEST(movableComponent2.value == 0);
+
+    // ::std::cout << &container.get<::engine::core::ecs::component::Movable>(2).value << ::std::endl;
+    // ::std::cout << &movableComponent2.value << ::std::endl;
+
+    const auto& movableComponent3{ container.emplace<::engine::core::ecs::component::Movable>(2) };
+
+    ::std::cout << &container.get<::engine::core::ecs::component::Movable>(2).value << ::std::endl;
+    ::std::cout << &movableComponent2.value << ::std::endl;
 }
 
 
