@@ -9,8 +9,10 @@
     float xPos,
     float yPos
 )
-    : m_offset(xPos, yPos)
-{}
+    : m_offset{ xPos - m_oldPosition.x, -yPos + m_oldPosition.y }
+{
+    m_oldPosition = ::glm::vec2{ xPos, yPos };
+}
 
 ::engine::core::event::MouseMoved::~MouseMoved() = default;
 
@@ -22,5 +24,6 @@ void ::engine::core::event::MouseMoved::resolve(
     ::engine::core::AScene& scene
 )
 {
-    // scene.m_camera.orienteFromCursorPosition(std::move(m_offset));
+    scene.m_components.get<::engine::core::ecs::component::Controllable>(scene.m_cameraID).
+        oriente(::std::move(m_offset));
 }

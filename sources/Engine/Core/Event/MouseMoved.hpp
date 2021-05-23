@@ -1,6 +1,9 @@
 #pragma once
 
 #include <Engine/Core/AEvent.hpp>
+#include <Engine/Core/AScene.hpp>
+
+namespace engine::graphic::opengl{ class Window; }
 
 
 
@@ -33,13 +36,17 @@ public:
 
 
 
-public:
-protected:
-protected:
-private:
 private:
 
-    glm::vec2 m_offset;
+    ::glm::vec2 m_offset;
+
+    static inline ::glm::vec2 m_oldPosition;
+
+
+
+private:
+
+    friend ::engine::graphic::opengl::Window;
 
 };
 

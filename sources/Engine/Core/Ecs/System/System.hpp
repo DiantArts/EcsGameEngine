@@ -30,21 +30,25 @@ public:
     // ------------------------------------------------------------------ Run
 
     virtual void operator()(
+        ::engine::core::Time t,
         ::engine::core::ecs::entity::Container& entities,
         ::engine::core::ecs::component::Container& components
     ) override final;
 
     void operator()(
+        ::engine::core::Time t,
         ::engine::core::ecs::component::Container& components,
         ::engine::core::ecs::entity::Container& entities
     );
 
     virtual void operator()(
+        ::engine::core::Time t,
         const ::engine::core::ecs::entity::Container& entities,
         const ::engine::core::ecs::component::Container& components
     ) const override final;
 
     void operator()(
+        ::engine::core::Time t,
         const ::engine::core::ecs::component::Container& components,
         const ::engine::core::ecs::entity::Container& entities
     ) const;

@@ -14,21 +14,23 @@
 // ------------------------------------------------------------------ Run
 
 void ::engine::core::ecs::system::Container::run(
+    ::engine::core::Time t,
     ::engine::core::ecs::entity::Container& entities,
     ::engine::core::ecs::component::Container& components
 )
 {
     for (auto& system : m_systems) {
-        system->operator()(entities, components);
+        system->operator()(t, entities, components);
     }
 }
 
 void ::engine::core::ecs::system::Container::run(
+    ::engine::core::Time t,
     const ::engine::core::ecs::entity::Container& entities,
     const ::engine::core::ecs::component::Container& components
 ) const
 {
     for (auto& system : m_systems) {
-        system->operator()(entities, components);
+        system->operator()(t, entities, components);
     }
 }

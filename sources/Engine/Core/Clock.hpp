@@ -31,8 +31,10 @@ public:
     auto getElapsed()
         -> Clock::Type;
 
-    auto restart()
+    auto getRestart()
         -> Clock::Type;
+
+    void restart();
 
 
 

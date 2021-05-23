@@ -22,6 +22,7 @@ template <
 template <
     auto func
 > void ::engine::core::ecs::system::System<func>::operator()(
+    ::engine::core::Time t,
     ::engine::core::ecs::entity::Container& entities,
     ::engine::core::ecs::component::Container& components
 )
@@ -34,7 +35,7 @@ template <
         // get every args into a tupple
         using TupleType = ::engine::core::detail::meta::Function<decltype(func)>::Arguments::Type;
         auto args{
-            ::engine::core::ecs::system::detail::TupleHelper<func, TupleType>::fill(components, entity)
+            ::engine::core::ecs::system::detail::TupleHelper<func, TupleType>::fill(t, components, entity)
         };
 
         // exec the func
@@ -45,16 +46,18 @@ template <
 template <
     auto func
 > void ::engine::core::ecs::system::System<func>::operator()(
+    ::engine::core::Time t,
     ::engine::core::ecs::component::Container& components,
     ::engine::core::ecs::entity::Container& entities
 )
 {
-    this->operator()(entities, components);
+    this->operator()(t, entities, components);
 }
 
 template <
     auto func
 > void ::engine::core::ecs::system::System<func>::operator()(
+    ::engine::core::Time t,
     const ::engine::core::ecs::entity::Container& entities,
     const ::engine::core::ecs::component::Container& components
 ) const
@@ -68,7 +71,7 @@ template <
             // get every args into a tupple
             using TupleType = ::engine::core::detail::meta::Function<decltype(func)>::Arguments::Type;
             auto args{
-                ::engine::core::ecs::system::detail::TupleHelper<func, TupleType>::fill(components, entity)
+                ::engine::core::ecs::system::detail::TupleHelper<func, TupleType>::fill(t, components, entity)
             };
 
             // exec the func
@@ -82,11 +85,12 @@ template <
 template <
     auto func
 > void ::engine::core::ecs::system::System<func>::operator()(
+    ::engine::core::Time t,
     const ::engine::core::ecs::component::Container& components,
     const ::engine::core::ecs::entity::Container& entities
 ) const
 {
-    this->operator()(entities, components);
+    this->operator()(t, entities, components);
 }
 
 

@@ -10,12 +10,13 @@
 )
     : m_window{ window }
 {
-    // m_systems.emplace<[](
-        // ::engine::core::ecs::component::Movable& m,
-        // const ::engine::core::ecs::component::Controllable& c
-    // ){
-        // c.updatePosition(m);
-    // }>();
+    m_systems.emplace<[](
+        ::engine::core::Time deltaTime,
+        ::engine::core::ecs::component::Movable& m,
+        const ::engine::core::ecs::component::Controllable& c
+    ){
+        c.updatePosition(deltaTime, m);
+    }>();
 }
 
 ::engine::core::AScene::~AScene() = default;
@@ -43,7 +44,7 @@ void ::engine::core::AScene::update()
 {
     m_window.handleEvents(*this);
     this->onUpdate();
-    m_systems.run(m_entities, m_components);
+    m_systems.run(m_systemsClock.getRestart(), m_entities, m_components);
 }
 
 void ::engine::core::AScene::onUpdate()
@@ -56,7 +57,7 @@ void ::engine::core::AScene::onUpdate()
 void ::engine::core::AScene::draw() const
 {
     m_window.clear();
-    m_drawSystems.run(m_entities, m_components);
+    m_drawSystems.run(m_drawSystemsClock.getRestart(), m_entities, m_components);
     this->onDraw();
     m_window.draw();
 }

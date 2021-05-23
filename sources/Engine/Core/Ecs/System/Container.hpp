@@ -3,6 +3,7 @@
 #include <Engine/Core/Ecs/System.hpp>
 #include <Engine/Core/Ecs/Component/Container.hpp>
 #include <Engine/Core/Ecs/Entity/Container.hpp>
+#include <Engine/Core/Clock.hpp>
 
 
 
@@ -25,11 +26,13 @@ public:
     // ------------------------------------------------------------------ Run
 
     void run(
+        ::engine::core::Time t,
         ::engine::core::ecs::entity::Container& entities,
         ::engine::core::ecs::component::Container& components
     );
 
     void run(
+        ::engine::core::Time t,
         const ::engine::core::ecs::entity::Container& entities,
         const ::engine::core::ecs::component::Container& components
     ) const;

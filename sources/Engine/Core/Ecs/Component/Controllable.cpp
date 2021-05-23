@@ -33,7 +33,7 @@ void ::engine::core::ecs::component::Controllable::setSpeed(
 void ::engine::core::ecs::component::Controllable::updatePosition(
     float deltaTime,
     ::glm::vec3& position
-)
+) const
 {
     auto velocity = this->getSpeed() * deltaTime;
 
@@ -146,37 +146,37 @@ void ::engine::core::ecs::component::Controllable::immobilize()
 
 
 
-auto ::engine::core::ecs::component::Controllable::isMovingForward()
+auto ::engine::core::ecs::component::Controllable::isMovingForward() const
     -> bool
 {
     return m_movementState.test(Controllable::MovementState::Forward);
 }
 
-auto ::engine::core::ecs::component::Controllable::isMovingBackward()
+auto ::engine::core::ecs::component::Controllable::isMovingBackward() const
     -> bool
 {
     return m_movementState.test(Controllable::MovementState::Backward);
 }
 
-auto ::engine::core::ecs::component::Controllable::isMovingRight()
+auto ::engine::core::ecs::component::Controllable::isMovingRight() const
     -> bool
 {
     return m_movementState.test(Controllable::MovementState::Right);
 }
 
-auto ::engine::core::ecs::component::Controllable::isMovingLeft()
+auto ::engine::core::ecs::component::Controllable::isMovingLeft() const
     -> bool
 {
     return m_movementState.test(Controllable::MovementState::Left);
 }
 
-auto ::engine::core::ecs::component::Controllable::isMovingUp()
+auto ::engine::core::ecs::component::Controllable::isMovingUp() const
     -> bool
 {
     return m_movementState.test(Controllable::MovementState::Up);
 }
 
-auto ::engine::core::ecs::component::Controllable::isMovingDown()
+auto ::engine::core::ecs::component::Controllable::isMovingDown() const
     -> bool
 {
     return m_movementState.test(Controllable::MovementState::Down);

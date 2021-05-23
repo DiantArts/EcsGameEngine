@@ -60,8 +60,11 @@ void ::game::Scene::onDraw() const
 
     glm::mat4 projection = glm::perspective(glm::radians(fov), 1920.0f / 1080.0f, 0.1f, 100.0f);
     m_shader.set("projection", projection);
-    glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
-    m_shader.set("view", view);
+
+    m_shader.set("view",
+        m_components.get<::engine::core::ecs::component::Controllable>(m_cameraID).
+            getView(m_components.get<::engine::core::ecs::component::Movable>(m_cameraID))
+    );
 
     m_vao.bind();
     for (unsigned int i = 0; i < 10; i++) {

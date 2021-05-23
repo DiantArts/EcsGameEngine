@@ -38,7 +38,7 @@ public:
     virtual void updatePosition(
         float deltaTime,
         ::glm::vec3& position
-    );
+    ) const;
 
 
 
@@ -76,22 +76,22 @@ public:
 
 
 
-    auto isMovingForward()
+    auto isMovingForward() const
         -> bool;
 
-    auto isMovingBackward()
+    auto isMovingBackward() const
         -> bool;
 
-    auto isMovingRight()
+    auto isMovingRight() const
         -> bool;
 
-    auto isMovingLeft()
+    auto isMovingLeft() const
         -> bool;
 
-    auto isMovingUp()
+    auto isMovingUp() const
         -> bool;
 
-    auto isMovingDown()
+    auto isMovingDown() const
         -> bool;
 
 
@@ -160,8 +160,8 @@ private:
     float m_yaw{ -90.00f };
     float m_pitch{ 0.00f };
 
-    float minPitch{ -89.999f };
-    float maxPitch{ 89.999f };
+    static inline constexpr float minPitch{ -89.999f };
+    static inline constexpr float maxPitch{ 89.999f };
 
     ::glm::vec3 m_orientation{ 0.5f, 0.5f, 0.5f };
 
