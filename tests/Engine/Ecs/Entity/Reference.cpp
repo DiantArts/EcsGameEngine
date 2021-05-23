@@ -7,25 +7,25 @@
 
 // ------------------------------------------------------------------ Class test
 
-namespace engine::core::ecs::component {
+namespace engine::core::ecs::component::test {
 
 
 
     class Movable
-        : public ::engine::core::ecs::AComponent<::engine::core::ecs::component::Movable>
+        : public ::engine::core::ecs::AComponent<::engine::core::ecs::component::test::Movable>
     {
     public:
         Movable() = default;
         ~Movable() = default;
 
-        bool operator==(const ::engine::core::ecs::component::Movable& that) const {
+        bool operator==(const ::engine::core::ecs::component::test::Movable& that) const {
             return this == &that;
         }
 
     };
 
     class Transformable
-        : public ::engine::core::ecs::AComponent<::engine::core::ecs::component::Transformable>
+        : public ::engine::core::ecs::AComponent<::engine::core::ecs::component::test::Transformable>
     {
     public:
         Transformable() = default;
@@ -35,7 +35,7 @@ namespace engine::core::ecs::component {
 
 
 
-} // namespace engine::core::ecs::component
+} // namespace engine::core::ecs::component::test
 
 
 
@@ -59,14 +59,14 @@ BOOST_AUTO_TEST_CASE(addNhas)
     ::engine::core::ecs::Entity entity;
     ::engine::core::ecs::Entity::Reference ref{ components, entity };
 
-    const auto& component{ ref.addComponent<::engine::core::ecs::component::Movable>() };
+    const auto& component{ ref.addComponent<::engine::core::ecs::component::test::Movable>() };
 
-    BOOST_TEST(entity.hasComponent<::engine::core::ecs::component::Movable>());
-    BOOST_TEST(ref.hasComponent<::engine::core::ecs::component::Movable>());
-    BOOST_TEST(!entity.hasComponent<::engine::core::ecs::component::Transformable>());
-    BOOST_TEST(!ref.hasComponent<::engine::core::ecs::component::Transformable>());
-    BOOST_TEST(&component == &components.get<::engine::core::ecs::component::Movable>(entity.getID()));
-    BOOST_TEST(&component == &components.get<::engine::core::ecs::component::Movable>(ref.getID()));
+    BOOST_TEST(entity.hasComponent<::engine::core::ecs::component::test::Movable>());
+    BOOST_TEST(ref.hasComponent<::engine::core::ecs::component::test::Movable>());
+    BOOST_TEST(!entity.hasComponent<::engine::core::ecs::component::test::Transformable>());
+    BOOST_TEST(!ref.hasComponent<::engine::core::ecs::component::test::Transformable>());
+    BOOST_TEST(&component == &components.get<::engine::core::ecs::component::test::Movable>(entity.getID()));
+    BOOST_TEST(&component == &components.get<::engine::core::ecs::component::test::Movable>(ref.getID()));
 }
 
 BOOST_AUTO_TEST_CASE(removeNhas)
@@ -76,18 +76,18 @@ BOOST_AUTO_TEST_CASE(removeNhas)
     ::engine::core::ecs::Entity::Reference ref{ components, entity };
 
 
-    ref.addComponent<::engine::core::ecs::component::Movable>();
+    ref.addComponent<::engine::core::ecs::component::test::Movable>();
 
-    BOOST_TEST(entity.hasComponent<::engine::core::ecs::component::Movable>());
-    BOOST_TEST(ref.hasComponent<::engine::core::ecs::component::Movable>());
-    BOOST_TEST(components.exists<::engine::core::ecs::component::Movable>(entity.getID()));
-    BOOST_TEST(components.exists<::engine::core::ecs::component::Movable>(ref.getID()));
+    BOOST_TEST(entity.hasComponent<::engine::core::ecs::component::test::Movable>());
+    BOOST_TEST(ref.hasComponent<::engine::core::ecs::component::test::Movable>());
+    BOOST_TEST(components.exists<::engine::core::ecs::component::test::Movable>(entity.getID()));
+    BOOST_TEST(components.exists<::engine::core::ecs::component::test::Movable>(ref.getID()));
 
-    ref.removeComponent<::engine::core::ecs::component::Movable>();
-    BOOST_TEST(!entity.hasComponent<::engine::core::ecs::component::Movable>());
-    BOOST_TEST(!ref.hasComponent<::engine::core::ecs::component::Movable>());
-    BOOST_TEST(!components.exists<::engine::core::ecs::component::Movable>(entity.getID()));
-    BOOST_TEST(!components.exists<::engine::core::ecs::component::Movable>(ref.getID()));
+    ref.removeComponent<::engine::core::ecs::component::test::Movable>();
+    BOOST_TEST(!entity.hasComponent<::engine::core::ecs::component::test::Movable>());
+    BOOST_TEST(!ref.hasComponent<::engine::core::ecs::component::test::Movable>());
+    BOOST_TEST(!components.exists<::engine::core::ecs::component::test::Movable>(entity.getID()));
+    BOOST_TEST(!components.exists<::engine::core::ecs::component::test::Movable>(ref.getID()));
 }
 
 
@@ -104,8 +104,8 @@ BOOST_AUTO_TEST_CASE(single)
     ::engine::core::ecs::Entity entity;
     ::engine::core::ecs::Entity::Reference ref{ components, entity };
 
-    ref.addComponent<::engine::core::ecs::component::Movable>();
-    auto signature{ ::engine::core::ecs::Signature::generate<::engine::core::ecs::component::Movable>() };
+    ref.addComponent<::engine::core::ecs::component::test::Movable>();
+    auto signature{ ::engine::core::ecs::Signature::generate<::engine::core::ecs::component::test::Movable>() };
 
     BOOST_TEST((entity.getSignature() == signature));
     BOOST_TEST((ref.getSignature() == signature));

@@ -35,7 +35,7 @@ public:
     template <
         ::engine::core::ecs::component::ConceptType... ComponentTypes
     > [[ nodiscard ]] static constexpr auto generate(
-        ::engine::core::ecs::component::Container& componentContainer
+        ::engine::core::ecs::component::Container& components
     )
         -> ::engine::core::ecs::entity::Entity;
 

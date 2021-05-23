@@ -5,12 +5,12 @@
 
 // ------------------------------------------------------------------ Class test
 
-namespace engine::core::ecs::component {
+namespace engine::core::ecs::component::test {
 
 
 
     class Movable
-        : public ::engine::core::ecs::AComponent<::engine::core::ecs::component::Movable>
+        : public ::engine::core::ecs::AComponent<::engine::core::ecs::component::test::Movable>
     {
     public:
         Movable() = default;
@@ -19,7 +19,7 @@ namespace engine::core::ecs::component {
     };
 
     class Transformable
-        : public ::engine::core::ecs::AComponent<::engine::core::ecs::component::Transformable>
+        : public ::engine::core::ecs::AComponent<::engine::core::ecs::component::test::Transformable>
     {
     public:
         Transformable() = default;
@@ -29,7 +29,7 @@ namespace engine::core::ecs::component {
 
 
 
-} // namespace engine::core::ecs::component
+} // namespace engine::core::ecs::component::test
 
 
 
@@ -44,8 +44,8 @@ BOOST_AUTO_TEST_SUITE(Component)
 
 BOOST_AUTO_TEST_CASE(Constructor)
 {
-    ::engine::core::ecs::component::Movable movable();
-    ::engine::core::ecs::component::Movable();
+    ::engine::core::ecs::component::test::Movable movable();
+    ::engine::core::ecs::component::test::Movable();
 }
 
 
@@ -57,20 +57,20 @@ BOOST_AUTO_TEST_SUITE(ID)
 
 BOOST_AUTO_TEST_CASE(getStaticVsMember)
 {
-    BOOST_TEST(::engine::core::ecs::component::Movable::getID() ==
-        ::engine::core::ecs::component::Movable().getID());
+    BOOST_TEST(::engine::core::ecs::component::test::Movable::getID() ==
+        ::engine::core::ecs::component::test::Movable().getID());
 }
 
 BOOST_AUTO_TEST_CASE(different)
 {
-    BOOST_TEST(::engine::core::ecs::component::Movable::getID() !=
-        ::engine::core::ecs::component::Transformable::getID());
+    BOOST_TEST(::engine::core::ecs::component::test::Movable::getID() !=
+        ::engine::core::ecs::component::test::Transformable::getID());
 }
 
 BOOST_AUTO_TEST_CASE(constexprness)
 {
     // bitset needs a constexpr to compile
-    ::std::bitset<::engine::core::ecs::component::Movable::getID() + 1>();
+    ::std::bitset<::engine::core::ecs::component::test::Movable::getID() + 1>();
 }
 
 

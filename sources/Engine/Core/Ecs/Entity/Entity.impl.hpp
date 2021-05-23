@@ -7,7 +7,7 @@
 template <
     ::engine::core::ecs::component::ConceptType... ComponentTypes
 > [[ nodiscard ]] constexpr auto ::engine::core::ecs::entity::Entity::generate(
-    ::engine::core::ecs::component::Container& componentContainer
+    ::engine::core::ecs::component::Container& components
 )
     -> ::engine::core::ecs::entity::Entity
 {
@@ -18,11 +18,11 @@ template <
             ::engine::core::ecs::component::ConceptType ComponentType
         >(
             ::engine::core::ecs::entity::Entity& entity,
-            ::engine::core::ecs::component::Container& componentContainer
+            ::engine::core::ecs::component::Container& components
         ){
-            entity.addComponent<ComponentType>(componentContainer);
+            entity.addComponent<ComponentType>(components);
         }
-    >(entity, componentContainer);
+    >(entity, components);
 
     return entity;
 }
@@ -34,23 +34,23 @@ template <
 template <
     ::engine::core::ecs::component::ConceptType RawComponentType
 > auto ::engine::core::ecs::entity::Entity::addComponent(
-    ::engine::core::ecs::component::Container& componentContainer
+    ::engine::core::ecs::component::Container& components
 )
     -> RawComponentType&
 {
     using ComponentType = std::remove_reference_t<RawComponentType>;
     m_signature.set<ComponentType>();
-    return componentContainer.emplace<ComponentType>(m_id);
+    return components.emplace<ComponentType>(m_id);
 }
 
 template <
     ::engine::core::ecs::component::ConceptType... ComponentTypes
 > void ::engine::core::ecs::entity::Entity::addComponents(
-    ::engine::core::ecs::component::Container& componentContainer
+    ::engine::core::ecs::component::Container& components
 )
 {
     m_signature.set<ComponentTypes...>();
-    componentContainer.emplaceMany<ComponentTypes...>(m_id);
+    components.emplaceMany<ComponentTypes...>(m_id);
 }
 
 
@@ -82,20 +82,20 @@ template <
 template <
     ::engine::core::ecs::component::ConceptType RawComponentType
 > void ::engine::core::ecs::entity::Entity::removeComponent(
-    ::engine::core::ecs::component::Container& componentContainer
+    ::engine::core::ecs::component::Container& components
 )
 {
     using ComponentType = std::remove_reference_t<RawComponentType>;
     m_signature.reset<ComponentType>();
-    componentContainer.remove<ComponentType>(m_id);
+    components.remove<ComponentType>(m_id);
 }
 
 template <
     ::engine::core::ecs::component::ConceptType... ComponentTypes
 > void ::engine::core::ecs::entity::Entity::removeComponents(
-    ::engine::core::ecs::component::Container& componentContainer
+    ::engine::core::ecs::component::Container& components
 )
 {
     m_signature.reset<ComponentTypes...>();
-    componentContainer.removeMany<ComponentTypes...>(m_id);
+    components.removeMany<ComponentTypes...>(m_id);
 }

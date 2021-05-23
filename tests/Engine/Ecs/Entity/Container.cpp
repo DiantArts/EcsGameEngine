@@ -7,12 +7,12 @@
 
 // ------------------------------------------------------------------ Class test
 
-namespace engine::core::ecs::component {
+namespace engine::core::ecs::component::test {
 
 
 
     class Movable
-        : public ::engine::core::ecs::AComponent<::engine::core::ecs::component::Movable>
+        : public ::engine::core::ecs::AComponent<::engine::core::ecs::component::test::Movable>
     {
     public:
         Movable() = default;
@@ -20,7 +20,7 @@ namespace engine::core::ecs::component {
     };
 
     class Transformable
-        : public ::engine::core::ecs::AComponent<::engine::core::ecs::component::Transformable>
+        : public ::engine::core::ecs::AComponent<::engine::core::ecs::component::test::Transformable>
     {
     public:
         Transformable() = default;
@@ -29,7 +29,7 @@ namespace engine::core::ecs::component {
 
 
 
-} // namespace engine::core::ecs::component
+} // namespace engine::core::ecs::component::test
 
 
 
@@ -46,7 +46,7 @@ BOOST_AUTO_TEST_CASE(get)
 {
     ::engine::core::ecs::component::Container components;
     ::engine::core::ecs::entity::Container entities{ components };
-    auto entity1{ entities.emplace<::engine::core::ecs::component::Movable>() };
+    auto entity1{ entities.emplace<::engine::core::ecs::component::test::Movable>() };
     auto entity2{ entities.get(entity1.getID()) };
     auto entity3{ entities[entity1.getID()] };
 
@@ -66,10 +66,10 @@ BOOST_AUTO_TEST_CASE(singleComponent)
 {
     ::engine::core::ecs::component::Container components;
     ::engine::core::ecs::entity::Container entities{ components };
-    auto entity{ entities.emplace<::engine::core::ecs::component::Movable>() };
+    auto entity{ entities.emplace<::engine::core::ecs::component::test::Movable>() };
 
-    BOOST_TEST(entity.hasComponent<::engine::core::ecs::component::Movable>());
-    BOOST_TEST(!entity.hasComponent<::engine::core::ecs::component::Transformable>());
+    BOOST_TEST(entity.hasComponent<::engine::core::ecs::component::test::Movable>());
+    BOOST_TEST(!entity.hasComponent<::engine::core::ecs::component::test::Transformable>());
 }
 
 BOOST_AUTO_TEST_CASE(multipleComponent)
@@ -77,12 +77,12 @@ BOOST_AUTO_TEST_CASE(multipleComponent)
     ::engine::core::ecs::component::Container components;
     ::engine::core::ecs::entity::Container entities{ components };
     auto entity{ entities.emplace<
-        ::engine::core::ecs::component::Movable,
-        ::engine::core::ecs::component::Transformable
+        ::engine::core::ecs::component::test::Movable,
+        ::engine::core::ecs::component::test::Transformable
     >() };
 
-    BOOST_TEST(entity.hasComponent<::engine::core::ecs::component::Movable>());
-    BOOST_TEST(entity.hasComponent<::engine::core::ecs::component::Transformable>());
+    BOOST_TEST(entity.hasComponent<::engine::core::ecs::component::test::Movable>());
+    BOOST_TEST(entity.hasComponent<::engine::core::ecs::component::test::Transformable>());
 }
 
 
@@ -98,7 +98,7 @@ BOOST_AUTO_TEST_CASE(remove)
 {
     ::engine::core::ecs::component::Container components;
     ::engine::core::ecs::entity::Container entities{ components };
-    auto entityID{ entities.emplace<::engine::core::ecs::component::Movable>().getID() };
+    auto entityID{ entities.emplace<::engine::core::ecs::component::test::Movable>().getID() };
     BOOST_TEST(entities.contains(entityID));
     entities.remove(entityID);
     BOOST_TEST(!entities.contains(entityID));

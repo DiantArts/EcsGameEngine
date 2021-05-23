@@ -8,6 +8,18 @@
 #include <Engine/Core/AWindow.hpp>
 
 
+namespace engine::core::ecs::component {
+    class Transformable
+        : public ::engine::core::ecs::AComponent<::engine::core::ecs::component::Transformable>
+    {
+    public:
+        Transformable() = default;
+        ~Transformable() = default;
+
+        int value{ 0 };
+    };
+} // namespace engine::core::ecs::component
+
 
 namespace engine::core {
 
@@ -65,10 +77,10 @@ private:
 
     ::engine::core::AWindow& m_window;
 
-    ::engine::core::ecs::Entity& m_camera{ static_cast<::engine::core::ecs::Entity&>(m_entities.emplace<
+    ::engine::core::ID m_cameraID{ m_entities.emplace<
         ::engine::core::ecs::component::Movable,
         ::engine::core::ecs::component::Controllable
-    >()) };
+    >().getID() };
 
     bool m_isOver { false };
 

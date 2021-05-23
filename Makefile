@@ -8,7 +8,7 @@
 # DEBUG_MAKEFILE	:=	true
 
 ARGV			:=
-NAME			:=	akanya
+NAME			:=	engine
 TNAME			:=	unit
 
 BINDIR			:=	binaries
@@ -90,7 +90,7 @@ MOD_BUILDDIR	:=	$(addsuffix /gdb,$(BUILDDIR))
 else ifeq (auto_tests,$(findstring auto_tests,$(MAKECMDGOALS)))
 
 MODE_EXT		:=	_tests
-MODE_FLAGS		:=	-g3 -Og -pipe
+MODE_FLAGS		:=	-g3 -Og -pipe -DTEST=1
 MOD_BUILDDIR	:=	$(addsuffix /tests,$(BUILDDIR))
 NAME			:=	$(TNAME)
 

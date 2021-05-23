@@ -71,6 +71,7 @@ using std::literals::string_view_literals::operator""sv;
 
 
 
+#include <debugMacros.hpp>
 #include <Tools/File.hpp>
 #include <Tools/Iterator.hpp>
 #include <Tools/String.hpp>

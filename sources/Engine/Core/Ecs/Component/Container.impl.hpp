@@ -43,12 +43,8 @@ template <
         );
     }
     pairComponentContainer.first.push_back(::std::move(entityID));
-    auto& ref{ (*static_cast<Container::SubContainerType<ComponentType>*>(pairComponentContainer.second)).
-        emplace_back(std::forward<decltype(args)>(args)...)};
-    ::std::cout << &ref << " (ref)" << ::std::endl;
-    // return (*static_cast<Container::SubContainerType<ComponentType>*>(pairComponentContainer.second))[0];
-    // return this->get<RawComponentType>(entityID);
-    return ref;
+    return (*static_cast<Container::SubContainerType<ComponentType>*>(pairComponentContainer.second)).
+        emplace_back(std::forward<decltype(args)>(args)...);
 }
 
 template <
@@ -108,9 +104,9 @@ template <
                 boost::typeindex::type_id<ComponentType>().pretty_name() + "' component"
         );
     }
-    return (*static_cast<Container::SubContainerType<ComponentType>*>(pairComponentContainer.second))[
+    return (*static_cast<Container::SubContainerType<ComponentType>*>(pairComponentContainer.second)).at(
         it - pairComponentContainer.first.begin()
-    ];
+    );
 }
 
 template <
@@ -129,9 +125,9 @@ template <
                 boost::typeindex::type_id<ComponentType>().pretty_name() + "' component"
         );
     }
-    return (*static_cast<Container::SubContainerType<ComponentType>*>(pairComponentContainer.second))[
+    return (*static_cast<Container::SubContainerType<ComponentType>*>(pairComponentContainer.second)).at(
         it - pairComponentContainer.first.begin()
-    ];
+    );
 }
 
 template <
