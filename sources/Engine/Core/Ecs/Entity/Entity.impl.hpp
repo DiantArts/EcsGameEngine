@@ -53,6 +53,17 @@ template <
     components.emplaceMany<ComponentTypes...>(m_id);
 }
 
+template <
+    ::engine::core::ecs::component::ConceptType... ComponentTypes
+> void ::engine::core::ecs::entity::Entity::addComponents(
+    ::engine::core::ecs::component::Container& componentsContainer,
+    ComponentTypes&&... components
+)
+{
+    m_signature.set<ComponentTypes...>();
+    componentsContainer.pushMany<ComponentTypes...>(m_id, ::std::forward<ComponentTypes>(components)...);
+}
+
 
 
 

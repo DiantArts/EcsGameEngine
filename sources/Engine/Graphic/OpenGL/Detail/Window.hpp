@@ -1,5 +1,7 @@
 #pragma once
 
+namespace engine::core::event { class Container; }
+
 
 
 namespace engine::graphic::opengl::detail {
@@ -13,7 +15,8 @@ void framebufferSizeCallback(
 );
 
 void applyDefaultConfiguration(
-    GLFWwindow* window
+    GLFWwindow* window,
+    ::engine::core::event::Container& events
 );
 
 

@@ -1,6 +1,10 @@
 #pragma once
 
+#include <Engine/Core/Ecs/AComponent.hpp>
 #include <Engine/Graphic/OpenGL/Shader.hpp>
+#include <Engine/Graphic/OpenGL/Vao.hpp>
+#include <Engine/Graphic/OpenGL/Vbo.hpp>
+#include <Engine/Graphic/OpenGL/Texture.hpp>
 
 
 
@@ -16,34 +20,56 @@ public:
 
     // ------------------------------------------------------------------ *structors
 
-    explicit Drawable(
-        const std::string& shaderFilepath,
-        const std::string& filename,
-        bool gamma = false
-    );
+    Drawable();
 
     ~Drawable();
 
 
 
+    // ------------------------------------------------------------------ Copy sementic
+
+    Drawable(
+        const Drawable&
+    ) noexcept = delete;
+
+    auto operator=(
+        const Drawable&
+    ) noexcept
+        -> Drawable& = delete;
+
+
+
+    // ------------------------------------------------------------------ Move sementic
+
+    Drawable(
+        Drawable&&
+    ) noexcept;
+
+    auto operator=(
+        Drawable&&
+    ) noexcept
+        -> Drawable&;
+
+
+
     // ------------------------------------------------------------------ Use
 
-    void operator()();
+    void operator()(
+        const ::glm::vec3& position
+    ) const;
 
 
 
 private:
 
-    ::engine::graphic::opengl::Shader m_shader;
-
     ::engine::graphic::opengl::Vao m_vao;
     ::engine::graphic::opengl::Vbo m_vbo;
-    ::engine::graphic::opengl::Ebo m_ebo;
+    ::engine::graphic::opengl::Shader m_shader{ "cube" };
 
-    std::vector<GLuint> m_indices;
-    std::vector<Drawable::Vertex> m_vertices;
-    std::vector<Drawable::Texture> m_textures;
+    ::std::size_t m_numberOfArrayToDraw;
 
+    ::engine::graphic::opengl::Texture m_texture1{ "container.png" };
+    ::engine::graphic::opengl::Texture m_texture2{ "containerBorders.png" };
 
 };
 

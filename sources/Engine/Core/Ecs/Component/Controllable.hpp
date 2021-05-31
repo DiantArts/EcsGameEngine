@@ -104,6 +104,9 @@ public:
     auto getFront() const
         -> const ::glm::vec3&;
 
+    auto getUp() const
+        -> const ::glm::vec3&;
+
 
 
     void oriente(
@@ -160,13 +163,13 @@ private:
     float m_yaw{ -90.00f };
     float m_pitch{ 0.00f };
 
-    static inline constexpr float minPitch{ -89.999f };
-    static inline constexpr float maxPitch{ 89.999f };
-
     ::glm::vec3 m_orientation{ 0.5f, 0.5f, 0.5f };
 
     ::glm::vec3 m_front{ 0.0f, 0.0f, -1.0f };
     ::glm::vec3 m_up{ 0.0f, 1.0f, 0.0f };
+
+    static inline constexpr float minPitch{ -89.999f };
+    static inline constexpr float maxPitch{ 89.999f };
 
     static inline constexpr ::glm::vec3 m_sensitivity{ 0.1f, 0.1f, 1.0f };
 

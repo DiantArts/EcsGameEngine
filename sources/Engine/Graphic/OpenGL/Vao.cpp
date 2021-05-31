@@ -3,7 +3,7 @@
 
 
 
-// ---------------------------------- *structors
+// ------------------------------------------------------------------ *structors
 
 ::engine::graphic::opengl::Vao::Vao()
 {
@@ -12,12 +12,36 @@
 
 ::engine::graphic::opengl::Vao::~Vao()
 {
-    glDeleteVertexArrays(1, &m_vao);
+    if (m_vao) {
+        glDeleteVertexArrays(1, &m_vao);
+    }
 }
 
 
 
-// ---------------------------------- get
+// ------------------------------------------------------------------ Move sementic
+
+::engine::graphic::opengl::Vao::Vao(
+    Vao&& other
+) noexcept
+    : m_vao{ other.m_vao }
+{
+    other.m_vao = 0;
+}
+
+auto ::engine::graphic::opengl::Vao::operator=(
+    Vao&& other
+) noexcept
+    -> Vao&
+{
+    m_vao = other.m_vao;
+    other.m_vao = 0;
+    return *this;
+}
+
+
+
+// ------------------------------------------------------------------ get
 
 GLuint ::engine::graphic::opengl::Vao::get() const
 {
@@ -26,7 +50,7 @@ GLuint ::engine::graphic::opengl::Vao::get() const
 
 
 
-// ---------------------------------- bind
+// ------------------------------------------------------------------ bind
 
 void ::engine::graphic::opengl::Vao::bind() const
 {

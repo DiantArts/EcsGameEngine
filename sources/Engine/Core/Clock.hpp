@@ -28,10 +28,10 @@ public:
 
     // ------------------------------------------------------------------ Get
 
-    auto getElapsed()
+    [[ nodiscard ]] auto getElapsed()
         -> Clock::Type;
 
-    auto getRestart()
+    [[ nodiscard ]] auto getRestart()
         -> Clock::Type;
 
     void restart();

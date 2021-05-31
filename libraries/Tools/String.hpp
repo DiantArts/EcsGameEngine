@@ -15,7 +15,11 @@ namespace tools::string {
 
 
 
-extern bool endsWith(std::string_view a, std::string_view b);
+[[ nodiscard ]] extern auto endsWith(
+    ::std::string_view str1,
+    ::std::string_view str2
+)
+    -> bool;
 
 
 

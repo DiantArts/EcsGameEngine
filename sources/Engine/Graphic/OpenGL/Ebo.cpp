@@ -3,7 +3,7 @@
 
 
 
-// ---------------------------------- *structors
+// ------------------------------------------------------------------ *structors
 
 ::engine::graphic::opengl::Ebo::Ebo()
 {
@@ -12,12 +12,36 @@
 
 ::engine::graphic::opengl::Ebo::~Ebo()
 {
-    glDeleteBuffers(1, &m_ebo);
+    if (m_ebo) {
+        glDeleteBuffers(1, &m_ebo);
+    }
 }
 
 
 
-// ---------------------------------- get
+// ------------------------------------------------------------------ Move sementic
+
+::engine::graphic::opengl::Ebo::Ebo(
+    Ebo&& other
+) noexcept
+    : m_ebo{ other.m_ebo }
+{
+    other.m_ebo = 0;
+}
+
+auto ::engine::graphic::opengl::Ebo::operator=(
+    Ebo&& other
+) noexcept
+    -> Ebo&
+{
+    m_ebo = other.m_ebo;
+    other.m_ebo = 0;
+    return *this;
+}
+
+
+
+// ------------------------------------------------------------------ get
 
 GLuint ::engine::graphic::opengl::Ebo::get() const
 {
@@ -26,7 +50,7 @@ GLuint ::engine::graphic::opengl::Ebo::get() const
 
 
 
-// ---------------------------------- bind
+// ------------------------------------------------------------------ bind
 
 void ::engine::graphic::opengl::Ebo::bind() const
 {

@@ -61,15 +61,13 @@ public:
         engine::core::AScene& scene
     );
 
+    void clear();
 
 
-public:
-protected:
-protected:
-private:
+
 private:
 
-    std::deque<std::unique_ptr<::engine::core::AEvent>> m_events;
+    ::std::deque<std::unique_ptr<::engine::core::AEvent>> m_events;
 
 };
 

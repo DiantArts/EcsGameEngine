@@ -25,6 +25,32 @@ public:
 
 
 
+    // ------------------------------------------------------------------ Copy sementic
+
+    Window(
+        const Window&
+    ) noexcept = delete;
+
+    auto operator=(
+        const Window&
+    ) noexcept
+        -> Window& = delete;
+
+
+
+    // ------------------------------------------------------------------ Move sementic
+
+    Window(
+        Window&&
+    ) noexcept;
+
+    auto operator=(
+        Window&&
+    ) noexcept
+        -> Window&;
+
+
+
     // ------------------------------------------------------------------ Loop
 
     virtual bool shouldClose() const override;

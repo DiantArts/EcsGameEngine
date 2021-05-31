@@ -3,8 +3,10 @@
 #include <Engine/Core/Ecs/Entity/Container.hpp>
 #include <Engine/Core/Ecs/Component/Container.hpp>
 #include <Engine/Core/Ecs/System/Container.hpp>
-#include <Engine/Core/Ecs/Component/Movable.hpp>
+#include <Engine/Core/Ecs/Component/Position.hpp>
 #include <Engine/Core/Ecs/Component/Controllable.hpp>
+#include <Engine/Graphic/OpenGL/Ecs/Component/Drawable.hpp>
+#include <Engine/Graphic/OpenGL/Ecs/Component/Camera.hpp>
 #include <Engine/Core/AWindow.hpp>
 
 namespace engine::core::event { class KeyPressed; }
@@ -56,18 +58,22 @@ public:
 
 
 
+    // ------------------------------------------------------------------ MainControllable
+
+    auto getMainEntityControllable() const
+        -> const ::engine::core::ecs::component::Controllable&;
+
+    auto getMainEntityControllable()
+        -> ::engine::core::ecs::component::Controllable&;
+
+
+
 protected:
 
     ::engine::core::ecs::component::Container m_components;
     ::engine::core::ecs::entity::Container m_entities{ m_components };
     ::engine::core::ecs::system::Container m_drawSystems;
     ::engine::core::ecs::system::Container m_systems;
-
-    ::engine::core::ID m_cameraID{ m_entities.emplace<
-        ::engine::core::ecs::component::Movable,
-        ::engine::core::ecs::component::Controllable
-    >().getID() };
-
 
 
 
@@ -77,18 +83,18 @@ private:
 
     bool m_isOver { false };
 
-
-
     ::engine::core::Clock m_systemsClock;
     mutable ::engine::core::Clock m_drawSystemsClock;
 
 
 
-private:
+    ::engine::core::ID m_cameraID{ m_entities.emplace(
+        ::engine::core::ecs::component::Position{ 0.0f, 0.0f,  3.0f },
+        ::engine::core::ecs::component::Controllable{},
+        ::engine::graphic::opengl::ecs::component::Camera{ m_window }
+    ).getID() };
 
-    friend ::engine::core::event::KeyPressed;
-    friend ::engine::core::event::KeyReleased;
-    friend ::engine::core::event::MouseMoved;
+    ::engine::core::ID m_controlledID{ m_cameraID };
 
 };
 

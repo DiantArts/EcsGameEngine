@@ -30,15 +30,13 @@ public:
 
     // ------------------------------------------------------------------ Resolver
 
-    virtual void resolve(
+    void resolve(
         ::engine::core::AScene& scene
     ) override final;
 
 
 
-private:
-
-    ::glm::vec2 m_offset;
+public:
 
     static inline ::glm::vec2 m_oldPosition;
 
@@ -46,7 +44,7 @@ private:
 
 private:
 
-    friend ::engine::graphic::opengl::Window;
+    ::glm::vec2 m_offset;
 
 };
 

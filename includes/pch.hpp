@@ -62,6 +62,20 @@
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
 
+inline std::ostream& operator<<(std::ostream& os, const glm::vec2& vec)
+{
+    os << "[" << vec.x << ", " << vec.y << "]";
+    return os;
+}
+
+inline std::ostream& operator<<(std::ostream& os, const glm::vec3& vec)
+{
+    os << "[" << vec.x << ", " << vec.y << ", " << vec.z << "]";
+    return os;
+}
+
+
+
 #include <Cbitset/Cbitset.hpp>
 
 
