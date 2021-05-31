@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Engine/Core/Detail/Meta/ForEach.hpp>
+#include <Engine/Core/Ecs/Component/Detail/Container.hpp>
 
 
 
@@ -44,7 +45,7 @@ template <
     }
     pairComponentContainer.first.push_back(::std::move(entityID));
     return (*static_cast<Container::SubContainerType<ComponentType>*>(pairComponentContainer.second)).
-        emplace_back(std::forward<decltype(args)>(args)...);
+        emplace_back(::std::forward<decltype(args)>(args)...);
 }
 
 template <
@@ -54,6 +55,41 @@ template <
 )
 {
     (this->emplace<ComponentTypes>(entityID), ...);
+}
+
+template <
+    ::engine::core::ecs::component::ConceptType RawComponentType
+> void ::engine::core::ecs::component::Container::push(
+    ::engine::core::ID entityID,
+    RawComponentType&& component
+)
+{
+    using ComponentType = ::std::remove_cvref_t<RawComponentType>;
+    auto& pairComponentContainer{ this->getPairSubContainer<ComponentType>() };
+    auto it{ ::std::ranges::find(pairComponentContainer.first, entityID) };
+    if (it != pairComponentContainer.first.end()) {
+        throw ::std::runtime_error(
+            "Entity '"s + static_cast<::std::string>(entityID) + "' already contain an '"s +
+                boost::typeindex::type_id<ComponentType>().pretty_name() + "' component"
+        );
+    }
+    pairComponentContainer.first.push_back(::std::move(entityID));
+    (*static_cast<Container::SubContainerType<ComponentType>*>(pairComponentContainer.second)).
+        push_back(::std::move(component));
+}
+
+template <
+    ::engine::core::ecs::component::ConceptType... ComponentTypes
+> void ::engine::core::ecs::component::Container::pushMany(
+    ::engine::core::ID entityID,
+    ComponentTypes&&... components
+)
+{
+    ::engine::core::ecs::component::detail::PushMany<ComponentTypes...>::use(
+        *this,
+        entityID,
+        ::std::forward<ComponentTypes>(components)...
+    );
 }
 
 

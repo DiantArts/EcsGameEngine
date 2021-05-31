@@ -44,8 +44,8 @@ BOOST_AUTO_TEST_SUITE(Component)
 
 BOOST_AUTO_TEST_CASE(Constructor)
 {
-    ::engine::core::ecs::component::test::Movable movable();
-    ::engine::core::ecs::component::test::Movable();
+    ::engine::core::ecs::component::test::Movable movable;
+    ::engine::core::ecs::component::test::Movable{};
 }
 
 

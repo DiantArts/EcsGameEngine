@@ -9,23 +9,23 @@
 
 
 ::engine::graphic::opengl::Shader::Shader(
-    const std::string_view filepaths
+    const ::std::string_view filepaths
 )
     : m_id(glCreateProgram())
 {
-    std::string vertexFilepath;
+    ::std::string vertexFilepath;
     vertexFilepath.reserve(::engine::core::config::filepath::shader::vertexes.size() + filepaths.size() + 5);
     vertexFilepath += ::engine::core::config::filepath::shader::vertexes;
     vertexFilepath += filepaths;
     vertexFilepath += ".glsl";
 
-    std::string fragmentFilepath;
+    ::std::string fragmentFilepath;
     fragmentFilepath.reserve(::engine::core::config::filepath::shader::fragments.size() + filepaths.size() + 5);
     fragmentFilepath += ::engine::core::config::filepath::shader::fragments;
     fragmentFilepath += filepaths;
     fragmentFilepath += ".glsl";
 
-    std::string geometryFilepath;
+    ::std::string geometryFilepath;
     geometryFilepath.reserve(::engine::core::config::filepath::shader::geometries.size() + filepaths.size() + 5);
     geometryFilepath += ::engine::core::config::filepath::shader::geometries;
     geometryFilepath += filepaths;
@@ -33,65 +33,67 @@
 
 
     if (tool::file::exists(geometryFilepath)) {
-        ::engine::graphic::opengl::detail::createShader(m_id, std::move(vertexFilepath), std::move(fragmentFilepath), std::move(geometryFilepath));
+        ::engine::graphic::opengl::detail::createShader(m_id, ::std::move(vertexFilepath), ::std::move(fragmentFilepath), ::std::move(geometryFilepath));
     } else {
-        ::engine::graphic::opengl::detail::createShader(m_id, std::move(vertexFilepath), std::move(fragmentFilepath));
+        ::engine::graphic::opengl::detail::createShader(m_id, ::std::move(vertexFilepath), ::std::move(fragmentFilepath));
     }
 }
 
 ::engine::graphic::opengl::Shader::Shader(
-    const std::string_view vertexFilename,
-    const std::string_view fragmentFilename
+    const ::std::string_view vertexFilename,
+    const ::std::string_view fragmentFilename
 )
     : m_id(glCreateProgram())
 {
-    std::string vertexFilepath;
+    ::std::string vertexFilepath;
     vertexFilepath.reserve(::engine::core::config::filepath::shader::vertexes.size() + vertexFilename.size() + 5);
     vertexFilepath += ::engine::core::config::filepath::shader::vertexes;
     vertexFilepath += vertexFilename;
     vertexFilepath += ".glsl";
 
-    std::string fragmentFilepath;
+    ::std::string fragmentFilepath;
     fragmentFilepath.reserve(::engine::core::config::filepath::shader::fragments.size() + fragmentFilename.size() + 5);
     fragmentFilepath += ::engine::core::config::filepath::shader::fragments;
     fragmentFilepath += fragmentFilename;
     fragmentFilepath += ".glsl";
 
-    ::engine::graphic::opengl::detail::createShader(m_id, std::move(vertexFilepath), std::move(fragmentFilepath));
+    ::engine::graphic::opengl::detail::createShader(m_id, ::std::move(vertexFilepath), ::std::move(fragmentFilepath));
 }
 
 
 ::engine::graphic::opengl::Shader::Shader(
-    const std::string_view vertexFilename,
-   const std::string_view fragmentFilename,
-   const std::string_view geometryFilename
+    const ::std::string_view vertexFilename,
+   const ::std::string_view fragmentFilename,
+   const ::std::string_view geometryFilename
 )
     : m_id(glCreateProgram())
 {
-    std::string vertexFilepath;
+    ::std::string vertexFilepath;
     vertexFilepath.reserve(::engine::core::config::filepath::shader::vertexes.size() + vertexFilename.size() + 5);
     vertexFilepath += ::engine::core::config::filepath::shader::vertexes;
     vertexFilepath += vertexFilename;
     vertexFilepath += ".glsl";
 
-    std::string fragmentFilepath;
+    ::std::string fragmentFilepath;
     fragmentFilepath.reserve(::engine::core::config::filepath::shader::fragments.size() + fragmentFilename.size() + 5);
     fragmentFilepath += ::engine::core::config::filepath::shader::fragments;
     fragmentFilepath += fragmentFilename;
     fragmentFilepath += ".glsl";
 
-    std::string geometryFilepath;
+    ::std::string geometryFilepath;
     geometryFilepath.reserve(::engine::core::config::filepath::shader::geometries.size() + geometryFilename.size() + 5);
     geometryFilepath += ::engine::core::config::filepath::shader::geometries;
     geometryFilepath += geometryFilename;
     geometryFilepath += ".glsl";
 
-    ::engine::graphic::opengl::detail::createShader(m_id, std::move(vertexFilepath), std::move(fragmentFilepath), std::move(geometryFilepath));
+    ::engine::graphic::opengl::detail::createShader(m_id, ::std::move(vertexFilepath), ::std::move(fragmentFilepath), ::std::move(geometryFilepath));
 }
 
 ::engine::graphic::opengl::Shader::~Shader()
 {
-    glDeleteProgram(m_id);
+    if (m_id) {
+        glDeleteProgram(m_id);
+    }
 }
 
 
@@ -99,13 +101,22 @@
 // -------------------------------------------------------------------------------- Move sementic
 
 ::engine::graphic::opengl::Shader::Shader(
-    Shader&&
-) noexcept = default;
+    Shader&& other
+) noexcept
+    : m_id{ other.m_id }
+{
+    other.m_id = 0;
+}
 
 auto ::engine::graphic::opengl::Shader::operator=(
-    Shader&&
+    Shader&& other
 ) noexcept
-    -> Shader& = default;
+    -> Shader&
+{
+    m_id = other.m_id;
+    other.m_id = 0;
+    return *this;
+}
 
 
 
@@ -122,7 +133,7 @@ void ::engine::graphic::opengl::Shader::use() const
 // ------------------------------------------------------------------ Set
 
 void ::engine::graphic::opengl::Shader::set(
-    const std::string& name,
+    const ::std::string& name,
     const bool value
 ) const
 {
@@ -130,7 +141,7 @@ void ::engine::graphic::opengl::Shader::set(
 }
 
 void ::engine::graphic::opengl::Shader::set(
-    std::string&& name,
+    ::std::string&& name,
     const bool value
 ) const
 {
@@ -140,7 +151,7 @@ void ::engine::graphic::opengl::Shader::set(
 
 
 void ::engine::graphic::opengl::Shader::set(
-    const std::string& name,
+    const ::std::string& name,
     const int value
 ) const
 {
@@ -148,7 +159,7 @@ void ::engine::graphic::opengl::Shader::set(
 }
 
 void ::engine::graphic::opengl::Shader::set(
-    std::string&& name,
+    ::std::string&& name,
     const int value
 ) const
 {
@@ -158,7 +169,7 @@ void ::engine::graphic::opengl::Shader::set(
 
 
 void ::engine::graphic::opengl::Shader::set(
-    const std::string& name,
+    const ::std::string& name,
     const size_t value
 ) const
 {
@@ -166,7 +177,7 @@ void ::engine::graphic::opengl::Shader::set(
 }
 
 void ::engine::graphic::opengl::Shader::set(
-    std::string&& name,
+    ::std::string&& name,
     const size_t value
 ) const
 {
@@ -176,7 +187,7 @@ void ::engine::graphic::opengl::Shader::set(
 
 
 void ::engine::graphic::opengl::Shader::set(
-    const std::string& name,
+    const ::std::string& name,
     const float value
 ) const
 {
@@ -184,7 +195,7 @@ void ::engine::graphic::opengl::Shader::set(
 }
 
 void ::engine::graphic::opengl::Shader::set(
-    std::string&& name,
+    ::std::string&& name,
     const float value
 ) const
 {
@@ -194,7 +205,7 @@ void ::engine::graphic::opengl::Shader::set(
 
 
 void ::engine::graphic::opengl::Shader::set(
-    const std::string& name,
+    const ::std::string& name,
     const glm::vec2& value
 ) const
 {
@@ -202,7 +213,7 @@ void ::engine::graphic::opengl::Shader::set(
 }
 
 void ::engine::graphic::opengl::Shader::set(
-    const std::string& name,
+    const ::std::string& name,
     glm::vec2&& value
 ) const
 {
@@ -210,7 +221,7 @@ void ::engine::graphic::opengl::Shader::set(
 }
 
 void ::engine::graphic::opengl::Shader::set(
-    std::string&& name,
+    ::std::string&& name,
     const glm::vec2& value
 ) const
 {
@@ -218,7 +229,7 @@ void ::engine::graphic::opengl::Shader::set(
 }
 
 void ::engine::graphic::opengl::Shader::set(
-    std::string&& name,
+    ::std::string&& name,
     glm::vec2&& value
 ) const
 {
@@ -228,7 +239,7 @@ void ::engine::graphic::opengl::Shader::set(
 
 
 void ::engine::graphic::opengl::Shader::set(
-    const std::string& name,
+    const ::std::string& name,
     const float x,
     const float y
 ) const
@@ -237,7 +248,7 @@ void ::engine::graphic::opengl::Shader::set(
 }
 
 void ::engine::graphic::opengl::Shader::set(
-    std::string&& name,
+    ::std::string&& name,
     const float x,
     const float y
 ) const
@@ -248,7 +259,7 @@ void ::engine::graphic::opengl::Shader::set(
 
 
 void ::engine::graphic::opengl::Shader::set(
-    const std::string& name,
+    const ::std::string& name,
     const glm::vec3& value
 ) const
 {
@@ -256,7 +267,7 @@ void ::engine::graphic::opengl::Shader::set(
 }
 
 void ::engine::graphic::opengl::Shader::set(
-    const std::string& name,
+    const ::std::string& name,
     glm::vec3&& value
 ) const
 {
@@ -264,7 +275,7 @@ void ::engine::graphic::opengl::Shader::set(
 }
 
 void ::engine::graphic::opengl::Shader::set(
-    std::string&& name,
+    ::std::string&& name,
     const glm::vec3& value
 ) const
 {
@@ -272,7 +283,7 @@ void ::engine::graphic::opengl::Shader::set(
 }
 
 void ::engine::graphic::opengl::Shader::set(
-    std::string&& name,
+    ::std::string&& name,
     glm::vec3&& value
 ) const
 {
@@ -282,7 +293,7 @@ void ::engine::graphic::opengl::Shader::set(
 
 
 void ::engine::graphic::opengl::Shader::set(
-    const std::string& name,
+    const ::std::string& name,
     const float x,
     const float y,
     const float z
@@ -292,7 +303,7 @@ void ::engine::graphic::opengl::Shader::set(
 }
 
 void ::engine::graphic::opengl::Shader::set(
-    std::string&& name,
+    ::std::string&& name,
     const float x,
     const float y,
     const float z
@@ -304,7 +315,7 @@ void ::engine::graphic::opengl::Shader::set(
 
 
 void ::engine::graphic::opengl::Shader::set(
-    const std::string& name,
+    const ::std::string& name,
     const glm::vec4& value
 ) const
 {
@@ -312,7 +323,7 @@ void ::engine::graphic::opengl::Shader::set(
 }
 
 void ::engine::graphic::opengl::Shader::set(
-    const std::string& name,
+    const ::std::string& name,
     glm::vec4&& value
 ) const
 {
@@ -320,7 +331,7 @@ void ::engine::graphic::opengl::Shader::set(
 }
 
 void ::engine::graphic::opengl::Shader::set(
-    std::string&& name,
+    ::std::string&& name,
     const glm::vec4& value
 ) const
 {
@@ -328,7 +339,7 @@ void ::engine::graphic::opengl::Shader::set(
 }
 
 void ::engine::graphic::opengl::Shader::set(
-    std::string&& name,
+    ::std::string&& name,
     glm::vec4&& value
 ) const
 {
@@ -338,7 +349,7 @@ void ::engine::graphic::opengl::Shader::set(
 
 
 void ::engine::graphic::opengl::Shader::set(
-    const std::string& name,
+    const ::std::string& name,
     const float x,
     const float y,
     const float z,
@@ -349,7 +360,7 @@ void ::engine::graphic::opengl::Shader::set(
 }
 
 void ::engine::graphic::opengl::Shader::set(
-    std::string&& name,
+    ::std::string&& name,
     const float x,
     const float y,
     const float z,
@@ -362,7 +373,7 @@ void ::engine::graphic::opengl::Shader::set(
 
 
 void ::engine::graphic::opengl::Shader::set(
-    const std::string& name,
+    const ::std::string& name,
     const glm::mat2& mat
 ) const
 {
@@ -370,7 +381,7 @@ void ::engine::graphic::opengl::Shader::set(
 }
 
 void ::engine::graphic::opengl::Shader::set(
-    const std::string& name,
+    const ::std::string& name,
     glm::mat2&& mat
 ) const
 {
@@ -378,7 +389,7 @@ void ::engine::graphic::opengl::Shader::set(
 }
 
 void ::engine::graphic::opengl::Shader::set(
-    std::string&& name,
+    ::std::string&& name,
     const glm::mat2& mat
 ) const
 {
@@ -386,7 +397,7 @@ void ::engine::graphic::opengl::Shader::set(
 }
 
 void ::engine::graphic::opengl::Shader::set(
-    std::string&& name,
+    ::std::string&& name,
     glm::mat2&& mat
 ) const
 {
@@ -396,7 +407,7 @@ void ::engine::graphic::opengl::Shader::set(
 
 
 void ::engine::graphic::opengl::Shader::set(
-    const std::string& name,
+    const ::std::string& name,
     const glm::mat3& mat
 ) const
 {
@@ -404,7 +415,7 @@ void ::engine::graphic::opengl::Shader::set(
 }
 
 void ::engine::graphic::opengl::Shader::set(
-    const std::string& name,
+    const ::std::string& name,
     glm::mat3&& mat
 ) const
 {
@@ -412,7 +423,7 @@ void ::engine::graphic::opengl::Shader::set(
 }
 
 void ::engine::graphic::opengl::Shader::set(
-    std::string&& name,
+    ::std::string&& name,
     const glm::mat3& mat
 ) const
 {
@@ -420,7 +431,7 @@ void ::engine::graphic::opengl::Shader::set(
 }
 
 void ::engine::graphic::opengl::Shader::set(
-    std::string&& name,
+    ::std::string&& name,
     glm::mat3&& mat
 ) const
 {
@@ -430,7 +441,7 @@ void ::engine::graphic::opengl::Shader::set(
 
 
 void ::engine::graphic::opengl::Shader::set(
-    const std::string& name,
+    const ::std::string& name,
     const glm::mat4& mat
 ) const
 {
@@ -438,7 +449,7 @@ void ::engine::graphic::opengl::Shader::set(
 }
 
 void ::engine::graphic::opengl::Shader::set(
-    const std::string& name,
+    const ::std::string& name,
     glm::mat4&& mat
 ) const
 {
@@ -446,7 +457,7 @@ void ::engine::graphic::opengl::Shader::set(
 }
 
 void ::engine::graphic::opengl::Shader::set(
-    std::string&& name,
+    ::std::string&& name,
     const glm::mat4& mat
 ) const
 {
@@ -454,7 +465,7 @@ void ::engine::graphic::opengl::Shader::set(
 }
 
 void ::engine::graphic::opengl::Shader::set(
-    std::string&& name,
+    ::std::string&& name,
     glm::mat4&& mat
 ) const
 {
@@ -465,16 +476,16 @@ void ::engine::graphic::opengl::Shader::set(
 
 
 void ::engine::graphic::opengl::Shader::set(
-    const std::string& name,
-    const std::span<int> array
+    const ::std::string& name,
+    const ::std::span<int> array
 ) const
 {
     glUniform1iv(this->getOrCacheUniformLocation(name), array.size(), &array.front());
 }
 
 void ::engine::graphic::opengl::Shader::set(
-    std::string&& name,
-    const std::span<int> array
+    ::std::string&& name,
+    const ::std::span<int> array
 ) const
 {
     glUniform1iv(this->getOrCacheUniformLocation(std::move(name)), array.size(), &array.front());
@@ -483,16 +494,16 @@ void ::engine::graphic::opengl::Shader::set(
 
 
 void ::engine::graphic::opengl::Shader::set(
-    const std::string& name,
-    const std::span<float> array
+    const ::std::string& name,
+    const ::std::span<float> array
 ) const
 {
     glUniform1fv(this->getOrCacheUniformLocation(name), array.size(), &array.front());
 }
 
 void ::engine::graphic::opengl::Shader::set(
-    std::string&& name,
-    const std::span<float> array
+    ::std::string&& name,
+    const ::std::span<float> array
 ) const
 {
     glUniform1fv(this->getOrCacheUniformLocation(std::move(name)), array.size(), &array.front());
@@ -501,16 +512,16 @@ void ::engine::graphic::opengl::Shader::set(
 
 
 void ::engine::graphic::opengl::Shader::set(
-    const std::string& name,
-    const std::span<glm::vec2> array
+    const ::std::string& name,
+    const ::std::span<glm::vec2> array
 ) const
 {
     glUniform2fv(this->getOrCacheUniformLocation(name), array.size(), &array.front()[0]);
 }
 
 void ::engine::graphic::opengl::Shader::set(
-    std::string&& name,
-    const std::span<glm::vec2> array
+    ::std::string&& name,
+    const ::std::span<glm::vec2> array
 ) const
 {
     glUniform2fv(this->getOrCacheUniformLocation(std::move(name)), array.size(), &array.front()[0]);
@@ -519,16 +530,16 @@ void ::engine::graphic::opengl::Shader::set(
 
 
 void ::engine::graphic::opengl::Shader::set(
-    const std::string& name,
-    const std::span<glm::vec3> array
+    const ::std::string& name,
+    const ::std::span<glm::vec3> array
 ) const
 {
     glUniform3fv(this->getOrCacheUniformLocation(name), array.size(), &array.front()[0]);
 }
 
 void ::engine::graphic::opengl::Shader::set(
-    std::string&& name,
-    const std::span<glm::vec3> array
+    ::std::string&& name,
+    const ::std::span<glm::vec3> array
 ) const
 {
     glUniform3fv(this->getOrCacheUniformLocation(std::move(name)), array.size(), &array.front()[0]);
@@ -537,16 +548,16 @@ void ::engine::graphic::opengl::Shader::set(
 
 
 void ::engine::graphic::opengl::Shader::set(
-    const std::string& name,
-    const std::span<glm::vec4> array
+    const ::std::string& name,
+    const ::std::span<glm::vec4> array
 ) const
 {
     glUniform4fv(this->getOrCacheUniformLocation(name), array.size(), &array.front()[0]);
 }
 
 void ::engine::graphic::opengl::Shader::set(
-    std::string&& name,
-    const std::span<glm::vec4> array
+    ::std::string&& name,
+    const ::std::span<glm::vec4> array
 ) const
 {
     glUniform4fv(this->getOrCacheUniformLocation(std::move(name)), array.size(), &array.front()[0]);
@@ -555,16 +566,16 @@ void ::engine::graphic::opengl::Shader::set(
 
 
 void ::engine::graphic::opengl::Shader::set(
-    const std::string& name,
-    const std::span<glm::mat2> array
+    const ::std::string& name,
+    const ::std::span<glm::mat2> array
 ) const
 {
     glUniformMatrix2fv(this->getOrCacheUniformLocation(name), array.size(), GL_FALSE, &array.front()[0][0]);
 }
 
 void ::engine::graphic::opengl::Shader::set(
-    std::string&& name,
-    const std::span<glm::mat2> array
+    ::std::string&& name,
+    const ::std::span<glm::mat2> array
 ) const
 {
     glUniformMatrix2fv(this->getOrCacheUniformLocation(std::move(name)), array.size(), GL_FALSE,
@@ -574,16 +585,16 @@ void ::engine::graphic::opengl::Shader::set(
 
 
 void ::engine::graphic::opengl::Shader::set(
-    const std::string& name,
-    const std::span<glm::mat3> array
+    const ::std::string& name,
+    const ::std::span<glm::mat3> array
 ) const
 {
     glUniformMatrix3fv(this->getOrCacheUniformLocation(name), array.size(), GL_FALSE, &array.front()[0][0]);
 }
 
 void ::engine::graphic::opengl::Shader::set(
-    std::string&& name,
-    const std::span<glm::mat3> array
+    ::std::string&& name,
+    const ::std::span<glm::mat3> array
 ) const
 {
     glUniformMatrix3fv(this->getOrCacheUniformLocation(std::move(name)), array.size(), GL_FALSE,
@@ -593,16 +604,16 @@ void ::engine::graphic::opengl::Shader::set(
 
 
 void ::engine::graphic::opengl::Shader::set(
-    const std::string& name,
-    const std::span<glm::mat4> array
+    const ::std::string& name,
+    const ::std::span<glm::mat4> array
 ) const
 {
     glUniformMatrix4fv(this->getOrCacheUniformLocation(name), array.size(), GL_FALSE, &array.front()[0][0]);
 }
 
 void ::engine::graphic::opengl::Shader::set(
-    std::string&& name,
-    const std::span<glm::mat4> array
+    ::std::string&& name,
+    const ::std::span<glm::mat4> array
 ) const
 {
     glUniformMatrix4fv(this->getOrCacheUniformLocation(std::move(name)), array.size(), GL_FALSE,
@@ -614,13 +625,13 @@ void ::engine::graphic::opengl::Shader::set(
 // ------------------------------------------------------------------ Set
 
 void ::engine::graphic::opengl::Shader::setBlockBinding(
-    const std::string& name,
+    const ::std::string& name,
     const size_t index
 ) const
 {
     auto blockIndex { glGetUniformBlockIndex(this->m_id, name.c_str()) };
     if (blockIndex == GL_INVALID_INDEX) {
-        throw std::runtime_error("invalid uniform block index ("s + name + ":" + std::to_string(index) + ')');
+        throw ::std::runtime_error("invalid uniform block index ("s + name + ":" + ::std::to_string(index) + ')');
     }
     glUniformBlockBinding(this->m_id, blockIndex, index);
 }
@@ -630,14 +641,14 @@ void ::engine::graphic::opengl::Shader::setBlockBinding(
 // ------------------------------------------------------------------ Optimization
 
 auto ::engine::graphic::opengl::Shader::getOrCacheUniformLocation(
-    const std::string& uniformId
-) const -> GLint
+    const ::std::string& uniformId
+) const -> ::GLint
 {
     try {
         // return it if already cached
         return m_uniformsLocationCache.at(uniformId);
 
-    } catch (const std::exception&) {
+    } catch (const ::std::exception&) {
         // cache it
         return m_uniformsLocationCache.emplace(uniformId, glGetUniformLocation(m_id, uniformId.c_str()))
             .first->second;
@@ -645,14 +656,14 @@ auto ::engine::graphic::opengl::Shader::getOrCacheUniformLocation(
 }
 
 auto ::engine::graphic::opengl::Shader::getOrCacheUniformLocation(
-    std::string&& uniformId
-) const -> GLint
+    ::std::string&& uniformId
+) const -> ::GLint
 {
     try {
         // return it if already cached
         return m_uniformsLocationCache.at(uniformId);
 
-    } catch (const std::exception&) {
+    } catch (const ::std::exception&) {
         // cache it
         return m_uniformsLocationCache
             .emplace(std::move(uniformId), glGetUniformLocation(m_id, uniformId.c_str()))

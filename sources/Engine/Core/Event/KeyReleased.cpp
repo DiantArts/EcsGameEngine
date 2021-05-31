@@ -23,29 +23,11 @@ void ::engine::core::event::KeyReleased::resolve(
 )
 {
     switch (m_keyCode) {
-    case GLFW_KEY_W:
-        scene.m_components.get<::engine::core::ecs::component::Controllable>(scene.m_cameraID).
-            stopMovingForward();
-        break;
-    case GLFW_KEY_S:
-        scene.m_components.get<::engine::core::ecs::component::Controllable>(scene.m_cameraID).
-            stopMovingBackward();
-        break;
-    case GLFW_KEY_D:
-        scene.m_components.get<::engine::core::ecs::component::Controllable>(scene.m_cameraID).
-            stopMovingRight();
-        break;
-    case GLFW_KEY_A:
-        scene.m_components.get<::engine::core::ecs::component::Controllable>(scene.m_cameraID).
-            stopMovingLeft();
-        break;
-    case GLFW_KEY_SPACE:
-        scene.m_components.get<::engine::core::ecs::component::Controllable>(scene.m_cameraID).
-            stopMovingUp();
-        break;
-    case GLFW_KEY_X:
-        scene.m_components.get<::engine::core::ecs::component::Controllable>(scene.m_cameraID).
-            stopMovingDown();
-        break;
+    case GLFW_KEY_W: scene.getMainEntityControllable().stopMovingForward(); break;
+    case GLFW_KEY_S: scene.getMainEntityControllable().stopMovingBackward(); break;
+    case GLFW_KEY_D: scene.getMainEntityControllable().stopMovingRight(); break;
+    case GLFW_KEY_A: scene.getMainEntityControllable().stopMovingLeft(); break;
+    case GLFW_KEY_SPACE: scene.getMainEntityControllable().stopMovingUp(); break;
+    case GLFW_KEY_X: scene.getMainEntityControllable().stopMovingDown(); break;
     }
 }

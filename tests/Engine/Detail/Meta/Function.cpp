@@ -82,14 +82,30 @@ BOOST_AUTO_TEST_CASE(ReturnType)
 
 BOOST_AUTO_TEST_CASE(ArgumentsType)
 {
-    BOOST_TEST((::std::is_same<::engine::core::detail::meta::Function<decltype(func1)>::Arguments::Type,
-        ::std::tuple<int>>::value));
-    BOOST_TEST((::std::is_same<::engine::core::detail::meta::Function<decltype(lambda1)>::Arguments::Type,
-        ::std::tuple<int>>::value));
-    BOOST_TEST((::std::is_same<::engine::core::detail::meta::Function<decltype(func2)>::Arguments::Type,
-        ::std::tuple<int, float>>::value));
-    BOOST_TEST((::std::is_same<::engine::core::detail::meta::Function<decltype(lambda2)>::Arguments::Type,
-        ::std::tuple<int, float>>::value));
+    BOOST_TEST((::std::is_same<::engine::core::detail::meta::Function<decltype(func3)>::Arguments::Type,
+        ::std::tuple<::engine::core::ecs::component::test::Movable>>::value));
+    BOOST_TEST((::std::is_same<::engine::core::detail::meta::Function<decltype(lambda3)>::Arguments::Type,
+        ::std::tuple<::engine::core::ecs::component::test::Movable>>::value));
+    bool value = ::std::is_same<::engine::core::detail::meta::Function<decltype(func4)>::Arguments::Type,
+        ::std::tuple<
+            ::engine::core::ecs::component::test::Movable&,
+            ::engine::core::ecs::component::test::Transformable&
+        >>::value;
+    BOOST_TEST(value);
+    value = ::std::is_same<::engine::core::detail::meta::Function<decltype(lambda4)>::Arguments::Type,
+        ::std::tuple<
+            ::engine::core::ecs::component::test::Movable&,
+            ::engine::core::ecs::component::test::Transformable&
+        >>::value;
+    BOOST_TEST(value);
+    BOOST_TEST((::std::is_same<
+        ::engine::core::detail::meta::Function<decltype(func4)>::Arguments::Type,
+        ::engine::core::detail::meta::Function<decltype(lambda4)>::Arguments::Type
+    >::value));
+    BOOST_TEST((::std::is_same<
+        ::engine::core::detail::meta::Function<decltype(func5)>::Arguments::Type,
+        ::engine::core::detail::meta::Function<decltype(lambda5)>::Arguments::Type
+    >::value));
 }
 
 BOOST_AUTO_TEST_CASE(ArgumentsSignature)
@@ -124,6 +140,9 @@ BOOST_AUTO_TEST_CASE(ArgumentsAreConst)
     BOOST_TEST(!value);
 
     value = ::engine::core::detail::meta::Function<decltype(func5)>::Arguments::areConst;
+    BOOST_TEST(value);
+
+    value = ::engine::core::detail::meta::Function<decltype(lambda5)>::Arguments::areConst;
     BOOST_TEST(value);
 }
 

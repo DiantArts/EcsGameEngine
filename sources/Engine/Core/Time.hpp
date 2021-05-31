@@ -26,11 +26,11 @@ public:
 
     // ------------------------------------------------------------------ Get
 
-    operator Time::Type();
+    [[ nodiscard ]] operator Time::Type();
 
-    operator const Time::Type&() const;
+    [[ nodiscard ]] operator const Time::Type&() const;
 
-    auto get() const
+    [[ nodiscard ]] auto get() const
         -> Time::Type;
 
 

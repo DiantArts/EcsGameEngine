@@ -68,6 +68,20 @@ public:
 
     template <
         ::engine::core::ecs::component::ConceptType ComponentType
+    > void push(
+        ::engine::core::ID entityID,
+        ComponentType&& component
+    );
+
+    template <
+        ::engine::core::ecs::component::ConceptType... ComponentTypes
+    > void pushMany(
+        ::engine::core::ID entityID,
+        ComponentTypes&&... components
+    );
+
+    template <
+        ::engine::core::ecs::component::ConceptType ComponentType
     > void remove(
         ::engine::core::ID entityID
     );

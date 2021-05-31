@@ -46,14 +46,21 @@ public:
     template <
         ::engine::core::ecs::component::ConceptType ComponentType
     > auto addComponent(
-        ::engine::core::ecs::component::Container& container
+        ::engine::core::ecs::component::Container& components
     )
         -> ComponentType&;
 
     template <
         ::engine::core::ecs::component::ConceptType... ComponentTypes
     > void addComponents(
-        ::engine::core::ecs::component::Container& container
+        ::engine::core::ecs::component::Container& components
+    );
+
+    template <
+        ::engine::core::ecs::component::ConceptType... ComponentTypes
+    > void addComponents(
+        ::engine::core::ecs::component::Container& componentsContainer,
+        ComponentTypes&&... components
     );
 
 

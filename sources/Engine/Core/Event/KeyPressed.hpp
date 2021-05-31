@@ -26,16 +26,12 @@ public:
 
     // ------------------------------------------------------------------ Resolver
 
-    virtual void resolve(
+    void resolve(
         ::engine::core::AScene& scene
     ) override final;
 
 
 
-public:
-protected:
-protected:
-private:
 private:
 
     int m_keyCode;

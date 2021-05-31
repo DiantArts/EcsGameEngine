@@ -2,6 +2,8 @@
 #include <Game/Scene.hpp>
 #include <Engine/Graphic/OpenGL/Window.hpp>
 
+
+
 int main()
 {
     try {
@@ -24,5 +26,4 @@ int main()
         return EXIT_FAILURE;
 
     }
-
 }

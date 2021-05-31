@@ -14,6 +14,8 @@ template <
     : public Function<decltype(&func::operator())>
 {};
 
+
+
 template <
     typename RetType,
     typename... ArgsType
@@ -31,6 +33,8 @@ template <
 
 };
 
+
+
 template <
     typename RetType,
     typename... ArgsType
@@ -38,12 +42,16 @@ template <
     : public ::engine::core::detail::meta::Function<RetType(ArgsType...)>
 {};
 
+
+
 template <
     typename RetType,
     typename... ArgsType
 > struct Function<::std::function<RetType(ArgsType...)>>
     : public ::engine::core::detail::meta::Function<RetType(ArgsType...)>
 {};
+
+
 
 template <
     typename ClassType,
@@ -57,7 +65,9 @@ template <
 
     struct Arguments {
         using Type = ::std::tuple<ArgsType...>;
-        static constexpr bool areConst{ (::std::is_const<ArgsType>::value && ...) };
+        static constexpr bool areConst{
+            (::std::is_const<::std::remove_reference_t<ArgsType>>::value && ...)
+        };
         static inline constexpr auto signature{ ::engine::core::ecs::Signature::generate<ArgsType...>() };
     };
 };

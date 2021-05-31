@@ -8,7 +8,7 @@
 
 ::engine::graphic::opengl::Vertices::Vertices(
     const std::string& filepath,
-    size_t& numberOfArrayToDraw
+    ::std::size_t& numberOfArrayToDraw
 )
 {
     ::std::string str{ tool::file::read(::engine::core::config::filepath::vertices + filepath).str() };

@@ -73,7 +73,8 @@ void ::engine::graphic::opengl::detail::framebufferSizeCallback(
 }
 
 void ::engine::graphic::opengl::detail::applyDefaultConfiguration(
-    GLFWwindow* window
+    GLFWwindow* window,
+    ::engine::core::event::Container& events
 )
 {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
@@ -112,12 +113,22 @@ void ::engine::graphic::opengl::detail::applyDefaultConfiguration(
     glEnable(GL_DEBUG_OUTPUT);
     glDebugMessageCallback(messageCallback, 0);
 
-    // glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    glClearColor(0.0f, 1.0f, 0.9f, 1.0f);
+    glClearColor(0.01f, 0.01f, 0.01f, 1.0f);
+    // glClearColor(0.0f, 1.0f, 0.9f, 1.0f);
 
 #ifdef DEBUG
     glfwSwapInterval(0); // disable vsync
 #endif
+
+    double x, y;
+    glfwGetCursorPos(window, &x, &y);
+    ::engine::core::event::MouseMoved::m_oldPosition.x = x;
+    ::engine::core::event::MouseMoved::m_oldPosition.y = y;
+
+    glfwSetWindowUserPointer(window, reinterpret_cast<void*>(&events));
+
+    glfwPollEvents();
+    events.clear();
 }
 
 
@@ -139,6 +150,6 @@ class OpenGLMemoryManager {
         glfwTerminate();
     }
 
-    static constinit const OpenGLMemoryManager _;
+    static const OpenGLMemoryManager _;
 };
 const OpenGLMemoryManager OpenGLMemoryManager::_;

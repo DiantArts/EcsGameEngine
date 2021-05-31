@@ -88,9 +88,13 @@ protected:
 
     ::engine::core::event::Container m_events;
 
-    AWindow::Size m_size;
-
     bool m_shouldClose{ false };
+
+
+
+private:
+
+    AWindow::Size m_size;
 
 };
 

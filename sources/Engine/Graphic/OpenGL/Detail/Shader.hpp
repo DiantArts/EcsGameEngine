@@ -6,31 +6,31 @@ namespace engine::graphic::opengl::detail {
 
 
 void createShader(
-    GLint id,
-    std::string&& vertexFilepath,
-    std::string&& fragmentFilepath
+    ::GLint id,
+    ::std::string&& vertexFilepath,
+    ::std::string&& fragmentFilepath
 );
 
 void createShader(
-    GLint id,
-    std::string&& vertexFilepath,
-    std::string&& fragmentFilepath,
-    std::string&& geometryFilepath
+    ::GLint id,
+    ::std::string&& vertexFilepath,
+    ::std::string&& fragmentFilepath,
+    ::std::string&& geometryFilepath
 );
 
 auto compileShader(
-    GLenum shaderType,
-    const std::string& filepath
+    ::GLenum shaderType,
+    const ::std::string& filepath
 )
-    -> GLint;
+    -> ::GLint;
 
 void checkCompilationStatus(
-    GLuint shader,
-    const std::string_view filepath
+    ::GLuint shader,
+    const ::std::string_view filepath
 );
 
 void checkLinkageStatus(
-    GLuint shader
+    ::GLuint shader
 );
 
 

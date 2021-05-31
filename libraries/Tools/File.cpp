@@ -4,12 +4,12 @@
 // file tools to help easier code
 //
 
-#include "File.hpp" // std::string_view
-
-#include <fstream> // std::ifstream
+#include <fstream>
 #include <iostream>
-#include <sstream> // std::stringstream
-#include <string>  // std::string
+#include <sstream>
+#include <string>
+
+#include <Tools/File.hpp>
 
 #ifdef __linux__
 #include <sys/stat.h>
@@ -21,19 +21,20 @@ namespace tool::file {
 
 
 
-std::stringstream read(const std::string_view filepath)
+auto read(const ::std::string_view filepath)
+    -> ::std::stringstream
 {
-    using std::string_literals::operator""s;
+    using ::std::string_literals::operator""s;
 
-    std::stringstream shaderSs;
+    ::std::stringstream shaderSs;
     {
-        std::ifstream shaderFile;
-        shaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+        ::std::ifstream shaderFile;
+        shaderFile.exceptions(::std::ifstream::failbit | ::std::ifstream::badbit);
 
         try {
-            shaderFile.open(std::string(filepath));
-        } catch (const std::ifstream::failure& e) {
-            throw std::runtime_error("unable to open '"s + std::string(filepath) +
+            shaderFile.open(::std::string(filepath));
+        } catch (const ::std::ifstream::failure& e) {
+            throw ::std::runtime_error("unable to open '"s + ::std::string(filepath) +
                                      "' file ("s + e.what() + ')');
         }
 
@@ -43,13 +44,14 @@ std::stringstream read(const std::string_view filepath)
     return shaderSs;
 }
 
-bool exists(const std::string& filepath)
+auto exists(const ::std::string& filepath)
+    -> bool
 {
 #ifdef __linux__
     struct stat buffer;
     return stat(filepath.c_str(), &buffer) == 0;
 #else
-    return std::ifstream(filepath.c_str()).good();
+    return ::std::ifstream(filepath.c_str()).good();
 #endif
 }
 

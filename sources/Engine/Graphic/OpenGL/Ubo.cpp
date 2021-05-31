@@ -3,7 +3,7 @@
 
 
 
-// ---------------------------------- *structors
+// ------------------------------------------------------------------ *structors
 
 ::engine::graphic::opengl::Ubo::Ubo(
     size_t size,
@@ -20,12 +20,36 @@
 
 ::engine::graphic::opengl::Ubo::~Ubo()
 {
-    glDeleteBuffers(1, &m_ubo);
+    if (m_ubo) {
+        glDeleteBuffers(1, &m_ubo);
+    }
 }
 
 
 
-// ---------------------------------- get
+// ------------------------------------------------------------------ Move sementic
+
+::engine::graphic::opengl::Ubo::Ubo(
+    Ubo&& other
+) noexcept
+    : m_ubo{ other.m_ubo }
+{
+    other.m_ubo = 0;
+}
+
+auto ::engine::graphic::opengl::Ubo::operator=(
+    Ubo&& other
+) noexcept
+    -> Ubo&
+{
+    m_ubo = other.m_ubo;
+    other.m_ubo = 0;
+    return *this;
+}
+
+
+
+// ------------------------------------------------------------------ get
 
 GLuint ::engine::graphic::opengl::Ubo::get() const
 {
@@ -34,7 +58,7 @@ GLuint ::engine::graphic::opengl::Ubo::get() const
 
 
 
-// ---------------------------------- bind
+// ------------------------------------------------------------------ bind
 
 void ::engine::graphic::opengl::Ubo::bind() const
 {

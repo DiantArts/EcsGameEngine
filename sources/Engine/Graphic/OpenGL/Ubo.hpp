@@ -8,17 +8,18 @@ class Ubo {
 
 public:
 
-    // ---------------------------------- *structors
+    // ------------------------------------------------------------------ *structors
 
-    Ubo(
+    explicit Ubo(
         size_t size,
         int index
     );
+
     ~Ubo();
 
 
 
-    // ---------------------------------- Copy sementic
+    // ------------------------------------------------------------------ Copy sementic
 
     Ubo(
         const Ubo&
@@ -31,7 +32,7 @@ public:
 
 
 
-    // ---------------------------------- Move sementic
+    // ------------------------------------------------------------------ Move sementic
 
     Ubo(
         Ubo&&
@@ -44,78 +45,47 @@ public:
 
 
 
-    // ---------------------------------- get
+    // ------------------------------------------------------------------ get
 
-    GLuint get() const;
+    [[ nodiscard ]] auto get() const
+        -> ::GLuint;
 
 
 
-    // ---------------------------------- bind
+    // ------------------------------------------------------------------ bind
 
     void bind() const;
+
     void unbind() const;
 
 
 
-    // ---------------------------------- SubData
-
-
-    template <
-        typename DataType
-    > void setOneSubData(
-        GLintptr offset,
-        DataType& data
-    ) const
-    {
-        this->bind();
-        this->setSubData(offset, data);
-        this->unbind();
-    }
+    // ------------------------------------------------------------------ SubData
 
     template <
         typename DataType
     > void setOneSubData(
-        GLintptr offset,
-        DataType&& data
-    ) const
-    {
-        this->bind();
-        this->setSubData(offset, data);
-        this->unbind();
-    }
-
-
+        ::GLintptr offset,
+        const DataType& data
+    ) const;
 
     template <
         typename DataType
     > void setSubData(
-        GLintptr offset,
-        DataType& data
-    ) const
-    {
-        // std::cout << "subdata: " << sizeof(data) << " (" << offset << ")" << std::endl;
-        glBufferSubData(GL_UNIFORM_BUFFER, offset, sizeof(data), &data);
-    }
-
-    template <
-        typename DataType
-    > void setSubData(
-        GLintptr offset,
-        DataType&& data
-    ) const
-    {
-        // std::cout << "subdata: " << sizeof(data) << " (" << offset << ")" << std::endl;
-        glBufferSubData(GL_UNIFORM_BUFFER, offset, sizeof(data), &data);
-    }
+        ::GLintptr offset,
+        const DataType& data
+    ) const;
 
 
 
 private:
 
-    GLuint m_ubo;
+    ::GLuint m_ubo;
 
 };
 
 
 
 } // namespace engine::graphic::opengl
+
+#include <Engine/Graphic/OpenGL/Ubo.impl.hpp>

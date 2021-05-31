@@ -4,12 +4,12 @@
 
 
 static auto readShaderFile(
-    const std::string& filepath
-) -> std::string
+    const ::std::string& filepath
+) -> ::std::string
 {
-    std::stringstream ss { tool::file::read(filepath) };
-    std::string readFile;
-    for (std::string line; std::getline(ss, line); ) {
+    ::std::stringstream ss { tool::file::read(filepath) };
+    ::std::string readFile;
+    for (std::string line; ::std::getline(ss, line); ) {
         if (line.rfind("#include ") == 0) {
             try {
                 readFile += readShaderFile(line.substr(10, line.size() - 11));
@@ -25,9 +25,9 @@ static auto readShaderFile(
 }
 
 void ::engine::graphic::opengl::detail::createShader(
-    GLint id,
-    std::string&& vertexFilepath,
-    std::string&& fragmentFilepath
+    ::GLint id,
+    ::std::string&& vertexFilepath,
+    ::std::string&& fragmentFilepath
 )
 {
     auto vertex { compileShader(GL_VERTEX_SHADER, vertexFilepath) };
@@ -45,10 +45,10 @@ void ::engine::graphic::opengl::detail::createShader(
 }
 
 void ::engine::graphic::opengl::detail::createShader(
-    GLint id,
-    std::string&& vertexFilepath,
-    std::string&& fragmentFilepath,
-    std::string&& geometryFilepath
+    ::GLint id,
+    ::std::string&& vertexFilepath,
+    ::std::string&& fragmentFilepath,
+    ::std::string&& geometryFilepath
 )
 {
     auto vertex { compileShader(GL_VERTEX_SHADER, vertexFilepath) };
@@ -70,19 +70,19 @@ void ::engine::graphic::opengl::detail::createShader(
 }
 
 auto ::engine::graphic::opengl::detail::compileShader(
-    GLenum shaderType,
-    const std::string& filepath
+    ::GLenum shaderType,
+    const ::std::string& filepath
 )
-    -> GLint
+    -> ::GLint
 {
-    GLuint shader { glCreateShader(shaderType) };
+    ::GLuint shader { glCreateShader(shaderType) };
 
     try {
-        const std::string readFile { readShaderFile(filepath) };
+        const ::std::string readFile { readShaderFile(filepath) };
         const char* shaderCode { readFile.c_str() };
         glShaderSource(shader, 1, &shaderCode, nullptr);
-    } catch (const std::ifstream::failure& e) {
-        std::clog << "Shader file '" << filepath << "' unsuccesfully read (" << e.what() << ")" << std::endl;
+    } catch (const ::std::ifstream::failure& e) {
+        ::std::clog << "Shader file '" << filepath << "' unsuccesfully read (" << e.what() << ")" << ::std::endl;
         return 0;
     }
 
@@ -94,29 +94,29 @@ auto ::engine::graphic::opengl::detail::compileShader(
 
 
 void ::engine::graphic::opengl::detail::checkCompilationStatus(
-    GLuint shader,
-    const std::string_view filepath
+    ::GLuint shader,
+    const ::std::string_view filepath
 )
 {
-    GLint status { 0 };
+    ::GLint status { 0 };
     glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
     if (status == GL_FALSE) {
-        GLchar infoLog[512] = { 0 };
+        ::GLchar infoLog[512] = { 0 };
         glGetShaderInfoLog(shader, 512, nullptr, infoLog);
-        std::clog << "Shader '" << filepath << "' compilation failed: " << infoLog << "\n";
+        ::std::clog << "Shader '" << filepath << "' compilation failed: " << infoLog << "\n";
     }
 }
 
 
 void ::engine::graphic::opengl::detail::checkLinkageStatus(
-    GLuint shader
+    ::GLuint shader
 )
 {
-    GLint status { 0 };
+    ::GLint status { 0 };
     glGetProgramiv(shader, GL_LINK_STATUS, &status);
     if (status == GL_FALSE) {
-        GLchar infoLog[1024] = { 0 };
+        ::GLchar infoLog[1024] = { 0 };
         glGetShaderInfoLog(shader, 512, nullptr, infoLog);
-        std::clog << "Program linkage failed (type: " << status << "):" << infoLog << "\n";
+        ::std::clog << "Program linkage failed (type: " << status << "):" << infoLog << "\n";
     }
 }

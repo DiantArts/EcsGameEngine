@@ -28,10 +28,6 @@ public:
 
 
 
-public:
-protected:
-protected:
-private:
 private:
 
 };

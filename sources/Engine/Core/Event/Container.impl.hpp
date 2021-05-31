@@ -10,5 +10,5 @@ template<
     auto&&... args
 )
 {
-    m_events.push_back(std::make_unique<EventType>(std::forward<decltype(args)>(args)...));
+    m_events.push_back(::std::make_unique<EventType>(::std::forward<decltype(args)>(args)...));
 }

@@ -198,6 +198,12 @@ auto ::engine::core::ecs::component::Controllable::getFront() const
     return m_front;
 }
 
+auto ::engine::core::ecs::component::Controllable::getUp() const
+    -> const ::glm::vec3&
+{
+    return m_up;
+}
+
 
 
 void ::engine::core::ecs::component::Controllable::oriente(

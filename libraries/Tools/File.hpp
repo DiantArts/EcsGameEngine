@@ -15,8 +15,15 @@ namespace tool::file {
 
 
 
-extern std::stringstream read(std::string_view filepath);
-extern bool exists(const std::string& filepath);
+[[ nodiscard ]] extern auto read(
+    ::std::string_view filepath
+)
+    -> ::std::stringstream;
+
+[[ nodiscard ]] extern auto exists(
+    const ::std::string& filepath
+)
+    -> bool;
 
 
 

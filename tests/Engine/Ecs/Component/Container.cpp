@@ -28,7 +28,7 @@ namespace engine::core::ecs::component::test {
         : public ::engine::core::ecs::AComponent<::engine::core::ecs::component::test::Transformable>
     {
     public:
-        Transformable() = default;
+        Transformable(int) {};
         ~Transformable() = default;
 
     };
@@ -94,6 +94,29 @@ BOOST_AUTO_TEST_CASE(multipleComponentValue)
     BOOST_TEST(container.get<::engine::core::ecs::component::test::Movable>(1).value == 0);
     BOOST_TEST(container.get<::engine::core::ecs::component::test::Movable>(2).value == 0);
     BOOST_TEST(movableComponent2.value == 0);
+}
+
+BOOST_AUTO_TEST_CASE(push)
+{
+    ::engine::core::ecs::component::Container container;
+    container.push<::engine::core::ecs::component::test::Movable>(
+        1,
+        ::engine::core::ecs::component::test::Movable{}
+    );
+    container.push(2, ::engine::core::ecs::component::test::Movable{});
+    container.pushMany<
+        ::engine::core::ecs::component::test::Movable,
+        ::engine::core::ecs::component::test::Transformable
+    >(
+        3,
+        ::engine::core::ecs::component::test::Movable{},
+        ::engine::core::ecs::component::test::Transformable{ 1 }
+    );
+    container.pushMany(
+        4,
+        ::engine::core::ecs::component::test::Movable{},
+        ::engine::core::ecs::component::test::Transformable{ 5 }
+    );
 }
 
 

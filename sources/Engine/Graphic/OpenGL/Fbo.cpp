@@ -3,7 +3,7 @@
 
 
 
-// ---------------------------------- *structors
+// ------------------------------------------------------------------ *structors
 
 ::engine::graphic::opengl::Fbo::Fbo()
 {
@@ -12,21 +12,46 @@
 
 ::engine::graphic::opengl::Fbo::~Fbo()
 {
-    glDeleteFramebuffers(1, &m_fbo);
+    if (m_fbo) {
+        glDeleteFramebuffers(1, &m_fbo);
+    }
 }
 
 
 
-// ---------------------------------- get
+// ------------------------------------------------------------------ Move sementic
 
-GLuint ::engine::graphic::opengl::Fbo::get() const
+::engine::graphic::opengl::Fbo::Fbo(
+    Fbo&& other
+) noexcept
+    : m_fbo{ other.m_fbo }
+{
+    other.m_fbo = 0;
+}
+
+auto ::engine::graphic::opengl::Fbo::operator=(
+    Fbo&& other
+) noexcept
+    -> Fbo&
+{
+    m_fbo = other.m_fbo;
+    other.m_fbo = 0;
+    return *this;
+}
+
+
+
+// ------------------------------------------------------------------ get
+
+auto ::engine::graphic::opengl::Fbo::get() const
+    -> ::GLuint
 {
     return m_fbo;
 }
 
 
 
-// ---------------------------------- bind
+// ------------------------------------------------------------------ bind
 
 void ::engine::graphic::opengl::Fbo::bind() const
 {

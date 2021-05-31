@@ -3,7 +3,7 @@
 
 
 
-// ---------------------------------- *structors
+// ------------------------------------------------------------------ *structors
 
 ::engine::graphic::opengl::Vbo::Vbo()
 {
@@ -12,12 +12,36 @@
 
 ::engine::graphic::opengl::Vbo::~Vbo()
 {
-    glDeleteBuffers(1, &m_vbo);
+    if (m_vbo) {
+        glDeleteBuffers(1, &m_vbo);
+    }
 }
 
 
 
-// ---------------------------------- get
+// ------------------------------------------------------------------ Copy sementic
+
+::engine::graphic::opengl::Vbo::Vbo(
+    Vbo&& other
+) noexcept
+    : m_vbo{ other.m_vbo }
+{
+    other.m_vbo = 0;
+}
+
+auto ::engine::graphic::opengl::Vbo::operator=(
+    Vbo&& other
+) noexcept
+    -> Vbo&
+{
+    m_vbo = other.m_vbo;
+    other.m_vbo = 0;
+    return *this;
+}
+
+
+
+// ------------------------------------------------------------------ get
 
 GLuint ::engine::graphic::opengl::Vbo::get() const
 {
@@ -26,7 +50,7 @@ GLuint ::engine::graphic::opengl::Vbo::get() const
 
 
 
-// ---------------------------------- bind
+// ------------------------------------------------------------------ bind
 
 void ::engine::graphic::opengl::Vbo::bind() const
 {

@@ -10,15 +10,17 @@ public:
 
     // ------------------------------------------------------------------ *structors
 
+    // put the number of array to draw into the ::std::size_t
     explicit Vertices(
         const std::string& filepath,
-        size_t& numberOfArrayToDraw
+        ::std::size_t& numberOfArrayToDraw
     );
 
 
 
     // ------------------------------------------------------------------ Buffer
 
+    // push the content of the vector into an OpenGL buffer
     void createBuffer();
 
 

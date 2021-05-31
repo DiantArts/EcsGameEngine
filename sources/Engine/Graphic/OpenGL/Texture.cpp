@@ -4,36 +4,36 @@
 
 
 
-// ---------------------------------- *structors
+// ------------------------------------------------------------------ *structors
 
 ::engine::graphic::opengl::Texture::Texture(
     const ::std::string& filename,
     bool gammaCorrection
 )
 {
-    glDeleteTextures(1, &m_id);
+    glGenTextures(1, &m_id);
 
     int width, height, nrComponents;
 
-    std::string filepath;
+    ::std::string filepath;
     filepath.reserve(filename.size() + engine::core::config::filepath::textures.size());
     filepath += engine::core::config::filepath::textures;
     filepath += filename;
     const auto data { stbi_load(filepath.c_str(), &width, &height, &nrComponents, 0) };
 
     if (!data) {
-        throw std::runtime_error("ERROR: Failed to load '"s + filepath + "' texture");
+        throw ::std::runtime_error("ERROR: Failed to load '"s + filepath + "' texture");
     }
 
-    GLenum dataFormat;
-    GLenum internalFormat;
+    ::GLenum dataFormat;
+    ::GLenum internalFormat;
     switch (nrComponents) {
     case 1: internalFormat = dataFormat = GL_RED; break;
     case 3: internalFormat = gammaCorrection ? GL_SRGB : GL_RGB; dataFormat = GL_RGB; break;
     case 4: internalFormat = gammaCorrection ? GL_SRGB_ALPHA : GL_RGBA; dataFormat = GL_RGBA; break;
     default:
         stbi_image_free(const_cast<unsigned char*>(data));
-        throw std::runtime_error("unsupported texture format found");
+        throw ::std::runtime_error("unsupported texture format found");
     }
 
     glBindTexture(GL_TEXTURE_2D, m_id);
@@ -50,21 +50,46 @@
 
 ::engine::graphic::opengl::Texture::~Texture()
 {
-    glDeleteTextures(1, &m_id);
+    if (m_id) {
+        glDeleteTextures(1, &m_id);
+    }
 }
 
 
 
-// ---------------------------------- get
+// ------------------------------------------------------------------ Move sementic
 
-GLuint ::engine::graphic::opengl::Texture::get() const
+::engine::graphic::opengl::Texture::Texture(
+    Texture&& other
+) noexcept
+    : m_id{ other.m_id }
+{
+    other.m_id = 0;
+}
+
+auto ::engine::graphic::opengl::Texture::operator=(
+    Texture&& other
+) noexcept
+    -> Texture&
+{
+    m_id = other.m_id;
+    other.m_id = 0;
+    return *this;
+}
+
+
+
+// ------------------------------------------------------------------ get
+
+auto ::engine::graphic::opengl::Texture::get() const
+    -> ::GLuint
 {
     return m_id;
 }
 
 
 
-// ---------------------------------- bind
+// ------------------------------------------------------------------ bind
 
 void ::engine::graphic::opengl::Texture::bind(
     const ::std::size_t num

@@ -1,7 +1,6 @@
 #include <pch.hpp>
 #include <Engine/Graphic/OpenGL/Window.hpp>
 #include <Engine/Graphic/OpenGL/Detail/Window.hpp>
-#include <Engine/Core/Event/MouseMoved.hpp>
 
 
 
@@ -29,17 +28,23 @@
         throw std::runtime_error("glad initialization failed");
     }
 
-    ::engine::graphic::opengl::detail::applyDefaultConfiguration(&*m_window);
-    glfwSetWindowUserPointer(m_window.get(), reinterpret_cast<void*>(&m_events));
-
-
-    double x, y;
-    glfwGetCursorPos(&*m_window, &x, &y);
-    ::engine::core::event::MouseMoved::m_oldPosition.x = x;
-    ::engine::core::event::MouseMoved::m_oldPosition.y = y;
+    ::engine::graphic::opengl::detail::applyDefaultConfiguration(&*m_window, m_events);
 }
 
 ::engine::graphic::opengl::Window::~Window() = default;
+
+
+
+// ------------------------------------------------------------------ Move sementic
+
+::engine::graphic::opengl::Window::Window(
+    Window&&
+) noexcept = default;
+
+auto ::engine::graphic::opengl::Window::operator=(
+    Window&&
+) noexcept
+    -> Window& = default;
 
 
 

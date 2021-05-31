@@ -4,12 +4,12 @@
 // file tools to help easier code
 //
 
-#include <fstream> // std::ifstream
+#include <fstream>
 #include <iostream>
-#include <sstream> // std::stringstream
-#include <string>  // std::string
+#include <sstream>
+#include <string>
 
-#include "File.hpp" // std::string_view
+#include <Tools/File.hpp>
 
 
 
@@ -17,9 +17,13 @@ namespace tools::string {
 
 
 
-bool endsWith(const std::string_view a, const std::string_view b)
+auto endsWith(
+    const ::std::string_view str1,
+    const ::std::string_view str2
+)
+    -> bool
 {
-    return std::equal(a.begin() + a.size() - b.size(), a.end(), b.begin());
+    return ::std::equal(str1.begin() + str1.size() - str2.size(), str1.end(), str2.begin());
 }
 
 

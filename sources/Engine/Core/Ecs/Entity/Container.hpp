@@ -39,6 +39,13 @@ public:
     > auto emplace()
         -> ::engine::core::ecs::Entity::Reference;
 
+    template <
+        ::engine::core::ecs::component::ConceptType... ComponentTypes
+    > auto emplace(
+        ComponentTypes&&... componentsArgs
+    )
+        -> ::engine::core::ecs::Entity::Reference;
+
 
 
     // ------------------------------------------------------------------ Remove

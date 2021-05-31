@@ -34,5 +34,10 @@ void ::engine::core::event::Container::resolve(
         event->resolve(scene);
     }
     m_events.clear();
+}
+
+void ::engine::core::event::Container::clear()
+{
+    m_events.clear();
 
 }
