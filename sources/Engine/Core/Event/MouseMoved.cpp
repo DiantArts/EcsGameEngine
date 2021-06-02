@@ -24,5 +24,6 @@ void ::engine::core::event::MouseMoved::resolve(
     ::engine::core::AScene& scene
 )
 {
-    scene.getMainEntityControllable().oriente(::std::move(m_offset));
+    scene.getMainEntityControllable().oriente(m_offset);
+    scene.getMainEntityCamera().oriente(::std::move(m_offset));
 }

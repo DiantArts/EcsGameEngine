@@ -84,9 +84,8 @@ void ::engine::core::AScene::onUpdate()
 void ::engine::core::AScene::draw() const
 {
     m_window.clear();
-    m_components.get<::engine::graphic::opengl::ecs::component::Camera>(m_cameraID).configureUbo(
+    m_components.get<::engine::graphic::opengl::ecs::component::Camera>(m_controlledID).configureUbo(
         m_components.get<::engine::core::ecs::component::Position>(m_controlledID),
-        m_components.get<::engine::core::ecs::component::Controllable>(m_controlledID).getFront(),
         m_components.get<::engine::core::ecs::component::Controllable>(m_controlledID).getUp()
     );
     m_drawSystems.run(m_drawSystemsClock.getRestart(), m_entities, m_components);
@@ -111,4 +110,16 @@ auto ::engine::core::AScene::getMainEntityControllable()
     -> ::engine::core::ecs::component::Controllable&
 {
     return m_components.get<::engine::core::ecs::component::Controllable>(m_controlledID);
+}
+
+auto ::engine::core::AScene::getMainEntityCamera() const
+    -> const ::engine::graphic::opengl::ecs::component::Camera&
+{
+    return m_components.get<::engine::graphic::opengl::ecs::component::Camera>(m_controlledID);
+}
+
+auto ::engine::core::AScene::getMainEntityCamera()
+    -> ::engine::graphic::opengl::ecs::component::Camera&
+{
+    return m_components.get<::engine::graphic::opengl::ecs::component::Camera>(m_controlledID);
 }

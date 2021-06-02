@@ -53,13 +53,43 @@ public:
 
 
 
-    // ------------------------------------------------------------------ *structors
+    // ------------------------------------------------------------------ Orientation
+
+    auto getOrientation() const
+        -> const ::glm::vec3&;
+
+    void oriente(
+        float xOffset,
+        float yOffset
+    );
+
+    void oriente(
+        const ::glm::vec2& offset
+    );
+
+    void setOrientation(
+        float xOffset,
+        float yOffset
+    );
+
+    void setOrientation(
+        const ::glm::vec2& offset
+    );
+
+
+
+    // ------------------------------------------------------------------ Use
 
     void configureUbo(
         const ::glm::vec3& position,
-        const ::glm::vec3& front,
         const ::glm::vec3& up
     ) const;
+
+
+
+private:
+
+    void adjustDirection();
 
 
 
@@ -68,7 +98,10 @@ private:
     ::engine::graphic::opengl::Ubo m_informationsUbo;
     ::engine::graphic::opengl::Ubo m_positionUbo;
 
-    ::glm::vec3 m_position{ 0.0f, 0.0f, 0.0f };
+    ::glm::vec2 m_orientation{ -90.00f, 0.00f }; // .x = yaw, .y = pitch
+    ::glm::vec3 m_direction{ 0.5f, 0.5f, 0.5f };
+    float m_distance { 5.0f };
+
     float m_zoom { 45.0F };
 
     static constexpr int m_informationsUboIndex{ 0 };
@@ -79,6 +112,11 @@ private:
 
     static constexpr float far { 0.1f };
     static constexpr float near { 100.0f };
+
+    static inline constexpr float minPitch{ -89.999f };
+    static inline constexpr float maxPitch{ 89.999f };
+
+    static inline constexpr ::glm::vec3 m_sensitivity{ 0.1f, 0.1f, 1.0f };
 
 };
 

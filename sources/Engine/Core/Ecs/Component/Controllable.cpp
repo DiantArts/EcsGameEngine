@@ -186,8 +186,14 @@ auto ::engine::core::ecs::component::Controllable::isMovingDown() const
 
 // ------------------------------------------------------------------ Orientation
 
-auto ::engine::core::ecs::component::Controllable::getOrientation() const
+auto ::engine::core::ecs::component::Controllable::getDirection() const
     -> const ::glm::vec3&
+{
+    return m_direction;
+}
+
+auto ::engine::core::ecs::component::Controllable::getOrientation() const
+    -> const ::glm::vec2&
 {
     return m_orientation;
 }
@@ -211,36 +217,36 @@ void ::engine::core::ecs::component::Controllable::oriente(
     const float yOffset
 )
 {
-    m_yaw += xOffset * m_sensitivity.x;
-    m_pitch += yOffset * m_sensitivity.y;
+    m_orientation.x += xOffset * m_sensitivity.x;
+    m_orientation.y += yOffset * m_sensitivity.y;
 
-    if (m_yaw >= 360) {
-        m_yaw -= 360;
+    if (m_orientation.x >= 360) {
+        m_orientation.x -= 360;
     }
-    if (m_pitch > this->maxPitch) {
-        m_pitch = this->maxPitch;
-    } else if (m_pitch < this->minPitch) {
-        m_pitch = this->minPitch;
+    if (m_orientation.y > this->maxPitch) {
+        m_orientation.y = this->maxPitch;
+    } else if (m_orientation.y < this->minPitch) {
+        m_orientation.y = this->minPitch;
     }
-    this->adjustOrientation();
+    this->adjustDirection();
 }
 
 void ::engine::core::ecs::component::Controllable::oriente(
     const ::glm::vec2& offset
 )
 {
-    m_yaw += offset.x * m_sensitivity.x;
-    m_pitch += offset.y * m_sensitivity.y;
+    m_orientation.x += offset.x * m_sensitivity.x;
+    m_orientation.y += offset.y * m_sensitivity.y;
 
-    if (m_yaw >= 360) {
-        m_yaw -= 360;
+    if (m_orientation.x >= 360) {
+        m_orientation.x -= 360;
     }
-    if (m_pitch > this->maxPitch) {
-        m_pitch = this->maxPitch;
-    } else if (m_pitch < this->minPitch) {
-        m_pitch = this->minPitch;
+    if (m_orientation.y > this->maxPitch) {
+        m_orientation.y = this->maxPitch;
+    } else if (m_orientation.y < this->minPitch) {
+        m_orientation.y = this->minPitch;
     }
-    this->adjustOrientation();
+    this->adjustDirection();
 }
 
 
@@ -253,9 +259,9 @@ void ::engine::core::ecs::component::Controllable::setOrientation(
     if (xOffset >= 360 || yOffset > this->maxPitch || yOffset < this->minPitch) {
         throw std::logic_error("invalid orientation");
     }
-    m_yaw = xOffset;
-    m_pitch = yOffset;
-    this->adjustOrientation();
+    m_orientation.x = xOffset;
+    m_orientation.y = yOffset;
+    this->adjustDirection();
 }
 
 void ::engine::core::ecs::component::Controllable::setOrientation(
@@ -265,9 +271,9 @@ void ::engine::core::ecs::component::Controllable::setOrientation(
     if (offset.x >= 360 || offset.y > this->maxPitch || offset.y < this->minPitch) {
         throw std::logic_error("invalid orientation");
     }
-    m_yaw = offset.x;
-    m_pitch = offset.y;
-    this->adjustOrientation();
+    m_orientation.x = offset.x;
+    m_orientation.y = offset.y;
+    this->adjustDirection();
 }
 
 
@@ -286,10 +292,10 @@ auto ::engine::core::ecs::component::Controllable::getView(
 
 // ------------------------------------------------------------------ Detail
 
-void ::engine::core::ecs::component::Controllable::adjustOrientation()
+void ::engine::core::ecs::component::Controllable::adjustDirection()
 {
-    m_orientation.x = cos(::glm::radians(m_yaw)) * cos(::glm::radians(m_pitch));
-    m_orientation.y = sin(::glm::radians(m_pitch));
-    m_orientation.z = sin(::glm::radians(m_yaw)) * cos(::glm::radians(m_pitch));
-    m_front = ::glm::normalize(m_orientation);
+    m_direction.x = cos(::glm::radians(m_orientation.x)) * cos(::glm::radians(m_orientation.y));
+    m_direction.y = sin(::glm::radians(m_orientation.y));
+    m_direction.z = sin(::glm::radians(m_orientation.x)) * cos(::glm::radians(m_orientation.y));
+    m_front = ::glm::normalize(m_direction);
 }

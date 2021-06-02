@@ -98,8 +98,11 @@ public:
 
     // ------------------------------------------------------------------ Orientation
 
-    auto getOrientation() const
+    auto getDirection() const
         -> const ::glm::vec3&;
+
+    auto getOrientation() const
+        -> const ::glm::vec2&;
 
     auto getFront() const
         -> const ::glm::vec3&;
@@ -142,7 +145,7 @@ public:
 
 private:
 
-    void adjustOrientation();
+    void adjustDirection();
 
 
 
@@ -160,11 +163,8 @@ private:
 
     float m_speed{ 2.5f };
 
-    float m_yaw{ -90.00f };
-    float m_pitch{ 0.00f };
-
-    ::glm::vec3 m_orientation{ 0.5f, 0.5f, 0.5f };
-
+    ::glm::vec2 m_orientation{ -90.00f, 0.00f }; // .x = yaw, .y = pitch
+    ::glm::vec3 m_direction{ 0.5f, 0.5f, 0.5f };
     ::glm::vec3 m_front{ 0.0f, 0.0f, -1.0f };
     ::glm::vec3 m_up{ 0.0f, 1.0f, 0.0f };
 

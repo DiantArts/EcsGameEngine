@@ -66,6 +66,12 @@ public:
     auto getMainEntityControllable()
         -> ::engine::core::ecs::component::Controllable&;
 
+    auto getMainEntityCamera() const
+        -> const ::engine::graphic::opengl::ecs::component::Camera&;
+
+    auto getMainEntityCamera()
+        -> ::engine::graphic::opengl::ecs::component::Camera&;
+
 
 
 protected:
@@ -88,13 +94,12 @@ private:
 
 
 
-    ::engine::core::ID m_cameraID{ m_entities.emplace(
+    ::engine::core::ID m_controlledID{ m_entities.emplace(
         ::engine::core::ecs::component::Position{ 0.0f, 0.0f,  3.0f },
+        ::engine::graphic::opengl::ecs::component::Drawable{},
         ::engine::core::ecs::component::Controllable{},
         ::engine::graphic::opengl::ecs::component::Camera{ m_window }
     ).getID() };
-
-    ::engine::core::ID m_controlledID{ m_cameraID };
 
 };
 
