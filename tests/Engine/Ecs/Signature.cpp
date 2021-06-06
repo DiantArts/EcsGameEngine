@@ -193,6 +193,21 @@ BOOST_AUTO_TEST_CASE(false1)
     BOOST_TEST(!signature.contains(transformable));
 }
 
+BOOST_AUTO_TEST_CASE(CmpRamComponents)
+{
+    constexpr auto signature1{ ::engine::core::ecs::Signature::generate<
+        ::engine::core::ecs::component::test::Movable
+    >() };
+    constexpr auto signature2{ ::engine::core::ecs::Signature::generate<
+        ::engine::core::ecs::component::test::Movable,
+        ::engine::core::ecs::component::test::Transformable
+    >() };
+    ::engine::core::ecs::component::test::Movable m{};
+    ::engine::core::ecs::component::test::Transformable t{};
+    BOOST_TEST(!signature1.contains(m, t));
+    BOOST_TEST(signature2.contains(m, t));
+}
+
 
 
 BOOST_AUTO_TEST_SUITE_END()

@@ -6,6 +6,7 @@
 
 namespace engine::core::ecs {
     template <
-        auto function
-    > using System = ::engine::core::ecs::system::System<function>;
+        auto function,
+        ::engine::core::ecs::component::ConceptType... BanishedComponentTypes
+    > using System = ::engine::core::ecs::system::System<function, BanishedComponentTypes...>;
 }

@@ -12,8 +12,15 @@ namespace engine::core::ecs::system {
 
 
 template <
+    auto function,
+    typename... BanishedComponentTypes
+> class System;
+
+
+
+template <
     auto function
-> class System
+> class System<function>
     : public ::engine::core::ecs::system::ASystem
 {
 
@@ -33,7 +40,7 @@ public:
         ::engine::core::Time t,
         ::engine::core::ecs::entity::Container& entities,
         ::engine::core::ecs::component::Container& components
-    ) override final;
+    ) override;
 
     void operator()(
         ::engine::core::Time t,
@@ -45,7 +52,7 @@ public:
         ::engine::core::Time t,
         const ::engine::core::ecs::entity::Container& entities,
         const ::engine::core::ecs::component::Container& components
-    ) const override final;
+    ) const override;
 
     void operator()(
         ::engine::core::Time t,
@@ -57,20 +64,75 @@ public:
 
     // ------------------------------------------------------------------ Signature
 
-    static constexpr auto getSignature()
+    [[ nodiscard ]] static constexpr auto getSignature()
+        -> const ::engine::core::ecs::Signature&;
+
+};
+
+
+
+template <
+    auto function,
+    ::engine::core::ecs::component::ConceptType... BanishedComponentTypes
+> class System<function, BanishedComponentTypes...>
+    : public ::engine::core::ecs::system::ASystem
+{
+
+public:
+
+    // ------------------------------------------------------------------ *structors
+
+    System();
+
+    ~System();
+
+
+
+    // ------------------------------------------------------------------ Run
+
+    void operator()(
+        ::engine::core::Time t,
+        ::engine::core::ecs::entity::Container& entities,
+        ::engine::core::ecs::component::Container& components
+    ) override;
+
+    void operator()(
+        ::engine::core::Time t,
+        ::engine::core::ecs::component::Container& components,
+        ::engine::core::ecs::entity::Container& entities
+    );
+
+    void operator()(
+        ::engine::core::Time t,
+        const ::engine::core::ecs::entity::Container& entities,
+        const ::engine::core::ecs::component::Container& components
+    ) const override;
+
+    void operator()(
+        ::engine::core::Time t,
+        const ::engine::core::ecs::component::Container& components,
+        const ::engine::core::ecs::entity::Container& entities
+    ) const;
+
+
+
+    // ------------------------------------------------------------------ Signature
+
+    [[ nodiscard ]] static constexpr auto getSignature()
+        -> const ::engine::core::ecs::Signature&;
+
+    [[ nodiscard ]] static constexpr auto getBanishedSignature()
         -> const ::engine::core::ecs::Signature&;
 
 
 
 private:
 
-};
+    static constexpr auto m_banishedSignature{
+        ::engine::core::ecs::Signature::generate<BanishedComponentTypes...>()
+    };
 
-// template <
-    // auto func
-// > class System
-    // : public ::engine::core::ecs::system::ASystem
-// {
+};
 
 
 

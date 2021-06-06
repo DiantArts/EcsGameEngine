@@ -65,6 +65,19 @@ template <
 
 
 
+// ------------------------------------------------------------------ Get
+
+template <
+    ::engine::core::ecs::component::ConceptType ComponentType
+> auto ::engine::core::ecs::Signature::get()
+    -> bool
+{
+    return m_bitset[ComponentType::getID()];
+}
+
+
+
+
 // ------------------------------------------------------------------ Contains
 
 [[ nodiscard ]] constexpr auto ::engine::core::ecs::Signature::contains(
@@ -93,6 +106,48 @@ template <
 }
 
 [[ nodiscard ]] constexpr auto ::engine::core::ecs::Signature::contains(
+    const ::engine::core::ecs::component::ConceptType auto&... component
+) const
+    -> bool
+{
+    return (m_bitset[component.getID()] && ...);
+}
+
+
+
+// ------------------------------------------------------------------ ContainsOne
+
+[[ nodiscard ]] constexpr auto ::engine::core::ecs::Signature::containsAtLeastOne(
+    const ::engine::core::ecs::Signature& that
+) const
+    -> bool
+{
+    for (::std::size_t i{ 0 }; i < m_bitset.size(); i++) {
+        if (m_bitset[i] && m_bitset[i] == that.m_bitset[i]) {
+            return true;
+        }
+    }
+    return false;
+}
+
+template <
+    ::engine::core::ecs::component::ConceptType... ComponentTypes
+> [[ nodiscard ]] constexpr auto ::engine::core::ecs::Signature::containsAtLeastOne() const
+    -> bool
+{
+    return ::engine::core::detail::meta::ForEach<ComponentTypes...>::template exist<
+        []<
+            ::engine::core::ecs::component::ConceptType RawComponentType
+        >(
+            const ::cbitset::Cbitset<::engine::core::ecs::component::maxID>& bitset
+        ){
+            using ComponentType = std::remove_reference_t<RawComponentType>;
+            return bitset[ComponentType::getID()];
+        }
+    >(m_bitset);
+}
+
+[[ nodiscard ]] constexpr auto ::engine::core::ecs::Signature::containsAtLeastOne(
     const ::engine::core::ecs::component::ConceptType auto&... component
 ) const
     -> bool

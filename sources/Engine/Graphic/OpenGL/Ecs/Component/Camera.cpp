@@ -11,6 +11,7 @@
     : m_informationsUbo{ 2 * sizeof(::glm::mat4), m_informationsUboIndex }
     , m_positionUbo{ 1 * sizeof(::glm::vec4), m_positionUboIndex }
 {
+    this->adjustDirection();
     m_informationsUbo.setOneSubData(0, ::glm::perspective(
             ::glm::radians(m_zoom),
             window.getSize().width / window.getSize().height,
@@ -111,7 +112,7 @@ void ::engine::graphic::opengl::ecs::component::Camera::configureUbo(
     const ::glm::vec3& up
 ) const
 {
-    auto cameraPos{ position + (m_direction * -m_distance) };
+    auto cameraPos{ position + m_direction * -m_distance + m_position };
 
     m_informationsUbo.setOneSubData(sizeof(glm::mat4),
         ::glm::lookAt(cameraPos, position, up)

@@ -45,6 +45,28 @@ public:
 
 
 
+    // ------------------------------------------------------------------ Get
+
+    template <
+        ::engine::core::ecs::component::ConceptType ComponentType
+    > auto get()
+        -> bool;
+
+    auto get(::engine::core::ecs::component::ConceptType auto& component)
+        -> bool;
+
+    auto get(::engine::core::ID id)
+        -> bool;
+
+
+    auto operator[](::engine::core::ecs::component::ConceptType auto& component)
+        -> bool;
+
+    auto operator[](::engine::core::ID id)
+        -> bool;
+
+
+
     // ------------------------------------------------------------------ Contains
 
     [[ nodiscard ]] constexpr auto contains(
@@ -58,6 +80,25 @@ public:
         -> bool;
 
     [[ nodiscard ]] constexpr auto contains(
+        const ::engine::core::ecs::component::ConceptType auto&... component
+    ) const
+        -> bool;
+
+
+
+    // ------------------------------------------------------------------ ContainsOne
+
+    [[ nodiscard ]] constexpr auto containsAtLeastOne(
+        const ::engine::core::ecs::Signature& that
+    ) const
+        -> bool;
+
+    template <
+        ::engine::core::ecs::component::ConceptType... ComponentTypes
+    > [[ nodiscard ]] constexpr auto containsAtLeastOne() const
+        -> bool;
+
+    [[ nodiscard ]] constexpr auto containsAtLeastOne(
         const ::engine::core::ecs::component::ConceptType auto&... component
     ) const
         -> bool;
@@ -94,7 +135,7 @@ public:
 
 
 
-private:
+// private:
 
     ::cbitset::Cbitset<::engine::core::ecs::component::maxID> m_bitset;
 

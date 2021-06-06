@@ -195,8 +195,19 @@ BOOST_AUTO_TEST_CASE(mulpiteComponentMulipleEntityMulipleSystem)
     BOOST_TEST(components.get<::engine::core::ecs::component::test::Movable>(e3ID).value == 3);
     BOOST_TEST(components.get<::engine::core::ecs::component::test::Transformable>(e3ID).value == 2);
 
-    const ::engine::core::ecs::System<detail::function4> system4;
+    ::engine::core::ecs::System<
+        detail::function1,
+        ::engine::core::ecs::component::test::Transformable
+    > system4;
+    system4(c.getElapsed(), components, entities);
     system4(c.getElapsed(), entities, components);
+    BOOST_TEST(components.get<::engine::core::ecs::component::test::Movable>(e1ID).value == 4);
+    BOOST_TEST(components.get<::engine::core::ecs::component::test::Transformable>(e2ID).value == 1);
+    BOOST_TEST(components.get<::engine::core::ecs::component::test::Movable>(e3ID).value == 3);
+    BOOST_TEST(components.get<::engine::core::ecs::component::test::Transformable>(e3ID).value == 2);
+
+    const ::engine::core::ecs::System<detail::function4> system5;
+    system5(c.getElapsed(), entities, components);
 }
 
 BOOST_AUTO_TEST_CASE(lambdaMulpiteComponentMulipleEntityMulipleSystem)
