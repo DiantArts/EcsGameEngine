@@ -57,7 +57,9 @@ public:
 
 
 
-    // ------------------------------------------------------------------ Use
+    // ------------------------------------------------------------------ Model
+
+    void generateModel();
 
     [[ nodiscard ]] auto getModel() const
         -> const ::glm::mat4&;
@@ -290,7 +292,7 @@ private:
 
 private:
 
-    mutable ::glm::mat4 m_model;
+    ::glm::mat4 m_model;
 
     ::glm::vec3 m_position;
 

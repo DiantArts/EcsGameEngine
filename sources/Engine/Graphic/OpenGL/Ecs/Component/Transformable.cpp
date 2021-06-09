@@ -9,6 +9,7 @@
     : m_position{ 0.0F }
 {
     this->adjustDirection();
+    this->generateModel();
 }
 
 ::engine::graphic::opengl::ecs::component::Transformable::Transformable(
@@ -17,6 +18,7 @@
     : m_position{ position }
 {
     this->adjustDirection();
+    this->generateModel();
 }
 
 ::engine::graphic::opengl::ecs::component::Transformable::Transformable(
@@ -25,6 +27,7 @@
     : m_position{ ::std::move(position) }
 {
     this->adjustDirection();
+    this->generateModel();
 }
 
 ::engine::graphic::opengl::ecs::component::Transformable::~Transformable() = default;
@@ -44,15 +47,19 @@ auto ::engine::graphic::opengl::ecs::component::Transformable::operator=(
 
 
 
-// ------------------------------------------------------------------ use
+// ------------------------------------------------------------------ Model
+
+void ::engine::graphic::opengl::ecs::component::Transformable::generateModel()
+{
+    m_model = ::glm::translate(::glm::mat4{ 1.0F }, m_position);
+    m_model = ::glm::rotate(m_model, -::glm::radians(m_rotation.x), ::glm::vec3{ 0.0F, 1.0F, 0.0F });
+    m_model = ::glm::rotate(m_model, ::glm::radians(m_rotation.y), ::glm::vec3{ 0.0F, 0.0F, 1.0F });
+    m_model = ::glm::scale(m_model, m_scale);
+}
 
 [[ nodiscard ]] auto ::engine::graphic::opengl::ecs::component::Transformable::getModel() const
     -> const ::glm::mat4&
 {
-    m_model = ::glm::translate(::glm::mat4 { 1.0F }, m_position);
-    m_model = ::glm::rotate(m_model, -::glm::radians(m_rotation.x), ::glm::vec3{ 0.0F, 1.0F, 0.0F });
-    m_model = ::glm::rotate(m_model, ::glm::radians(m_rotation.y), ::glm::vec3{ 0.0F, 0.0F, 1.0F });
-    m_model = ::glm::scale(m_model, m_scale);
     return m_model;
 }
 
@@ -64,6 +71,7 @@ void ::engine::graphic::opengl::ecs::component::Transformable::moveForward(
 )
 {
     m_position += velocity * m_direction;
+    this->generateModel();
 }
 
 void ::engine::graphic::opengl::ecs::component::Transformable::moveBackward(
@@ -71,6 +79,7 @@ void ::engine::graphic::opengl::ecs::component::Transformable::moveBackward(
 )
 {
     m_position -= velocity / 2 * m_direction;
+    this->generateModel();
 }
 
 void ::engine::graphic::opengl::ecs::component::Transformable::moveRight(
@@ -78,6 +87,7 @@ void ::engine::graphic::opengl::ecs::component::Transformable::moveRight(
 )
 {
     m_position += ::glm::normalize(::glm::cross(m_direction, ::glm::vec3{ 0.0F, 1.0F, 0.0F })) * velocity;
+    this->generateModel();
 }
 
 void ::engine::graphic::opengl::ecs::component::Transformable::moveLeft(
@@ -85,6 +95,7 @@ void ::engine::graphic::opengl::ecs::component::Transformable::moveLeft(
 )
 {
     m_position -= ::glm::normalize(::glm::cross(m_direction, ::glm::vec3{ 0.0F, 1.0F, 0.0F })) * velocity;
+    this->generateModel();
 }
 
 void ::engine::graphic::opengl::ecs::component::Transformable::moveUp(
@@ -92,6 +103,7 @@ void ::engine::graphic::opengl::ecs::component::Transformable::moveUp(
 )
 {
     m_position.y += velocity;
+    this->generateModel();
 }
 
 void ::engine::graphic::opengl::ecs::component::Transformable::moveDown(
@@ -99,6 +111,7 @@ void ::engine::graphic::opengl::ecs::component::Transformable::moveDown(
 )
 {
     m_position.y -= velocity;
+    this->generateModel();
 }
 
 
@@ -108,6 +121,7 @@ void ::engine::graphic::opengl::ecs::component::Transformable::move(
 )
 {
     m_position += offset;
+    this->generateModel();
 }
 
 void ::engine::graphic::opengl::ecs::component::Transformable::move(
@@ -117,6 +131,7 @@ void ::engine::graphic::opengl::ecs::component::Transformable::move(
 )
 {
     m_position += ::glm::vec3{ offsetX, offsetY, offsetZ };
+    this->generateModel();
 }
 
 void ::engine::graphic::opengl::ecs::component::Transformable::moveX(
@@ -124,6 +139,7 @@ void ::engine::graphic::opengl::ecs::component::Transformable::moveX(
 )
 {
     m_position.x += offset;
+    this->generateModel();
 }
 
 void ::engine::graphic::opengl::ecs::component::Transformable::moveY(
@@ -131,6 +147,7 @@ void ::engine::graphic::opengl::ecs::component::Transformable::moveY(
 )
 {
     m_position.y += offset;
+    this->generateModel();
 }
 
 void ::engine::graphic::opengl::ecs::component::Transformable::moveZ(
@@ -138,6 +155,7 @@ void ::engine::graphic::opengl::ecs::component::Transformable::moveZ(
 )
 {
     m_position.z += offset;
+    this->generateModel();
 }
 
 
@@ -147,6 +165,7 @@ void ::engine::graphic::opengl::ecs::component::Transformable::setPosition(
 )
 {
     m_position = position;
+    this->generateModel();
 }
 
 void ::engine::graphic::opengl::ecs::component::Transformable::setPosition(
@@ -154,6 +173,7 @@ void ::engine::graphic::opengl::ecs::component::Transformable::setPosition(
 )
 {
     m_position = ::std::move(position);
+    this->generateModel();
 }
 
 void ::engine::graphic::opengl::ecs::component::Transformable::setPosition(
@@ -163,6 +183,7 @@ void ::engine::graphic::opengl::ecs::component::Transformable::setPosition(
 )
 {
     m_position = ::glm::vec3{ positionX, positionY, positionZ };
+    this->generateModel();
 }
 
 void ::engine::graphic::opengl::ecs::component::Transformable::setPositionX(
@@ -170,6 +191,7 @@ void ::engine::graphic::opengl::ecs::component::Transformable::setPositionX(
 )
 {
     m_position.x += position;
+    this->generateModel();
 }
 
 void ::engine::graphic::opengl::ecs::component::Transformable::setPositionY(
@@ -177,6 +199,7 @@ void ::engine::graphic::opengl::ecs::component::Transformable::setPositionY(
 )
 {
     m_position.y += position;
+    this->generateModel();
 }
 
 void ::engine::graphic::opengl::ecs::component::Transformable::setPositionZ(
@@ -184,6 +207,7 @@ void ::engine::graphic::opengl::ecs::component::Transformable::setPositionZ(
 )
 {
     m_position.z += position;
+    this->generateModel();
 }
 
 
@@ -203,6 +227,7 @@ void ::engine::graphic::opengl::ecs::component::Transformable::scale(
 )
 {
     m_scale += ::glm::vec3{ scale };
+    m_model = ::glm::scale(m_model, m_scale);
 }
 
 void ::engine::graphic::opengl::ecs::component::Transformable::scale(
@@ -210,6 +235,7 @@ void ::engine::graphic::opengl::ecs::component::Transformable::scale(
 )
 {
     m_scale += scale;
+    m_model = ::glm::scale(m_model, m_scale);
 }
 
 void ::engine::graphic::opengl::ecs::component::Transformable::scale(
@@ -219,6 +245,7 @@ void ::engine::graphic::opengl::ecs::component::Transformable::scale(
 )
 {
     m_scale += ::glm::vec3{ scaleX, scaleY, scaleZ };
+    m_model = ::glm::scale(m_model, m_scale);
 }
 
 void ::engine::graphic::opengl::ecs::component::Transformable::scaleX(
@@ -226,6 +253,7 @@ void ::engine::graphic::opengl::ecs::component::Transformable::scaleX(
 )
 {
     m_scale.x += scale;
+    m_model = ::glm::scale(m_model, m_scale);
 }
 
 void ::engine::graphic::opengl::ecs::component::Transformable::scaleY(
@@ -233,6 +261,7 @@ void ::engine::graphic::opengl::ecs::component::Transformable::scaleY(
 )
 {
     m_scale.y += scale;
+    m_model = ::glm::scale(m_model, m_scale);
 }
 
 void ::engine::graphic::opengl::ecs::component::Transformable::scaleZ(
@@ -240,6 +269,7 @@ void ::engine::graphic::opengl::ecs::component::Transformable::scaleZ(
 )
 {
     m_scale.z += scale;
+    m_model = ::glm::scale(m_model, m_scale);
 }
 
 
@@ -249,6 +279,7 @@ void ::engine::graphic::opengl::ecs::component::Transformable::setScale(
 )
 {
     m_scale = ::glm::vec3{ scale };
+    m_model = ::glm::scale(m_model, m_scale);
 }
 
 void ::engine::graphic::opengl::ecs::component::Transformable::setScale(
@@ -256,6 +287,7 @@ void ::engine::graphic::opengl::ecs::component::Transformable::setScale(
 )
 {
     m_scale = scale;
+    m_model = ::glm::scale(m_model, m_scale);
 }
 
 void ::engine::graphic::opengl::ecs::component::Transformable::setScale(
@@ -263,6 +295,7 @@ void ::engine::graphic::opengl::ecs::component::Transformable::setScale(
 )
 {
     m_scale = ::std::move(scale);
+    m_model = ::glm::scale(m_model, m_scale);
 }
 
 void ::engine::graphic::opengl::ecs::component::Transformable::setScale(
@@ -272,6 +305,7 @@ void ::engine::graphic::opengl::ecs::component::Transformable::setScale(
 )
 {
     m_scale = ::glm::vec3{ scaleX, scaleY, scaleZ };
+    m_model = ::glm::scale(m_model, m_scale);
 }
 
 void ::engine::graphic::opengl::ecs::component::Transformable::setScaleX(
@@ -279,6 +313,7 @@ void ::engine::graphic::opengl::ecs::component::Transformable::setScaleX(
 )
 {
     m_scale.x = scale;
+    m_model = ::glm::scale(m_model, m_scale);
 }
 
 void ::engine::graphic::opengl::ecs::component::Transformable::setScaleY(
@@ -286,6 +321,7 @@ void ::engine::graphic::opengl::ecs::component::Transformable::setScaleY(
 )
 {
     m_scale.y = scale;
+    m_model = ::glm::scale(m_model, m_scale);
 }
 
 void ::engine::graphic::opengl::ecs::component::Transformable::setScaleZ(
@@ -293,6 +329,7 @@ void ::engine::graphic::opengl::ecs::component::Transformable::setScaleZ(
 )
 {
     m_scale.z = scale;
+    m_model = ::glm::scale(m_model, m_scale);
 }
 
 
@@ -317,10 +354,19 @@ void ::engine::graphic::opengl::ecs::component::Transformable::rotate(
     if (m_rotation.x >= 360) {
         m_rotation.x -= 360;
     }
+    m_model = ::glm::rotate(m_model, -::glm::radians(offset.x), ::glm::vec3{ 0.0F, 1.0F, 0.0F });
     if (m_rotation.y > this->maxPitch) {
+        m_model = ::glm::rotate(
+            m_model, ::glm::radians(this->maxPitch - m_rotation.y), ::glm::vec3{ 0.0F, 0.0F, 1.0F }
+        );
         m_rotation.y = this->maxPitch;
     } else if (m_rotation.y < this->minPitch) {
+        m_model = ::glm::rotate(
+            m_model, ::glm::radians(this->minPitch - m_rotation.y), ::glm::vec3{ 0.0F, 0.0F, 1.0F }
+        );
         m_rotation.y = this->minPitch;
+    } else {
+        m_model = ::glm::rotate(m_model, ::glm::radians(offset.y), ::glm::vec3{ 0.0F, 0.0F, 1.0F });
     }
     this->adjustDirection();
 }
@@ -336,10 +382,19 @@ void ::engine::graphic::opengl::ecs::component::Transformable::rotate(
     if (m_rotation.x >= 360) {
         m_rotation.x -= 360;
     }
+    m_model = ::glm::rotate(m_model, -::glm::radians(yawOffset), ::glm::vec3{ 0.0F, 1.0F, 0.0F });
     if (m_rotation.y > this->maxPitch) {
+        m_model = ::glm::rotate(
+            m_model, ::glm::radians(this->maxPitch - m_rotation.y), ::glm::vec3{ 0.0F, 0.0F, 1.0F }
+        );
         m_rotation.y = this->maxPitch;
     } else if (m_rotation.y < this->minPitch) {
+        m_model = ::glm::rotate(
+            m_model, ::glm::radians(this->minPitch - m_rotation.y), ::glm::vec3{ 0.0F, 0.0F, 1.0F }
+        );
         m_rotation.y = this->minPitch;
+    } else {
+        m_model = ::glm::rotate(m_model, ::glm::radians(pitchOffset), ::glm::vec3{ 0.0F, 0.0F, 1.0F });
     }
     this->adjustDirection();
 }
@@ -353,6 +408,7 @@ void ::engine::graphic::opengl::ecs::component::Transformable::rotateYaw(
     if (m_rotation.x >= 360) {
         m_rotation.x -= 360;
     }
+    m_model = ::glm::rotate(m_model, -::glm::radians(offset), ::glm::vec3{ 0.0F, 1.0F, 0.0F });
     this->adjustDirection();
 }
 
@@ -363,9 +419,17 @@ void ::engine::graphic::opengl::ecs::component::Transformable::rotatePitch(
     m_rotation.y += offset;
 
     if (m_rotation.y > this->maxPitch) {
+        m_model = ::glm::rotate(
+            m_model, ::glm::radians(this->maxPitch - m_rotation.y), ::glm::vec3{ 0.0F, 0.0F, 1.0F }
+        );
         m_rotation.y = this->maxPitch;
     } else if (m_rotation.y < this->minPitch) {
+        m_model = ::glm::rotate(
+            m_model, ::glm::radians(this->minPitch - m_rotation.y), ::glm::vec3{ 0.0F, 0.0F, 1.0F }
+        );
         m_rotation.y = this->minPitch;
+    } else {
+        m_model = ::glm::rotate(m_model, ::glm::radians(offset), ::glm::vec3{ 0.0F, 0.0F, 1.0F });
     }
     this->adjustDirection();
 }
@@ -379,6 +443,10 @@ void ::engine::graphic::opengl::ecs::component::Transformable::setRotation(
     if (rotation.x >= 360 || rotation.y > this->maxPitch || rotation.y < this->minPitch) {
         throw::std::logic_error("invalid orientation");
     }
+    m_model =
+        ::glm::rotate(m_model, -::glm::radians(m_rotation.x - rotation.x), ::glm::vec3{ 0.0F, 1.0F, 0.0F });
+    m_model =
+        ::glm::rotate(m_model, ::glm::radians(m_rotation.y - rotation.y), ::glm::vec3{ 0.0F, 0.0F, 1.0F });
     m_rotation = rotation;
     this->adjustDirection();
 }
@@ -390,6 +458,10 @@ void ::engine::graphic::opengl::ecs::component::Transformable::setRotation(
     if (rotation.x >= 360 || rotation.y > this->maxPitch || rotation.y < this->minPitch) {
         throw::std::logic_error("invalid orientation");
     }
+    m_model =
+        ::glm::rotate(m_model, -::glm::radians(m_rotation.x - rotation.x), ::glm::vec3{ 0.0F, 1.0F, 0.0F });
+    m_model =
+        ::glm::rotate(m_model, ::glm::radians(m_rotation.y - rotation.y), ::glm::vec3{ 0.0F, 0.0F, 1.0F });
     m_rotation = ::std::move(rotation);
     this->adjustDirection();
 }
@@ -405,6 +477,10 @@ void ::engine::graphic::opengl::ecs::component::Transformable::setRotation(
     }
     m_rotation.x = yaw;
     m_rotation.y = pitch;
+    m_model =
+        ::glm::rotate(m_model, -::glm::radians(m_rotation.x - yaw), ::glm::vec3{ 0.0F, 1.0F, 0.0F });
+    m_model =
+        ::glm::rotate(m_model, ::glm::radians(m_rotation.y - pitch), ::glm::vec3{ 0.0F, 0.0F, 1.0F });
     this->adjustDirection();
 }
 
@@ -415,6 +491,7 @@ void ::engine::graphic::opengl::ecs::component::Transformable::setYaw(
     if (yaw >= 360) {
         throw::std::logic_error("invalid yaw");
     }
+    m_model = ::glm::rotate(m_model, -::glm::radians(m_rotation.x - yaw), ::glm::vec3{ 0.0F, 1.0F, 0.0F });
     m_rotation.x = yaw;
     this->adjustDirection();
 }
@@ -426,6 +503,7 @@ void ::engine::graphic::opengl::ecs::component::Transformable::setPitch(
     if (pitch > this->maxPitch || pitch < this->minPitch) {
         throw::std::logic_error("invalid orientation");
     }
+    m_model = ::glm::rotate(m_model, ::glm::radians(m_rotation.y - pitch), ::glm::vec3{ 0.0F, 0.0F, 1.0F });
     m_rotation.y = pitch;
     this->adjustDirection();
 }
