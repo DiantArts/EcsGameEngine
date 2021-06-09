@@ -33,7 +33,7 @@ template <
                     ::cbitset::Cbitset<::engine::core::ecs::component::maxID>& signature,
                     int i
                 ){
-                    using ComponentType = std::remove_reference_t<RawComponentType>;
+                    using ComponentType =::std::remove_reference_t<RawComponentType>;
                     if (ComponentType::getID() == i) {
                         signature.set(i);
                     }

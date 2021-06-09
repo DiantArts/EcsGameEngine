@@ -38,7 +38,7 @@ namespace detail
 
     /// Used to submit the curent result of the addition and the carry over
     template<size_t n>
-    using array_pair_t= std::pair<base_t,
+    using array_pair_t=::std::pair<base_t,
                                   typename h_types<T>::template array_t<n> >;
 
 
@@ -49,7 +49,7 @@ namespace detail
             h_types<T>::template array_t<it_n> const &so_far ) const noexcept
     {
       return
-        std::make_pair( ( sum < a || sm1 < b ) ? base_t(1) : base_t(0)
+       ::std::make_pair( ( sum < a || sm1 < b ) ? base_t(1) : base_t(0)
                       , array_funcs<it_n,T>()
                              .append( so_far
                                     , ( it_n + 1 < n_array )
@@ -101,12 +101,12 @@ namespace detail
     {
       return
           this->add_h2( arr1[0], arr2[0]
-                      , std::make_pair( T(0), zero_array_t{} ) );
+                      ,::std::make_pair( T(0), zero_array_t{} ) );
     }
   }; // struct array_add_h
 
 
-  /// Allows to add two std::array's in a constexpr
+  /// Allows to add two::std::array's in a constexpr
   template<size_t N,class T>
   struct array_add
   {

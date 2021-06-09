@@ -76,7 +76,7 @@ private:
             GLFWwindow* window
         );
     };
-    std::unique_ptr<GLFWwindow, Window::Deleter> m_window;
+   ::std::unique_ptr<GLFWwindow, Window::Deleter> m_window;
 
 };
 

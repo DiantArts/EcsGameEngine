@@ -12,7 +12,7 @@ template <
         auto function
     > static inline constexpr void run(auto&&... args)
     {
-        (function.template operator()<Rest>(std::forward<decltype(args)>(args)...), ...);
+        (function.template operator()<Rest>(::std::forward<decltype(args)>(args)...), ...);
     }
 
     // returns true when the function return true every times
@@ -21,7 +21,7 @@ template <
     > static inline constexpr auto compare(auto&&... args)
         -> bool
     {
-        return (function.template operator()<Rest>(std::forward<decltype(args)>(args)...) && ...);
+        return (function.template operator()<Rest>(::std::forward<decltype(args)>(args)...) && ...);
     }
 
     // returns true when the function return true once
@@ -30,7 +30,7 @@ template <
     > static inline constexpr auto exist(auto&&... args)
         -> bool
     {
-        return (function.template operator()<Rest>(std::forward<decltype(args)>(args)...) || ...);
+        return (function.template operator()<Rest>(::std::forward<decltype(args)>(args)...) || ...);
     }
 };
 

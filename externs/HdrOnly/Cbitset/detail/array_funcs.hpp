@@ -43,7 +43,7 @@ namespace detail
       bitwise_or( array_t const &arr1, array_t const &arr2 ) const noexcept
       {
           return bitwise_op_impl( op_type::or_op, arr1, arr2,
-                                  std::make_index_sequence<n_array>() );
+                                 ::std::make_index_sequence<n_array>() );
       }
 
       /// Used for |= operator. Separate implementation for better performance.
@@ -57,7 +57,7 @@ namespace detail
       bitwise_and( array_t const &arr1, array_t const &arr2 ) const noexcept
       {
         return bitwise_op_impl( op_type::and_op, arr1, arr2,
-                                std::make_index_sequence<n_array>() );
+                               ::std::make_index_sequence<n_array>() );
       }
 
       /// Used for &= operator. Separate implementation for better performance.
@@ -71,7 +71,7 @@ namespace detail
       bitwise_xor( array_t const &arr1, array_t const &arr2 ) const noexcept
       {
         return bitwise_op_impl( op_type::xor_op, arr1, arr2,
-                                std::make_index_sequence<n_array>() );
+                               ::std::make_index_sequence<n_array>() );
       }
 
       /// Used for ^= operator. Separate implementation for better performance.
@@ -86,7 +86,7 @@ namespace detail
       bitwise_setdiff( array_t const &arr1, array_t const &arr2 ) const noexcept
       {
         return bitwise_op_impl( op_type::sdiff_op, arr1, arr2,
-                                std::make_index_sequence<n_array>() );
+                               ::std::make_index_sequence<n_array>() );
       }
 
       /// \brief Computes the set difference, i.e. arr1 & ~arr2.
@@ -108,7 +108,7 @@ namespace detail
       count( array_t const &arr ) const noexcept
       {
         return
-          sum_impl( count_impl( arr, std::make_index_sequence<n_array>() ) );
+          sum_impl( count_impl( arr,::std::make_index_sequence<n_array>() ) );
       }
 
 
@@ -148,14 +148,14 @@ namespace detail
       constexpr
       array_p1_t
       prepend( base_t const v1, array_t const &arr ) const noexcept
-      { return prepend_impl( v1, arr, std::make_index_sequence<n_array>()); }
+      { return prepend_impl( v1, arr,::std::make_index_sequence<n_array>()); }
 
 
       /// Append v1 to arr
       constexpr
       array_p1_t
       append( array_t const &arr, base_t const v1 ) const noexcept
-      { return append_impl( arr, v1, std::make_index_sequence<n_array>()); }
+      { return append_impl( arr, v1,::std::make_index_sequence<n_array>()); }
 
 
       /// Copy each element in arr but apply pttrn to most significant entry
@@ -173,8 +173,8 @@ namespace detail
                  arr,
                  gen_empty_array<n_array,T>(),
                  n >= n_array,
-                 std::make_index_sequence<ce_min( n_array-1, n )>(),
-                 std::make_index_sequence<n_array-1-ce_min(n_array-1, n)>() );
+                ::std::make_index_sequence<ce_min( n_array-1, n )>(),
+                ::std::make_index_sequence<n_array-1-ce_min(n_array-1, n)>() );
       } // copy_and_map
 
 
@@ -188,8 +188,8 @@ namespace detail
                          h_types<T>::template array_t<n> const &arr,
                          array_t const                         &zeroes,
                          bool const                            take_all,
-                         std::index_sequence<S1...>,
-                         std::index_sequence<S2...> ) const noexcept
+                        ::std::index_sequence<S1...>,
+                        ::std::index_sequence<S2...> ) const noexcept
       {
         return {{ arr[S1]..., zeroes[S2]...,
                   base_t(( take_all ? arr[n_array-1] : base_t(0) ) & pttrn) }};
@@ -210,7 +210,7 @@ namespace detail
       constexpr
       array_p1_t
       append_impl( array_t const &arr, base_t const v1,
-                   std::index_sequence<S...> ) const noexcept
+                  ::std::index_sequence<S...> ) const noexcept
       { return {{ arr[S]..., v1 }}; }
 
 
@@ -218,7 +218,7 @@ namespace detail
       constexpr
       array_p1_t
       prepend_impl( base_t const v1, array_t const &arr,
-                    std::index_sequence<S...> ) const noexcept
+                   ::std::index_sequence<S...> ) const noexcept
       { return {{ v1, arr[S]... }}; }
 
 
@@ -292,7 +292,7 @@ namespace detail
       array_t
       bitwise_op_impl( op_type opt,
                        array_t const &arr1, array_t const &arr2,
-                       std::index_sequence<S...> ) const noexcept
+                      ::std::index_sequence<S...> ) const noexcept
       { return {{ h_bitwise_op( S, opt, arr1, arr2 )... }};  }
 
       constexpr
@@ -309,8 +309,8 @@ namespace detail
       /// Count bits in each element of arr
       template<size_t ... S>
       constexpr
-      std::array<size_t, n_array>
-      count_impl( array_t const &arr, std::index_sequence<S...> ) const noexcept
+     ::std::array<size_t, n_array>
+      count_impl( array_t const &arr,::std::index_sequence<S...> ) const noexcept
       { return {{ count_bits( arr[S] )... }};  }
 
 
@@ -318,7 +318,7 @@ namespace detail
       template<class T1>
       constexpr
       T1
-      sum_impl( std::array<T1, n_array> const &vals,
+      sum_impl(::std::array<T1, n_array> const &vals,
                 size_t ct= n_array - 1 ) const noexcept
       { return vals[ct] + ( ( ct == 0 ) ? T1(0) : sum_impl( vals, ct - 1 ) ); }
 

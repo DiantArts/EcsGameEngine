@@ -10,7 +10,7 @@ template <
 > struct IsBaseOfTemplate {
 
     // A function which can only be called by something convertible to a Base<Ts...>*
-    // We return a std::variant here as a way of "returning" a parameter pack
+    // We return a::std::variant here as a way of "returning" a parameter pack
     template<
         typename... Ts
     > static constexpr auto is_callable( Base<Ts...>* )
@@ -19,7 +19,7 @@ template <
     // Detector, will return type of calling is_callable, or it won't compile if that can't be done
     template <
         typename T
-    > using is_callable_t = decltype(is_callable(std::declval<T*>()));
+    > using is_callable_t = decltype(is_callable(::std::declval<T*>()));
 
     // Is it possible to call is_callable which the Derived type
     static inline constexpr bool value = ::std::experimental::is_detected<is_callable_t, Derived>::value;

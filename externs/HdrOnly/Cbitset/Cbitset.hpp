@@ -49,8 +49,8 @@ template<size_t N,
 
 template<size_t N,class T>
 class Cbitset<N,T,
-              typename std::enable_if<   std::is_integral<T>::value
-                                      && std::is_unsigned<T>::value>::type>
+              typename::std::enable_if<  ::std::is_integral<T>::value
+                                      &&::std::is_unsigned<T>::value>::type>
 : public detail::Cbitset_impl<N,T>
 {
   enum : size_t { base_t_n_bits= detail::Cbitset_impl<N,T>::base_t_n_bits };
@@ -117,7 +117,7 @@ public:
   operator=( Cbitset && ) noexcept= default;
 
   explicit
-  Cbitset( const std::bitset<N> &bs ) noexcept
+  Cbitset( const::std::bitset<N> &bs ) noexcept
   : detail::Cbitset_impl<N,T>( bs )
   {}
 
@@ -130,18 +130,18 @@ public:
   template<size_t n,class Tsrc>
   explicit
   constexpr
-  Cbitset( std::array<Tsrc,n> const & value ) noexcept
+  Cbitset(::std::array<Tsrc,n> const & value ) noexcept
   : detail::Cbitset_impl<N,T>( value )
   {}
 
   template< class CharT, class Traits, class Alloc >
   explicit
-  Cbitset( std::basic_string<CharT,Traits,Alloc> const
+  Cbitset(::std::basic_string<CharT,Traits,Alloc> const
                     & str,
-           typename std::basic_string<CharT,Traits,Alloc>::size_type
+           typename::std::basic_string<CharT,Traits,Alloc>::size_type
                     pos = 0,
-           typename std::basic_string<CharT,Traits,Alloc>::size_type
-                    n = std::basic_string<CharT,Traits,Alloc>::npos,
+           typename::std::basic_string<CharT,Traits,Alloc>::size_type
+                    n =::std::basic_string<CharT,Traits,Alloc>::npos,
            CharT    zero= CharT('0'),
            CharT    one=  CharT('1') )
   : detail::Cbitset_impl<N,T>( str, pos, n, zero, one )
@@ -151,13 +151,13 @@ public:
   template< class CharT >
   explicit
   Cbitset( const CharT        *str,
-           typename std::basic_string<CharT>::size_type
-                              n=     std::basic_string<CharT>::npos,
+           typename::std::basic_string<CharT>::size_type
+                              n=    ::std::basic_string<CharT>::npos,
            CharT              zero=  CharT('0'),
            CharT              one=   CharT('1') )
-  : detail::Cbitset_impl<N,T>( n == std::basic_string<CharT>::npos
-                               ? std::basic_string<CharT>( str )
-                               : std::basic_string<CharT>( str, n ),
+  : detail::Cbitset_impl<N,T>( n ==::std::basic_string<CharT>::npos
+                               ?::std::basic_string<CharT>( str )
+                               : ::std::basic_string<CharT>( str, n ),
                                0, n, zero, one )
   {}
   /* ------------------------------------------------------------- */
@@ -328,7 +328,7 @@ public:
   Cbitset &
   reset( size_t bit )
   {
-    if( bit >= N  ) throw std::out_of_range( "Cbitset: reset out of range" );
+    if( bit >= N  ) throw::std::out_of_range( "Cbitset: reset out of range" );
    return set( bit, false );
  }
 
@@ -349,15 +349,15 @@ public:
  flip( size_t bit )
  { detail::Cbitset_impl<N,T>::flip( bit ); return *this; }
 
- constexpr std::size_t size() const noexcept { return N; }
+ constexpr::std::size_t size() const noexcept { return N; }
 
  template<class CharT = char,
-          class Traits = std::char_traits<CharT>,
-          class Allocator = std::allocator<CharT> >
- std::basic_string<CharT,Traits,Allocator>
+          class Traits =::std::char_traits<CharT>,
+          class Allocator =::std::allocator<CharT> >
+::std::basic_string<CharT,Traits,Allocator>
  to_string( CharT zero = CharT('0'), CharT one = CharT('1') ) const
  {
-   std::basic_string<CharT,Traits,Allocator> ret_val;
+  ::std::basic_string<CharT,Traits,Allocator> ret_val;
    ret_val.reserve( N );
    for( size_t ct= N; ct > 0; )
    {
@@ -368,10 +368,10 @@ public:
  } // to_string
 
  template<class CharT = char,
-          class Traits = std::char_traits<CharT>,
-          class Allocator = std::allocator<CharT>,
-          typename std::enable_if<base_t_n_bits % 4 == 0>::type* = nullptr >
- std::basic_string<CharT,Traits,Allocator>
+          class Traits =::std::char_traits<CharT>,
+          class Allocator =::std::allocator<CharT>,
+          typename::std::enable_if<base_t_n_bits % 4 == 0>::type* = nullptr >
+::std::basic_string<CharT,Traits,Allocator>
  to_hex_string( hex_params<CharT,Traits,Allocator> const &params=
                 hex_params<CharT,Traits,Allocator>{} ) const
  {
@@ -384,7 +384,7 @@ public:
    auto const      zeroCh= params.zeroCh;
    auto const      aCh=    params.aCh;
 
-   std::basic_string<CharT,Traits,Allocator> ret_val;
+  ::std::basic_string<CharT,Traits,Allocator> ret_val;
    ret_val.reserve( n_char + params.prefix.size() );
    ret_val= params.prefix;
    size_t ct= n_char;
@@ -520,7 +520,7 @@ zip_fold_or( Cbitset<N,T> const & bs1, Cbitset<N,T> const & bs2,
 /// Stream output
 template <class CharT, class Traits, size_t N,class T>
 std::basic_ostream<CharT, Traits>&
-operator<<( std::basic_ostream<CharT, Traits> & os,
+operator<<(::std::basic_ostream<CharT, Traits> & os,
             cbitset::Cbitset<N,T> const & x )
 {
   for( size_t ct= N; ct > 0; )
@@ -534,10 +534,10 @@ operator<<( std::basic_ostream<CharT, Traits> & os,
 /// Stream input
 template <class CharT, class Traits, size_t N,class T>
 std::basic_istream<CharT, Traits>&
-operator>>( std::basic_istream<CharT, Traits> & is,
+operator>>(::std::basic_istream<CharT, Traits> & is,
             cbitset::Cbitset<N,T> & x )
 {
-  std::bitset<N>  bs;
+ ::std::bitset<N>  bs;
   is >> bs;
   x= cbitset::Cbitset<N,T>( bs );
   return is;
@@ -640,7 +640,7 @@ namespace std
     { return m_func( bs.data() ); }
   }; // struct hash
 
-} // namespace std
+} // namespace::std
 
 
 #endif // BITSET2_CB_HPP

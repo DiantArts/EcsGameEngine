@@ -27,8 +27,8 @@
 namespace glm {
 template <typename T, typename Vec>
 using return_type_scalar_multiplication =
-    typename std::enable_if<!std::is_same<T, float>::value // T may not be a float
-                                && std::is_arithmetic<T>::value,
+    typename::std::enable_if<!std::is_same<T, float>::value // T may not be a float
+                                &&::std::is_arithmetic<T>::value,
                             Vec // But it may be an int or double (no vec3 or mat3, ...)
                             >::type;
 

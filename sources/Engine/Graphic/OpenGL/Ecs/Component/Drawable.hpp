@@ -5,6 +5,8 @@
 #include <Engine/Graphic/OpenGL/Vao.hpp>
 #include <Engine/Graphic/OpenGL/Vbo.hpp>
 #include <Engine/Graphic/OpenGL/Texture.hpp>
+#include <Engine/Core/Ecs/Component/Position.hpp>
+#include <Engine/Graphic/OpenGL/Ecs/Component/Transformable.hpp>
 
 
 
@@ -55,7 +57,7 @@ public:
     // ------------------------------------------------------------------ Use
 
     void operator()(
-        const ::glm::vec3& position
+        const ::engine::graphic::opengl::ecs::component::Transformable& transformation
     ) const;
 
 

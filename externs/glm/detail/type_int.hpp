@@ -15,15 +15,15 @@
 namespace glm {
 namespace detail {
 #if GLM_HAS_EXTENDED_INTEGER_TYPE
-typedef std::int8_t int8;
-typedef std::int16_t int16;
-typedef std::int32_t int32;
-typedef std::int64_t int64;
+typedef::std::int8_t int8;
+typedef::std::int16_t int16;
+typedef::std::int32_t int32;
+typedef::std::int64_t int64;
 
-typedef std::uint8_t uint8;
-typedef std::uint16_t uint16;
-typedef std::uint32_t uint32;
-typedef std::uint64_t uint64;
+typedef::std::uint8_t uint8;
+typedef::std::uint16_t uint16;
+typedef::std::uint32_t uint32;
+typedef::std::uint64_t uint64;
 #else
 #if (defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 199901L)) // C99 detected, 64 bit types available
 typedef int64_t sint64;
@@ -68,8 +68,8 @@ typedef unsigned int mediump_uint_t;
 typedef unsigned int highp_uint_t;
 
 #if GLM_HAS_MAKE_SIGNED
-using std::make_signed;
-using std::make_unsigned;
+using::std::make_signed;
+using::std::make_unsigned;
 
 #else // GLM_HAS_MAKE_SIGNED
 template <typename genType>

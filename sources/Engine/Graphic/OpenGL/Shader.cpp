@@ -98,7 +98,7 @@
 
 
 
-// -------------------------------------------------------------------------------- Move sementic
+// ---------------------------------------------------------------------- Move sementic
 
 ::engine::graphic::opengl::Shader::Shader(
     Shader&& other
@@ -145,7 +145,7 @@ void ::engine::graphic::opengl::Shader::set(
     const bool value
 ) const
 {
-    glUniform1i(this->getOrCacheUniformLocation(std::move(name)), static_cast<int>(value));
+    glUniform1i(this->getOrCacheUniformLocation(::std::move(name)), static_cast<int>(value));
 }
 
 
@@ -163,7 +163,7 @@ void ::engine::graphic::opengl::Shader::set(
     const int value
 ) const
 {
-    glUniform1i(this->getOrCacheUniformLocation(std::move(name)), value);
+    glUniform1i(this->getOrCacheUniformLocation(::std::move(name)), value);
 }
 
 
@@ -181,7 +181,7 @@ void ::engine::graphic::opengl::Shader::set(
     const size_t value
 ) const
 {
-    glUniform1ui(this->getOrCacheUniformLocation(std::move(name)), value);
+    glUniform1ui(this->getOrCacheUniformLocation(::std::move(name)), value);
 }
 
 
@@ -199,14 +199,14 @@ void ::engine::graphic::opengl::Shader::set(
     const float value
 ) const
 {
-    glUniform1f(this->getOrCacheUniformLocation(std::move(name)), value);
+    glUniform1f(this->getOrCacheUniformLocation(::std::move(name)), value);
 }
 
 
 
 void ::engine::graphic::opengl::Shader::set(
     const ::std::string& name,
-    const glm::vec2& value
+    const ::glm::vec2& value
 ) const
 {
     glUniform2f(this->getOrCacheUniformLocation(name), value.x, value.y);
@@ -214,7 +214,7 @@ void ::engine::graphic::opengl::Shader::set(
 
 void ::engine::graphic::opengl::Shader::set(
     const ::std::string& name,
-    glm::vec2&& value
+    ::glm::vec2&& value
 ) const
 {
     glUniform2f(this->getOrCacheUniformLocation(name), value.x, value.y);
@@ -222,18 +222,18 @@ void ::engine::graphic::opengl::Shader::set(
 
 void ::engine::graphic::opengl::Shader::set(
     ::std::string&& name,
-    const glm::vec2& value
+    const ::glm::vec2& value
 ) const
 {
-    glUniform2f(getOrCacheUniformLocation(std::move(name)), value.x, value.y);
+    glUniform2f(getOrCacheUniformLocation(::std::move(name)), value.x, value.y);
 }
 
 void ::engine::graphic::opengl::Shader::set(
     ::std::string&& name,
-    glm::vec2&& value
+    ::glm::vec2&& value
 ) const
 {
-    glUniform2f(getOrCacheUniformLocation(std::move(name)), value.x, value.y);
+    glUniform2f(getOrCacheUniformLocation(::std::move(name)), value.x, value.y);
 }
 
 
@@ -253,14 +253,14 @@ void ::engine::graphic::opengl::Shader::set(
     const float y
 ) const
 {
-    glUniform2f(this->getOrCacheUniformLocation(std::move(name)), x, y);
+    glUniform2f(this->getOrCacheUniformLocation(::std::move(name)), x, y);
 }
 
 
 
 void ::engine::graphic::opengl::Shader::set(
     const ::std::string& name,
-    const glm::vec3& value
+    const ::glm::vec3& value
 ) const
 {
     glUniform3f(this->getOrCacheUniformLocation(name), value.x, value.y, value.z);
@@ -268,7 +268,7 @@ void ::engine::graphic::opengl::Shader::set(
 
 void ::engine::graphic::opengl::Shader::set(
     const ::std::string& name,
-    glm::vec3&& value
+    ::glm::vec3&& value
 ) const
 {
     glUniform3f(this->getOrCacheUniformLocation(name), value.x, value.y, value.z);
@@ -276,18 +276,18 @@ void ::engine::graphic::opengl::Shader::set(
 
 void ::engine::graphic::opengl::Shader::set(
     ::std::string&& name,
-    const glm::vec3& value
+    const ::glm::vec3& value
 ) const
 {
-    glUniform3f(this->getOrCacheUniformLocation(std::move(name)), value.x, value.y, value.z);
+    glUniform3f(this->getOrCacheUniformLocation(::std::move(name)), value.x, value.y, value.z);
 }
 
 void ::engine::graphic::opengl::Shader::set(
     ::std::string&& name,
-    glm::vec3&& value
+    ::glm::vec3&& value
 ) const
 {
-    glUniform3f(this->getOrCacheUniformLocation(std::move(name)), value.x, value.y, value.z);
+    glUniform3f(this->getOrCacheUniformLocation(::std::move(name)), value.x, value.y, value.z);
 }
 
 
@@ -309,14 +309,14 @@ void ::engine::graphic::opengl::Shader::set(
     const float z
 ) const
 {
-    glUniform3f(this->getOrCacheUniformLocation(std::move(name)), x, y, z);
+    glUniform3f(this->getOrCacheUniformLocation(::std::move(name)), x, y, z);
 }
 
 
 
 void ::engine::graphic::opengl::Shader::set(
     const ::std::string& name,
-    const glm::vec4& value
+    const ::glm::vec4& value
 ) const
 {
     glUniform4f(this->getOrCacheUniformLocation(name), value.x, value.y, value.z, value.w);
@@ -324,7 +324,7 @@ void ::engine::graphic::opengl::Shader::set(
 
 void ::engine::graphic::opengl::Shader::set(
     const ::std::string& name,
-    glm::vec4&& value
+    ::glm::vec4&& value
 ) const
 {
     glUniform4f(this->getOrCacheUniformLocation(name), value.x, value.y, value.z, value.w);
@@ -332,18 +332,18 @@ void ::engine::graphic::opengl::Shader::set(
 
 void ::engine::graphic::opengl::Shader::set(
     ::std::string&& name,
-    const glm::vec4& value
+    const ::glm::vec4& value
 ) const
 {
-    glUniform4f(this->getOrCacheUniformLocation(std::move(name)), value.x, value.y, value.z, value.w);
+    glUniform4f(this->getOrCacheUniformLocation(::std::move(name)), value.x, value.y, value.z, value.w);
 }
 
 void ::engine::graphic::opengl::Shader::set(
     ::std::string&& name,
-    glm::vec4&& value
+    ::glm::vec4&& value
 ) const
 {
-    glUniform4f(this->getOrCacheUniformLocation(std::move(name)), value.x, value.y, value.z, value.w);
+    glUniform4f(this->getOrCacheUniformLocation(::std::move(name)), value.x, value.y, value.z, value.w);
 }
 
 
@@ -367,14 +367,14 @@ void ::engine::graphic::opengl::Shader::set(
     const float w
 ) const
 {
-    glUniform4f(this->getOrCacheUniformLocation(std::move(name)), x, y, z, w);
+    glUniform4f(this->getOrCacheUniformLocation(::std::move(name)), x, y, z, w);
 }
 
 
 
 void ::engine::graphic::opengl::Shader::set(
     const ::std::string& name,
-    const glm::mat2& mat
+    const ::glm::mat2& mat
 ) const
 {
     glUniformMatrix2fv(this->getOrCacheUniformLocation(name), 1, GL_FALSE, &mat[0][0]);
@@ -382,7 +382,7 @@ void ::engine::graphic::opengl::Shader::set(
 
 void ::engine::graphic::opengl::Shader::set(
     const ::std::string& name,
-    glm::mat2&& mat
+    ::glm::mat2&& mat
 ) const
 {
     glUniformMatrix2fv(this->getOrCacheUniformLocation(name), 1, GL_FALSE, &mat[0][0]);
@@ -390,25 +390,25 @@ void ::engine::graphic::opengl::Shader::set(
 
 void ::engine::graphic::opengl::Shader::set(
     ::std::string&& name,
-    const glm::mat2& mat
+    const ::glm::mat2& mat
 ) const
 {
-    glUniformMatrix2fv(this->getOrCacheUniformLocation(std::move(name)), 1, GL_FALSE, &mat[0][0]);
+    glUniformMatrix2fv(this->getOrCacheUniformLocation(::std::move(name)), 1, GL_FALSE, &mat[0][0]);
 }
 
 void ::engine::graphic::opengl::Shader::set(
     ::std::string&& name,
-    glm::mat2&& mat
+    ::glm::mat2&& mat
 ) const
 {
-    glUniformMatrix2fv(this->getOrCacheUniformLocation(std::move(name)), 1, GL_FALSE, &mat[0][0]);
+    glUniformMatrix2fv(this->getOrCacheUniformLocation(::std::move(name)), 1, GL_FALSE, &mat[0][0]);
 }
 
 
 
 void ::engine::graphic::opengl::Shader::set(
     const ::std::string& name,
-    const glm::mat3& mat
+    const ::glm::mat3& mat
 ) const
 {
     glUniformMatrix3fv(this->getOrCacheUniformLocation(name), 1, GL_FALSE, &mat[0][0]);
@@ -416,7 +416,7 @@ void ::engine::graphic::opengl::Shader::set(
 
 void ::engine::graphic::opengl::Shader::set(
     const ::std::string& name,
-    glm::mat3&& mat
+    ::glm::mat3&& mat
 ) const
 {
     glUniformMatrix3fv(this->getOrCacheUniformLocation(name), 1, GL_FALSE, &mat[0][0]);
@@ -424,25 +424,25 @@ void ::engine::graphic::opengl::Shader::set(
 
 void ::engine::graphic::opengl::Shader::set(
     ::std::string&& name,
-    const glm::mat3& mat
+    const ::glm::mat3& mat
 ) const
 {
-    glUniformMatrix3fv(getOrCacheUniformLocation(std::move(name)), 1, GL_FALSE, &mat[0][0]);
+    glUniformMatrix3fv(getOrCacheUniformLocation(::std::move(name)), 1, GL_FALSE, &mat[0][0]);
 }
 
 void ::engine::graphic::opengl::Shader::set(
     ::std::string&& name,
-    glm::mat3&& mat
+    ::glm::mat3&& mat
 ) const
 {
-    glUniformMatrix3fv(getOrCacheUniformLocation(std::move(name)), 1, GL_FALSE, &mat[0][0]);
+    glUniformMatrix3fv(getOrCacheUniformLocation(::std::move(name)), 1, GL_FALSE, &mat[0][0]);
 }
 
 
 
 void ::engine::graphic::opengl::Shader::set(
     const ::std::string& name,
-    const glm::mat4& mat
+    const ::glm::mat4& mat
 ) const
 {
     glUniformMatrix4fv(this->getOrCacheUniformLocation(name), 1, GL_FALSE, &mat[0][0]);
@@ -450,7 +450,7 @@ void ::engine::graphic::opengl::Shader::set(
 
 void ::engine::graphic::opengl::Shader::set(
     const ::std::string& name,
-    glm::mat4&& mat
+    ::glm::mat4&& mat
 ) const
 {
     glUniformMatrix4fv(this->getOrCacheUniformLocation(name), 1, GL_FALSE, &mat[0][0]);
@@ -458,18 +458,18 @@ void ::engine::graphic::opengl::Shader::set(
 
 void ::engine::graphic::opengl::Shader::set(
     ::std::string&& name,
-    const glm::mat4& mat
+    const ::glm::mat4& mat
 ) const
 {
-    glUniformMatrix4fv(this->getOrCacheUniformLocation(std::move(name)), 1, GL_FALSE, &mat[0][0]);
+    glUniformMatrix4fv(this->getOrCacheUniformLocation(::std::move(name)), 1, GL_FALSE, &mat[0][0]);
 }
 
 void ::engine::graphic::opengl::Shader::set(
     ::std::string&& name,
-    glm::mat4&& mat
+    ::glm::mat4&& mat
 ) const
 {
-    glUniformMatrix4fv(this->getOrCacheUniformLocation(std::move(name)), 1, GL_FALSE, &mat[0][0]);
+    glUniformMatrix4fv(this->getOrCacheUniformLocation(::std::move(name)), 1, GL_FALSE, &mat[0][0]);
 }
 
 
@@ -488,7 +488,7 @@ void ::engine::graphic::opengl::Shader::set(
     const ::std::span<int> array
 ) const
 {
-    glUniform1iv(this->getOrCacheUniformLocation(std::move(name)), array.size(), &array.front());
+    glUniform1iv(this->getOrCacheUniformLocation(::std::move(name)), array.size(), &array.front());
 }
 
 
@@ -506,7 +506,7 @@ void ::engine::graphic::opengl::Shader::set(
     const ::std::span<float> array
 ) const
 {
-    glUniform1fv(this->getOrCacheUniformLocation(std::move(name)), array.size(), &array.front());
+    glUniform1fv(this->getOrCacheUniformLocation(::std::move(name)), array.size(), &array.front());
 }
 
 
@@ -524,7 +524,7 @@ void ::engine::graphic::opengl::Shader::set(
     const ::std::span<glm::vec2> array
 ) const
 {
-    glUniform2fv(this->getOrCacheUniformLocation(std::move(name)), array.size(), &array.front()[0]);
+    glUniform2fv(this->getOrCacheUniformLocation(::std::move(name)), array.size(), &array.front()[0]);
 }
 
 
@@ -542,7 +542,7 @@ void ::engine::graphic::opengl::Shader::set(
     const ::std::span<glm::vec3> array
 ) const
 {
-    glUniform3fv(this->getOrCacheUniformLocation(std::move(name)), array.size(), &array.front()[0]);
+    glUniform3fv(this->getOrCacheUniformLocation(::std::move(name)), array.size(), &array.front()[0]);
 }
 
 
@@ -560,7 +560,7 @@ void ::engine::graphic::opengl::Shader::set(
     const ::std::span<glm::vec4> array
 ) const
 {
-    glUniform4fv(this->getOrCacheUniformLocation(std::move(name)), array.size(), &array.front()[0]);
+    glUniform4fv(this->getOrCacheUniformLocation(::std::move(name)), array.size(), &array.front()[0]);
 }
 
 
@@ -578,7 +578,7 @@ void ::engine::graphic::opengl::Shader::set(
     const ::std::span<glm::mat2> array
 ) const
 {
-    glUniformMatrix2fv(this->getOrCacheUniformLocation(std::move(name)), array.size(), GL_FALSE,
+    glUniformMatrix2fv(this->getOrCacheUniformLocation(::std::move(name)), array.size(), GL_FALSE,
                        &array.front()[0][0]);
 }
 
@@ -597,7 +597,7 @@ void ::engine::graphic::opengl::Shader::set(
     const ::std::span<glm::mat3> array
 ) const
 {
-    glUniformMatrix3fv(this->getOrCacheUniformLocation(std::move(name)), array.size(), GL_FALSE,
+    glUniformMatrix3fv(this->getOrCacheUniformLocation(::std::move(name)), array.size(), GL_FALSE,
                        &array.front()[0][0]);
 }
 
@@ -616,7 +616,7 @@ void ::engine::graphic::opengl::Shader::set(
     const ::std::span<glm::mat4> array
 ) const
 {
-    glUniformMatrix4fv(this->getOrCacheUniformLocation(std::move(name)), array.size(), GL_FALSE,
+    glUniformMatrix4fv(this->getOrCacheUniformLocation(::std::move(name)), array.size(), GL_FALSE,
                        &array.front()[0][0]);
 }
 
@@ -666,7 +666,7 @@ auto ::engine::graphic::opengl::Shader::getOrCacheUniformLocation(
     } catch (const ::std::exception&) {
         // cache it
         return m_uniformsLocationCache
-            .emplace(std::move(uniformId), glGetUniformLocation(m_id, uniformId.c_str()))
+            .emplace(::std::move(uniformId), glGetUniformLocation(m_id, uniformId.c_str()))
             .first->second;
     }
 }

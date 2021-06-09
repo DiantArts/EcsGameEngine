@@ -9,7 +9,7 @@ static auto readShaderFile(
 {
     ::std::stringstream ss { tool::file::read(filepath) };
     ::std::string readFile;
-    for (std::string line; ::std::getline(ss, line); ) {
+    for (::std::string line; ::std::getline(ss, line); ) {
         if (line.rfind("#include ") == 0) {
             try {
                 readFile += readShaderFile(line.substr(10, line.size() - 11));

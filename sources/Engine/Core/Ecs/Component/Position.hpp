@@ -9,7 +9,7 @@ namespace engine::core::ecs::component {
 
 
 class Position
-    : public ::engine::core::ecs::AComponent<engine::core::ecs::component::Position>
+    : public ::engine::core::ecs::AComponent<::engine::core::ecs::component::Position>
 {
 
 public:

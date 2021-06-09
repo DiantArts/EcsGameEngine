@@ -38,7 +38,7 @@ template <
 )
     -> RawComponentType&
 {
-    using ComponentType = std::remove_reference_t<RawComponentType>;
+    using ComponentType =::std::remove_reference_t<RawComponentType>;
     m_signature.set<ComponentType>();
     return components.emplace<ComponentType>(m_id);
 }
@@ -74,7 +74,7 @@ template <
 > [[ nodiscard ]] auto ::engine::core::ecs::entity::Entity::hasComponent() const
     -> bool
 {
-    using ComponentType = std::remove_reference_t<RawComponentType>;
+    using ComponentType =::std::remove_reference_t<RawComponentType>;
     return m_signature.contains<ComponentType>();
 }
 
@@ -96,7 +96,7 @@ template <
     ::engine::core::ecs::component::Container& components
 )
 {
-    using ComponentType = std::remove_reference_t<RawComponentType>;
+    using ComponentType =::std::remove_reference_t<RawComponentType>;
     m_signature.reset<ComponentType>();
     components.remove<ComponentType>(m_id);
 }

@@ -31,7 +31,7 @@ template <
         return entity.getSignature().contains(::engine::core::ecs::system::System<func>::getSignature());
     } };
 
-    for (auto& entity : entities | std::views::filter(isMatching)) {
+    for (auto& entity : entities |::std::views::filter(isMatching)) {
         // get every args into a tupple
         using TupleType = ::engine::core::detail::meta::Function<decltype(func)>::Arguments::Type;
         auto args{
@@ -69,7 +69,7 @@ template <
     } };
 
     if constexpr (::engine::core::detail::meta::Function<decltype(func)>::Arguments::areConst) {
-        for (auto& entity : entities | std::views::filter(isMatching)) {
+        for (auto& entity : entities |::std::views::filter(isMatching)) {
             // get every args into a tupple
             using TupleType = ::engine::core::detail::meta::Function<decltype(func)>::Arguments::Type;
             auto args{
@@ -109,7 +109,7 @@ template <
 
 
 
-// -------------------------------------------------------------------------------------- Banished
+// ---------------------------------------------------------------------------- Banished
 
 // ------------------------------------------------------------------ *structors
 
@@ -118,16 +118,16 @@ template <
     ::engine::core::ecs::component::ConceptType... BanishedComponentTypes
 > ::engine::core::ecs::system::System<func, BanishedComponentTypes...>::System()
 {
-    // static_assert(
-        // !::engine::core::ecs::system::System<
-            // func,
-            // BanishedComponentTypes...
-        // >::getSignature().containsAtLeastOne(::engine::core::ecs::system::System<
-            // func,
-            // BanishedComponentTypes...
-        // >::getBanishedSignature()),
-        // "System signature contains a banished component"
-    // );
+    static_assert(
+        !::engine::core::ecs::system::System<
+            func,
+            BanishedComponentTypes...
+        >::getSignature().containsAtLeastOne(::engine::core::ecs::system::System<
+            func,
+            BanishedComponentTypes...
+        >::getBanishedSignature()),
+        "System signature contains a banished component"
+    );
 };
 
 template <
@@ -158,7 +158,7 @@ template <
             );
     } };
 
-    for (auto& entity : entities | std::views::filter(isMatching)) {
+    for (auto& entity : entities |::std::views::filter(isMatching)) {
         // get every args into a tupple
         using TupleType = ::engine::core::detail::meta::Function<decltype(func)>::Arguments::Type;
         auto args{
@@ -204,7 +204,7 @@ template <
     } };
 
     if constexpr (::engine::core::detail::meta::Function<decltype(func)>::Arguments::areConst) {
-        for (auto& entity : entities | std::views::filter(isMatching)) {
+        for (auto& entity : entities |::std::views::filter(isMatching)) {
             // get every args into a tupple
             using TupleType = ::engine::core::detail::meta::Function<decltype(func)>::Arguments::Type;
             auto args{

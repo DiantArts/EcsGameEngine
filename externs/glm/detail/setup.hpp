@@ -806,7 +806,7 @@
 // User defines: GLM_FORCE_SIZE_T_LENGTH GLM_FORCE_SIZE_FUNC
 
 namespace glm {
-using std::size_t;
+using::std::size_t;
 #if defined(GLM_FORCE_SIZE_T_LENGTH)
 typedef size_t length_t;
 #else
@@ -817,7 +817,7 @@ typedef int length_t;
 #if GLM_MESSAGES == GLM_MESSAGES_ENABLED && !defined(GLM_MESSAGE_FORCE_SIZE_T_LENGTH)
 #define GLM_MESSAGE_FORCE_SIZE_T_LENGTH
 #if defined GLM_FORCE_SIZE_T_LENGTH
-#pragma message("GLM: .length() returns glm::length_t, a typedef of std::size_t")
+#pragma message("GLM: .length() returns glm::length_t, a typedef of::std::size_t")
 #else
 #pragma message("GLM: .length() returns glm::length_t, a typedef of int following the GLSL specification")
 #endif
@@ -832,8 +832,8 @@ typedef int length_t;
 
 #if GLM_HAS_CONSTEXPR_PARTIAL
 namespace glm {
-template <typename T, std::size_t N>
-constexpr std::size_t countof(T const (&)[N]) {
+template <typename T,::std::size_t N>
+constexpr::std::size_t countof(T const (&)[N]) {
     return N;
 }
 } // namespace glm

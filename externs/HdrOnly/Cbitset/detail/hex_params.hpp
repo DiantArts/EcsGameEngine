@@ -21,11 +21,11 @@ namespace cbitset
 
 
 template< class CharT = char,
-          class Traits = std::char_traits<CharT>,
-          class Allocator = std::allocator<CharT> >
+          class Traits =::std::char_traits<CharT>,
+          class Allocator =::std::allocator<CharT> >
 struct hex_params
 {
-  using str_t= std::basic_string<CharT,Traits,Allocator>;
+  using str_t=::std::basic_string<CharT,Traits,Allocator>;
 
   hex_params( CharT         zero_ch=        CharT('0'),
               CharT         a_ch=           CharT('a'),

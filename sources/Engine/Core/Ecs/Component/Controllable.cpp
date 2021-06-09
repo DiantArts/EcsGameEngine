@@ -32,39 +32,41 @@ void ::engine::core::ecs::component::Controllable::setSpeed(
 
 void ::engine::core::ecs::component::Controllable::updatePosition(
     float deltaTime,
-    ::glm::vec3& position
-) const
+    ::engine::graphic::opengl::ecs::component::Transformable& transformable
+)
 {
     auto velocity = this->getSpeed() * deltaTime;
 
     if (this->isMovingForward()) {
+        if (this->isMovingRight() || this->isMovingLeft()) {
+            velocity *= (2.0F / 3.0F);
+        }
         if (!this->isMovingBackward()) {
-            position += velocity * m_front;
+            transformable.moveForward(velocity);
         }
-    } else {
-        if (this->isMovingBackward()) {
-            position -= velocity * m_front;
+    } else if (this->isMovingBackward()) {
+        if (this->isMovingRight() || this->isMovingLeft()) {
+            velocity *= (1.0F / 3.0F);
+        } else {
+            velocity *= (3.0F / 5.0F);
         }
+        transformable.moveBackward(velocity);
     }
 
     if (this->isMovingRight()) {
         if (!this->isMovingLeft()) {
-            position += ::glm::normalize(::glm::cross(m_front, m_up)) * velocity;
+            transformable.moveRight(velocity);
         }
-    } else {
-        if (this->isMovingLeft()) {
-            position -= ::glm::normalize(::glm::cross(m_front, m_up)) * velocity;
-        }
+    } else if (this->isMovingLeft()) {
+        transformable.moveLeft(velocity);
     }
 
     if (this->isMovingUp()) {
         if (!this->isMovingDown()) {
-            position.y += velocity;
+            transformable.moveUp(velocity);
         }
-    } else {
-        if (this->isMovingDown()) {
-            position.y -= velocity;
-        }
+    } else if (this->isMovingDown()) {
+        transformable.moveDown(velocity);
     }
 }
 
@@ -184,118 +186,73 @@ auto ::engine::core::ecs::component::Controllable::isMovingDown() const
 
 
 
-// ------------------------------------------------------------------ Orientation
+// ------------------------------------------------------------------ Rotation
 
-auto ::engine::core::ecs::component::Controllable::getDirection() const
-    -> const ::glm::vec3&
-{
-    return m_direction;
-}
-
-auto ::engine::core::ecs::component::Controllable::getOrientation() const
-    -> const ::glm::vec2&
-{
-    return m_orientation;
-}
-
-auto ::engine::core::ecs::component::Controllable::getFront() const
-    -> const ::glm::vec3&
-{
-    return m_front;
-}
-
-auto ::engine::core::ecs::component::Controllable::getUp() const
-    -> const ::glm::vec3&
-{
-    return m_up;
-}
-
-
-
-void ::engine::core::ecs::component::Controllable::oriente(
-    const float xOffset,
-    const float yOffset
+void ::engine::core::ecs::component::Controllable::updateRotation(
+    ::engine::graphic::opengl::ecs::component::Transformable& transformable
 )
 {
-    m_orientation.x += xOffset * m_sensitivity.x;
-    m_orientation.y += yOffset * m_sensitivity.y;
-
-    if (m_orientation.x >= 360) {
-        m_orientation.x -= 360;
+    while (m_rotation.x >= 360) {
+        m_rotation.x -= 360;
     }
-    if (m_orientation.y > this->maxPitch) {
-        m_orientation.y = this->maxPitch;
-    } else if (m_orientation.y < this->minPitch) {
-        m_orientation.y = this->minPitch;
-    }
-    this->adjustDirection();
+    transformable.rotate(::std::move(m_rotation));
+    m_rotation = ::glm::vec3{ 0.0F, 0.0F, 0.0F };
 }
 
-void ::engine::core::ecs::component::Controllable::oriente(
+
+void ::engine::core::ecs::component::Controllable::rotate(
     const ::glm::vec2& offset
 )
 {
-    m_orientation.x += offset.x * m_sensitivity.x;
-    m_orientation.y += offset.y * m_sensitivity.y;
+    m_rotation.x += offset.x * m_sensitivity.x;
+    m_rotation.y += offset.y * m_sensitivity.y;
 
-    if (m_orientation.x >= 360) {
-        m_orientation.x -= 360;
+    if (m_rotation.y > this->maxPitch) {
+        m_rotation.y = this->maxPitch;
+    } else if (m_rotation.y < this->minPitch) {
+        m_rotation.y = this->minPitch;
     }
-    if (m_orientation.y > this->maxPitch) {
-        m_orientation.y = this->maxPitch;
-    } else if (m_orientation.y < this->minPitch) {
-        m_orientation.y = this->minPitch;
-    }
-    this->adjustDirection();
 }
 
-
-
-void ::engine::core::ecs::component::Controllable::setOrientation(
-    const float xOffset,
-    const float yOffset
+void ::engine::core::ecs::component::Controllable::rotate(
+    const float yawOffset,
+    const float pitchOffset
 )
 {
-    if (xOffset >= 360 || yOffset > this->maxPitch || yOffset < this->minPitch) {
-        throw std::logic_error("invalid orientation");
+    m_rotation.x += yawOffset * m_sensitivity.x;
+    m_rotation.y += pitchOffset * m_sensitivity.y;
+
+    if (m_rotation.y > this->maxPitch) {
+        m_rotation.y = this->maxPitch;
+    } else if (m_rotation.y < this->minPitch) {
+        m_rotation.y = this->minPitch;
     }
-    m_orientation.x = xOffset;
-    m_orientation.y = yOffset;
-    this->adjustDirection();
 }
 
-void ::engine::core::ecs::component::Controllable::setOrientation(
-    const ::glm::vec2& offset
+void ::engine::core::ecs::component::Controllable::rotateYaw(
+    const float offset
 )
 {
-    if (offset.x >= 360 || offset.y > this->maxPitch || offset.y < this->minPitch) {
-        throw std::logic_error("invalid orientation");
+    m_rotation.x += offset * m_sensitivity.x;
+}
+
+void ::engine::core::ecs::component::Controllable::rotatePitch(
+    const float offset
+)
+{
+    m_rotation.y += offset * m_sensitivity.y;
+
+    if (m_rotation.y > this->maxPitch) {
+        m_rotation.y = this->maxPitch;
+    } else if (m_rotation.y < this->minPitch) {
+        m_rotation.y = this->minPitch;
     }
-    m_orientation.x = offset.x;
-    m_orientation.y = offset.y;
-    this->adjustDirection();
 }
 
 
 
-// ------------------------------------------------------------------ View
-
-auto ::engine::core::ecs::component::Controllable::getView(
-    const ::glm::vec3& position
-) const
-    -> ::glm::mat4
+[[ nodiscard ]] auto ::engine::core::ecs::component::Controllable::getRotation() const
+    -> const ::glm::vec3&
 {
-    return ::glm::lookAt(position, position + m_front, m_up);
-}
-
-
-
-// ------------------------------------------------------------------ Detail
-
-void ::engine::core::ecs::component::Controllable::adjustDirection()
-{
-    m_direction.x = cos(::glm::radians(m_orientation.x)) * cos(::glm::radians(m_orientation.y));
-    m_direction.y = sin(::glm::radians(m_orientation.y));
-    m_direction.z = sin(::glm::radians(m_orientation.x)) * cos(::glm::radians(m_orientation.y));
-    m_front = ::glm::normalize(m_direction);
+    return m_rotation;
 }

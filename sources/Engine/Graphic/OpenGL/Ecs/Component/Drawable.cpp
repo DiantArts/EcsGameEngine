@@ -42,7 +42,7 @@ auto ::engine::graphic::opengl::ecs::component::Drawable::operator=(
 // ------------------------------------------------------------------ use
 
 void ::engine::graphic::opengl::ecs::component::Drawable::operator()(
-    const ::glm::vec3& position
+    const ::engine::graphic::opengl::ecs::component::Transformable& transformation
 ) const
 {
     m_texture1.bind(0);
@@ -50,6 +50,6 @@ void ::engine::graphic::opengl::ecs::component::Drawable::operator()(
 
     m_shader.use();
     m_vao.bind();
-    m_shader.set("model", glm::translate(glm::mat4(1.0f), position));
+    m_shader.set("model", transformation.getModel());
     glDrawArrays(GL_TRIANGLES, 0, m_numberOfArrayToDraw);
 }

@@ -23,7 +23,7 @@ namespace detail
 {
 
   /// \brief Takes a variable 'v' of type unsigned long long
-  /// and returns a std::array 'a' equivalent to v. 'a' represents
+  /// and returns a::std::array 'a' equivalent to v. 'a' represents
   /// an N bit Cbitset with base_t == T.
   template<size_t N,class T>
   struct ullong2array
@@ -53,16 +53,16 @@ namespace detail
     operator()( ULLONG_t v ) const noexcept
     {
       return fill( gen_empty_array<n_array,T>(), v,
-                   std::make_index_sequence<n_empty_vals>(),
-                   std::make_index_sequence<centrl_i>() );
+                  ::std::make_index_sequence<n_empty_vals>(),
+                  ::std::make_index_sequence<centrl_i>() );
     }
 
     template<size_t ... S1,size_t ... S2>
     constexpr
     array_t
     fill( array_t const & empty, ULLONG_t v,
-          std::index_sequence<S1...>,
-          std::index_sequence<S2...> ) const noexcept
+         ::std::index_sequence<S1...>,
+         ::std::index_sequence<S2...> ) const noexcept
     {
       return {{ base_t(ce_right_shift(v,       S2 * base_t_n_bits))...,
                 base_t(ce_right_shift(v, centrl_i * base_t_n_bits)&use_pattern),

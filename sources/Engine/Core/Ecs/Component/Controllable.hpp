@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Engine/Core/Ecs/AComponent.hpp>
+#include <Engine/Graphic/OpenGL/Ecs/Component/Transformable.hpp>
 
 
 
@@ -37,8 +38,8 @@ public:
 
     virtual void updatePosition(
         float deltaTime,
-        ::glm::vec3& position
-    ) const;
+        ::engine::graphic::opengl::ecs::component::Transformable& transformable
+    );
 
 
 
@@ -96,57 +97,34 @@ public:
 
 
 
-    // ------------------------------------------------------------------ Orientation
+    // ------------------------------------------------------------------ Rotation
 
-    auto getDirection() const
-        -> const ::glm::vec3&;
-
-    auto getOrientation() const
-        -> const ::glm::vec2&;
-
-    auto getFront() const
-        -> const ::glm::vec3&;
-
-    auto getUp() const
-        -> const ::glm::vec3&;
-
-
-
-    void oriente(
-        float xOffset,
-        float yOffset
+    void updateRotation(
+        ::engine::graphic::opengl::ecs::component::Transformable& transformable
     );
 
-    void oriente(
+
+    void rotate(
         const ::glm::vec2& offset
     );
 
-
-
-    void setOrientation(
-        float xOffset,
-        float yOffset
+    void rotate(
+        const float yawOffset,
+        const float pitchOffset
     );
 
-    void setOrientation(
-        const ::glm::vec2& offset
+    void rotateYaw(
+        const float offset
+    );
+
+    void rotatePitch(
+        const float offset
     );
 
 
 
-    // ------------------------------------------------------------------ View
-
-    auto getView(
-        const ::glm::vec3& position
-    ) const
-        -> glm::mat4;
-
-
-
-private:
-
-    void adjustDirection();
-
+    [[ nodiscard ]] auto getRotation() const
+        -> const ::glm::vec3&;
 
 
 private:
@@ -161,12 +139,9 @@ private:
     };
     ::std::bitset<6> m_movementState;
 
-    float m_speed{ 2.5f };
+    float m_speed{ 5.0f };
 
-    ::glm::vec2 m_orientation{ -90.00f, 0.00f }; // .x = yaw, .y = pitch
-    ::glm::vec3 m_direction{ 0.5f, 0.5f, 0.5f };
-    ::glm::vec3 m_front{ 0.0f, 0.0f, -1.0f };
-    ::glm::vec3 m_up{ 0.0f, 1.0f, 0.0f };
+    ::glm::vec3 m_rotation{ 0.0f, 0.0f, 0.0f };
 
     static inline constexpr float minPitch{ -89.999f };
     static inline constexpr float maxPitch{ 89.999f };

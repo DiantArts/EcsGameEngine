@@ -37,7 +37,7 @@ private:
 template <
     typename EventType
 > concept ConceptType =
-    std::derived_from<::std::remove_cvref_t<EventType>, ::engine::core::event::AEvent>;
+   ::std::derived_from<::std::remove_cvref_t<EventType>, ::engine::core::event::AEvent>;
 
 
 

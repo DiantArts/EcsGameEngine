@@ -15,9 +15,9 @@ DECLARE_COMPONENT_IN_NAMESPACE(engine::core::ecs::component::test, Transformable
 
 DECLARE_COMPONENT_IN_NAMESPACE(engine::graphic::opengl::ecs::component, Drawable);
 DECLARE_COMPONENT_IN_NAMESPACE(engine::graphic::opengl::ecs::component, Camera);
+DECLARE_COMPONENT_IN_NAMESPACE(engine::graphic::opengl::ecs::component, Transformable);
 DECLARE_COMPONENT_IN_NAMESPACE(engine::core::ecs::component, Position);
 DECLARE_COMPONENT_IN_NAMESPACE(engine::core::ecs::component, Controllable);
-DECLARE_COMPONENT_IN_NAMESPACE(engine::core::ecs::component, Transformable);
 DECLARE_COMPONENT_IN_NAMESPACE(engine::core::ecs::component, Attackable);
 
 

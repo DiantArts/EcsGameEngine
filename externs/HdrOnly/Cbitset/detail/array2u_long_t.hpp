@@ -22,7 +22,7 @@ namespace cbitset
 namespace detail
 {
 
-  /// \brief Takes a std::array 'arr' and returns a variable 'x' of type Tlong.
+  /// \brief Takes a::std::array 'arr' and returns a variable 'x' of type Tlong.
   /// Bits in 'x' are set if corresponding bits in 'arr' are set.
   template<size_t N, class T, class Tlong>
   struct array2u_long_t

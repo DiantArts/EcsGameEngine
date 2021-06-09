@@ -12,7 +12,7 @@ template <
         typename Type
     > static constexpr bool contains()
     {
-        return (std::is_same_v<Type, Rest> || ...);
+        return (::std::is_same_v<Type, Rest> || ...);
     }
 
 };

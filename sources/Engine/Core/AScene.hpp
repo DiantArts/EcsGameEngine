@@ -6,6 +6,7 @@
 #include <Engine/Core/Ecs/Component/Position.hpp>
 #include <Engine/Core/Ecs/Component/Controllable.hpp>
 #include <Engine/Graphic/OpenGL/Ecs/Component/Drawable.hpp>
+#include <Engine/Graphic/OpenGL/Ecs/Component/Transformable.hpp>
 #include <Engine/Graphic/OpenGL/Ecs/Component/Camera.hpp>
 #include <Engine/Core/AWindow.hpp>
 
@@ -66,10 +67,10 @@ public:
     auto getMainEntityControllable()
         -> ::engine::core::ecs::component::Controllable&;
 
-    auto getMainEntityCamera() const
+    auto getCamera() const
         -> const ::engine::graphic::opengl::ecs::component::Camera&;
 
-    auto getMainEntityCamera()
+    auto getCamera()
         -> ::engine::graphic::opengl::ecs::component::Camera&;
 
 
@@ -79,7 +80,7 @@ protected:
     ::engine::core::ecs::component::Container m_components;
     ::engine::core::ecs::entity::Container m_entities{ m_components };
     ::engine::core::ecs::system::Container m_drawSystems;
-    ::engine::core::ecs::system::Container m_systems;
+    ::engine::core::ecs::system::Container m_updateSystems;
 
 
 
@@ -95,9 +96,9 @@ private:
 
 
     ::engine::core::ID m_controlledID{ m_entities.emplace(
-        ::engine::core::ecs::component::Position{ 0.0f, 0.0f,  3.0f },
-        ::engine::graphic::opengl::ecs::component::Drawable{},
         ::engine::core::ecs::component::Controllable{},
+        ::engine::graphic::opengl::ecs::component::Drawable{},
+        ::engine::graphic::opengl::ecs::component::Transformable{ ::glm::vec3{ 0.0F, 0.0F, 5.0F } },
         ::engine::graphic::opengl::ecs::component::Camera{ m_window }
     ).getID() };
 

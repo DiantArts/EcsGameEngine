@@ -41,7 +41,7 @@ template <
         >(
             ::cbitset::Cbitset<::engine::core::ecs::component::maxID>& signature
         ){
-            using ComponentType = std::remove_reference_t<RawComponentType>;
+            using ComponentType =::std::remove_reference_t<RawComponentType>;
             signature.set(ComponentType::getID());
         }
     >(m_bitset);
@@ -57,7 +57,7 @@ template <
         >(
             ::cbitset::Cbitset<::engine::core::ecs::component::maxID>& signature
         ){
-            using ComponentType = std::remove_reference_t<RawComponentType>;
+            using ComponentType =::std::remove_reference_t<RawComponentType>;
             signature.reset(ComponentType::getID());
         }
     >(m_bitset);
@@ -99,7 +99,7 @@ template <
         >(
             const ::cbitset::Cbitset<::engine::core::ecs::component::maxID>& bitset
         ){
-            using ComponentType = std::remove_reference_t<RawComponentType>;
+            using ComponentType =::std::remove_reference_t<RawComponentType>;
             return bitset[ComponentType::getID()];
         }
     >(m_bitset);
@@ -141,7 +141,7 @@ template <
         >(
             const ::cbitset::Cbitset<::engine::core::ecs::component::maxID>& bitset
         ){
-            using ComponentType = std::remove_reference_t<RawComponentType>;
+            using ComponentType =::std::remove_reference_t<RawComponentType>;
             return bitset[ComponentType::getID()];
         }
     >(m_bitset);

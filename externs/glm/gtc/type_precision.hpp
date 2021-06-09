@@ -206,10 +206,10 @@ typedef detail::int32 int32;
 typedef detail::int64 int64;
 
 #if GLM_HAS_EXTENDED_INTEGER_TYPE
-using std::int16_t;
-using std::int32_t;
-using std::int64_t;
-using std::int8_t;
+using::std::int16_t;
+using::std::int32_t;
+using::std::int64_t;
+using::std::int8_t;
 #else
 /// 8 bit signed integer type.
 /// @see gtc_type_precision
@@ -477,10 +477,10 @@ typedef detail::uint32 uint32;
 typedef detail::uint64 uint64;
 
 #if GLM_HAS_EXTENDED_INTEGER_TYPE
-using std::uint16_t;
-using std::uint32_t;
-using std::uint64_t;
-using std::uint8_t;
+using::std::uint16_t;
+using::std::uint32_t;
+using::std::uint64_t;
+using::std::uint8_t;
 #else
 /// Default precision 8 bit unsigned integer type.
 /// @see gtc_type_precision

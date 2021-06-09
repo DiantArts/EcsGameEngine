@@ -86,12 +86,12 @@ protected:
   template<size_t n,class Tsrc>
   explicit
   constexpr
-  Cbitset_impl( std::array<Tsrc,n> const & value ) noexcept
+  Cbitset_impl(::std::array<Tsrc,n> const & value ) noexcept
   : m_value( a2a<n,Tsrc>()( hgh_bit_pattern, value ) )
   {}
 
   explicit
-  Cbitset_impl( const std::bitset<N> &bs ) noexcept
+  Cbitset_impl( const::std::bitset<N> &bs ) noexcept
   {
     if( N == 0 ) return;
     if( ullong_n_bits <= base_t_n_bits && n_words == 1 )
@@ -115,31 +115,31 @@ protected:
       m_value[ct]= val;
       offset += base_t_n_bits;
     } // for ct
-  } // Cbitset_impl( const std::bitset<N> &bs )
+  } // Cbitset_impl( const::std::bitset<N> &bs )
 
 
   template< class CharT, class Traits, class Alloc >
   explicit
-  Cbitset_impl( std::basic_string<CharT,Traits,Alloc> const      &str,
+  Cbitset_impl(::std::basic_string<CharT,Traits,Alloc> const      &str,
                 typename
-                std::basic_string<CharT,Traits,Alloc>::size_type pos,
+               ::std::basic_string<CharT,Traits,Alloc>::size_type pos,
                 typename
-                std::basic_string<CharT,Traits,Alloc>::size_type n,
+               ::std::basic_string<CharT,Traits,Alloc>::size_type n,
                 CharT                                            zero,
                 CharT                                            one )
   {
     auto const str_sz= str.size();
     if( pos > str_sz )
-            throw std::out_of_range( "Cbitset: String submitted to "
+            throw::std::out_of_range( "Cbitset: String submitted to "
                                      "constructor smaller than pos" );
-    auto const n_bits= std::min( N, std::min( n, str_sz - pos ) );
+    auto const n_bits=::std::min( N,::std::min( n, str_sz - pos ) );
 
     for( size_t bit_ct= 0; bit_ct < n_bits; ++bit_ct )
     {
       auto const chr= str[bit_ct+pos];
       if(       Traits::eq( one,  chr ) ) set( n_bits - bit_ct - 1 );
       else if( !Traits::eq( zero, chr ) )
-              throw std::invalid_argument( "Cbitset: Invalid argument in "
+              throw::std::invalid_argument( "Cbitset: Invalid argument in "
                                            "string submitted to constructor" );
     } // for bit_ct
   }
@@ -169,7 +169,7 @@ protected:
   set( size_t bit, bool value= true )
   {
     if( bit >= N  )
-            throw std::out_of_range( "Cbitset: Setting of bit out of range" );
+            throw::std::out_of_range( "Cbitset: Setting of bit out of range" );
     set_noexcept( bit, value );
     return *this;
   } // set
@@ -200,7 +200,7 @@ protected:
   test_set( size_t bit, bool value= true )
   {
     if( bit >= N  )
-        throw std::out_of_range( "Cbitset: test_set out of range" );
+        throw::std::out_of_range( "Cbitset: test_set out of range" );
     return test_set_noexcept( bit, value );
   } // test_set
 
@@ -217,7 +217,7 @@ protected:
   flip( size_t bit )
   {
     if( bit >= N  )
-            throw std::out_of_range( "Cbitset: Flipping of bit out of range" );
+            throw::std::out_of_range( "Cbitset: Flipping of bit out of range" );
     return flip_noexcept( bit );
   } // flip
 
@@ -247,7 +247,7 @@ public:
     using a2l= array2u_long_t<N,T,ULONG_t>;
     return  ( N == 0 ) ? 0ul
             : a2l().check_overflow( m_value )
-              ? throw std::overflow_error( "Cannot convert Cbitset "
+              ? throw::std::overflow_error( "Cannot convert Cbitset "
                                            "to unsigned long" )
               : a2l()( m_value );
   } // to_ulong
@@ -259,7 +259,7 @@ public:
     using a2l= array2u_long_t<N,T,ULLONG_t>;
     return  ( N == 0 ) ? 0ull
             : a2l().check_overflow( m_value )
-              ? throw std::overflow_error( "Cannot convert Cbitset "
+              ? throw::std::overflow_error( "Cannot convert Cbitset "
                                            "to unsigned long long" )
               : a2l()( m_value );
   } // to_ullong
@@ -269,7 +269,7 @@ public:
   test( size_t bit ) const
   {
     return  ( bit >= N )
-            ? throw std::out_of_range( "Cbitset: Testing of bit out of range" )
+            ? throw::std::out_of_range( "Cbitset: Testing of bit out of range" )
             : operator[]( bit );
   }
 
@@ -335,7 +335,7 @@ public:
   find_next( size_t idx ) const
   {
     return idx >= N
-      ? throw std::out_of_range( "Cbitset: find_next index out of range" )
+      ? throw::std::out_of_range( "Cbitset: find_next index out of range" )
       : idx + 1 == N
         ? npos
         : detail::array_funcs<n_array,T>()
@@ -376,9 +376,9 @@ public:
   { return ! ( *this < v2 ); }
 
   explicit
-  operator std::bitset<N>() const
+  operator::std::bitset<N>() const
   {
-    using b_t= std::bitset<N>;
+    using b_t=::std::bitset<N>;
     if( N == 0 ) return b_t{};
     if( n_words == 1 ) return b_t( to_ullong() );
 

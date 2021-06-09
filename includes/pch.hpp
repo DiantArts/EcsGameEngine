@@ -62,13 +62,13 @@
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
 
-inline std::ostream& operator<<(std::ostream& os, const glm::vec2& vec)
+inline::std::ostream& operator<<(::std::ostream& os, const ::glm::vec2& vec)
 {
     os << "[" << vec.x << ", " << vec.y << "]";
     return os;
 }
 
-inline std::ostream& operator<<(std::ostream& os, const glm::vec3& vec)
+inline::std::ostream& operator<<(::std::ostream& os, const ::glm::vec3& vec)
 {
     os << "[" << vec.x << ", " << vec.y << ", " << vec.z << "]";
     return os;
@@ -80,8 +80,8 @@ inline std::ostream& operator<<(std::ostream& os, const glm::vec3& vec)
 
 
 
-using std::string_literals::operator""s;
-using std::literals::string_view_literals::operator""sv;
+using::std::string_literals::operator""s;
+using::std::literals::string_view_literals::operator""sv;
 
 
 

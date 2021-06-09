@@ -14,61 +14,61 @@
 
 #if DEBUG > 0
 
-inline std::recursive_mutex debugClogMutex;
+inline::std::recursive_mutex debugClogMutex;
 inline int isDebugClogMutexLocked = 0;
-inline std::string str;
+inline::std::string str;
 
 #define NESTED_DEBUG_MSG(message) { \
-    std::lock_guard<std::recursive_mutex> debugClogLockGuard(debugClogMutex); \
+   ::std::lock_guard<std::recursive_mutex> debugClogLockGuard(debugClogMutex); \
     if (isDebugClogMutexLocked == 1) { \
-        std::clog << "\n"; \
+       ::std::clog << "\n"; \
         isDebugClogMutexLocked--; \
     } \
-    std::clog << "[" << __FILE__ << ":" << __LINE__ << "]"; \
+   ::std::clog << "[" << __FILE__ << ":" << __LINE__ << "]"; \
     if (isDebugClogMutexLocked == 1) { \
-        std::clog << " - "; \
+       ::std::clog << " - "; \
     } \
     isDebugClogMutexLocked++; \
     auto msg = message; \
     isDebugClogMutexLocked = (!isDebugClogMutexLocked) ? 0 : isDebugClogMutexLocked - 1; \
     if (!isDebugClogMutexLocked) { \
-        std::clog << "[" << __FILE__ << ":" << __LINE__ << "] - "; \
+       ::std::clog << "[" << __FILE__ << ":" << __LINE__ << "] - "; \
     } \
-    std::clog << msg << "\n"; \
+   ::std::clog << msg << "\n"; \
 }
 
 #define DEBUG_MSG(message) { \
-    std::lock_guard<std::recursive_mutex> debugClogLockGuard(debugClogMutex); \
+   ::std::lock_guard<std::recursive_mutex> debugClogLockGuard(debugClogMutex); \
     if (isDebugClogMutexLocked == 1) { \
-        std::clog << "\n"; \
+       ::std::clog << "\n"; \
         isDebugClogMutexLocked--; \
     } \
     isDebugClogMutexLocked++; \
-    std::clog << "[" << __FILE__ << ":" << __LINE__ << "] - " << message << "\n"; \
+   ::std::clog << "[" << __FILE__ << ":" << __LINE__ << "] - " << message << "\n"; \
     isDebugClogMutexLocked--; \
 }
 
 #define DEBUG_FUNC  { \
-    std::lock_guard<std::recursive_mutex> debugClogLockGuard(debugClogMutex); \
+   ::std::lock_guard<std::recursive_mutex> debugClogLockGuard(debugClogMutex); \
     if (isDebugClogMutexLocked == 1) { \
-        std::clog << "\n"; \
+       ::std::clog << "\n"; \
         isDebugClogMutexLocked--; \
     } \
     isDebugClogMutexLocked++; \
-    std::clog << '[' << __FILE__ << ':' << __LINE__ << "] (" << __FUNCTION__ << ")" \
-              << std::endl; \
+   ::std::clog << '[' << __FILE__ << ':' << __LINE__ << "] (" << __FUNCTION__ << ")" \
+              <<::std::endl; \
     isDebugClogMutexLocked--; \
 }
 
 #define DEBUG_PRETTY_FUNC  { \
-    std::lock_guard<std::recursive_mutex> debugClogLockGuard(debugClogMutex); \
+   ::std::lock_guard<std::recursive_mutex> debugClogLockGuard(debugClogMutex); \
     if (isDebugClogMutexLocked == 1) { \
-        std::clog << "\n"; \
+       ::std::clog << "\n"; \
         isDebugClogMutexLocked--; \
     } \
     isDebugClogMutexLocked++; \
-    std::clog << '[' << __FILE__ << ':' << __LINE__ << "] (" << __PRETTY_FUNCTION__ \
-              << ")" << std::endl; \
+   ::std::clog << '[' << __FILE__ << ':' << __LINE__ << "] (" << __PRETTY_FUNCTION__ \
+              << ")" <<::std::endl; \
     isDebugClogMutexLocked--; \
 }
 
@@ -76,32 +76,32 @@ inline std::string str;
 namespace debuging {
 class check_time {
 public:
-    check_time(const std::string file, const std::string function, const int line)
-        : m_ClockStart(std::chrono::high_resolution_clock::now())
+    check_time(const::std::string file, const::std::string function, const int line)
+        : m_ClockStart(::std::chrono::high_resolution_clock::now())
         , m_File(file), m_Function(function), m_Line(line)
     {
-        std::lock_guard<std::recursive_mutex> debugClogLockGuard(debugClogMutex);
+       ::std::lock_guard<std::recursive_mutex> debugClogLockGuard(debugClogMutex);
 
         if (isDebugClogMutexLocked == 1) {
-            std::clog << "\n";
+           ::std::clog << "\n";
             isDebugClogMutexLocked--;
         }
-        std::clog << "[" << m_File << ":" << m_Line << "] (" << m_Function << ")\n";
+       ::std::clog << "[" << m_File << ":" << m_Line << "] (" << m_Function << ")\n";
     }
 
     ~check_time()
     {
-        m_ClockEnd = std::chrono::high_resolution_clock::now();
+        m_ClockEnd =::std::chrono::high_resolution_clock::now();
 
-        std::clog << "[" << m_File << ":" << m_Line << "] (" << m_Function << ") - "
-                  << std::chrono::duration<float> (m_ClockEnd - m_ClockStart).count() * 1000.0f
+       ::std::clog << "[" << m_File << ":" << m_Line << "] (" << m_Function << ") - "
+                  <<::std::chrono::duration<float> (m_ClockEnd - m_ClockStart).count() * 1000.0f
                   << "ms\n";
         isDebugClogMutexLocked = false;
     }
 
 private:
-    std::chrono::time_point<std::chrono::high_resolution_clock> m_ClockStart, m_ClockEnd;
-    std::string m_File, m_Function;
+   ::std::chrono::time_point<std::chrono::high_resolution_clock> m_ClockStart, m_ClockEnd;
+   ::std::string m_File, m_Function;
     int m_Line;
 };
 } // namespace debuging
@@ -114,27 +114,27 @@ private:
 namespace debuging {
 class check_time {
 public:
-    check_time(const std::string file, const std::string function, const int line)
+    check_time(const::std::string file, const::std::string function, const int line)
         : m_File(file), m_Function(function), m_Line(line)
     {
-        std::lock_guard<std::recursive_mutex> debugClogLockGuard(debugClogMutex);
+       ::std::lock_guard<std::recursive_mutex> debugClogLockGuard(debugClogMutex);
 
         if (isDebugClogMutexLocked == 1) {
-            std::clog << "\n";
+           ::std::clog << "\n";
             isDebugClogMutexLocked--;
         }
-        std::clog << "[" << m_File << ":" << m_Line << "] (" << m_Function << ")\n";
+       ::std::clog << "[" << m_File << ":" << m_Line << "] (" << m_Function << ")\n";
     }
 
     ~check_time()
     {
-        std::lock_guard<std::recursive_mutex> debugClogLockGuard(debugClogMutex);
+       ::std::lock_guard<std::recursive_mutex> debugClogLockGuard(debugClogMutex);
 
-        std::clog << "[" << m_File << ":" << m_Line << "] (" << m_Function << ") - Exit\n";
+       ::std::clog << "[" << m_File << ":" << m_Line << "] (" << m_Function << ") - Exit\n";
     }
 
 private:
-    std::string m_File, m_Function;
+   ::std::string m_File, m_Function;
     int m_Line;
 };
 }
@@ -152,10 +152,10 @@ private:
 #endif // DEBUG > 0
 
 
-#define ERROR_MSG(message)  std::cerr << "ERROR [" << __FILE__ << ':' << __LINE__ << ']' \
-    << " - " << message << std::endl
+#define ERROR_MSG(message) ::std::cerr << "ERROR [" << __FILE__ << ':' << __LINE__ << ']' \
+    << " - " << message <<::std::endl
 
-#define THROW_MSG(throwMsg) std::cerr << "[" << __FILE__ << ':' << __LINE__ << ']' << std::endl, \
+#define THROW_MSG(throwMsg)::std::cerr << "[" << __FILE__ << ':' << __LINE__ << ']' <<::std::endl, \
     throw throwMsg,
 
 #endif // MACROS_HPP

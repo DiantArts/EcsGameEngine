@@ -31,7 +31,7 @@ namespace detail
 template<class T>
 struct index_lsb_set
 {
-  enum : size_t { npos=   std::numeric_limits<size_t>::max()
+  enum : size_t { npos=  ::std::numeric_limits<size_t>::max()
                 , n_bits= sizeof(T) * CHAR_BIT };
 
   constexpr

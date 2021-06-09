@@ -28,15 +28,15 @@ namespace detail
 
     template<class T>
     struct h_types<T,
-                   typename std::enable_if<   std::is_integral<T>::value
-                                           && std::is_unsigned<T>::value>::type>
+                   typename::std::enable_if<  ::std::is_integral<T>::value
+                                           &&::std::is_unsigned<T>::value>::type>
     {
       using ULONG_t=  unsigned long;
       using ULLONG_t= unsigned long long;
       using base_t=   T;
 
       template<size_t n_array>
-      using array_t= std::array<base_t,n_array>;
+      using array_t=::std::array<base_t,n_array>;
 
       enum : size_t
       { ulong_n_bits=   sizeof(ULONG_t)  * CHAR_BIT  ///< #bits in ULONG_t
@@ -81,7 +81,7 @@ namespace detail
     template<size_t n_array,class T,size_t ... S>
     inline constexpr
     typename h_types<T>::template array_t<n_array>
-    gen_empty_array_impl( std::index_sequence<S...> ) noexcept
+    gen_empty_array_impl(::std::index_sequence<S...> ) noexcept
     {
       return
         typename h_types<T>::template array_t<n_array>{{ ( T(S) & T(0) ) ... }};
@@ -95,7 +95,7 @@ namespace detail
     gen_empty_array() noexcept
     {
       return
-        gen_empty_array_impl<n_array,T>( std::make_index_sequence<n_array>() );
+        gen_empty_array_impl<n_array,T>(::std::make_index_sequence<n_array>() );
     } // gen_empty_array
 
 } // namespace detail

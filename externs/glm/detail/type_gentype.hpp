@@ -6,7 +6,7 @@
 namespace glm {
 enum profile { nice, fast, simd };
 
-typedef std::size_t sizeType;
+typedef::std::size_t sizeType;
 
 namespace detail {
 template <typename VALTYPE, template <typename> class TYPE>

@@ -37,70 +37,144 @@ auto ::engine::graphic::opengl::ecs::component::Camera::operator=(
 
 
 
-// ------------------------------------------------------------------ Orientation
+// ------------------------------------------------------------------ Rotation
 
-void ::engine::graphic::opengl::ecs::component::Camera::oriente(
-    const float xOffset,
-    const float yOffset
-)
-{
-    m_orientation.x += xOffset * m_sensitivity.x;
-    m_orientation.y += yOffset * m_sensitivity.y;
-
-    if (m_orientation.x >= 360) {
-        m_orientation.x -= 360;
-    }
-    if (m_orientation.y > this->maxPitch) {
-        m_orientation.y = this->maxPitch;
-    } else if (m_orientation.y < this->minPitch) {
-        m_orientation.y = this->minPitch;
-    }
-    this->adjustDirection();
-}
-
-void ::engine::graphic::opengl::ecs::component::Camera::oriente(
+void ::engine::graphic::opengl::ecs::component::Camera::rotate(
     const ::glm::vec2& offset
 )
 {
-    m_orientation.x += offset.x * m_sensitivity.x;
-    m_orientation.y += offset.y * m_sensitivity.y;
+    m_rotation.x += offset.x * m_sensitivity.x;
+    m_rotation.y += offset.y * m_sensitivity.y;
 
-    if (m_orientation.x >= 360) {
-        m_orientation.x -= 360;
+    if (m_rotation.x >= 360) {
+        m_rotation.x -= 360;
     }
-    if (m_orientation.y > this->maxPitch) {
-        m_orientation.y = this->maxPitch;
-    } else if (m_orientation.y < this->minPitch) {
-        m_orientation.y = this->minPitch;
+    if (m_rotation.y > this->maxPitch) {
+        m_rotation.y = this->maxPitch;
+    } else if (m_rotation.y < this->minPitch) {
+        m_rotation.y = this->minPitch;
+    }
+    this->adjustDirection();
+}
+
+void ::engine::graphic::opengl::ecs::component::Camera::rotate(
+    const float yawOffset,
+    const float pitchOffset
+)
+{
+    m_rotation.x += yawOffset * m_sensitivity.x;
+    m_rotation.y += pitchOffset * m_sensitivity.y;
+
+    if (m_rotation.x >= 360) {
+        m_rotation.x -= 360;
+    }
+    if (m_rotation.y > this->maxPitch) {
+        m_rotation.y = this->maxPitch;
+    } else if (m_rotation.y < this->minPitch) {
+        m_rotation.y = this->minPitch;
+    }
+    this->adjustDirection();
+}
+
+void ::engine::graphic::opengl::ecs::component::Camera::rotateYaw(
+    const float offset
+)
+{
+    m_rotation.x += offset * m_sensitivity.x;
+
+    if (m_rotation.x >= 360) {
+        m_rotation.x -= 360;
+    }
+    this->adjustDirection();
+}
+
+void ::engine::graphic::opengl::ecs::component::Camera::rotatePitch(
+    const float offset
+)
+{
+    m_rotation.y += offset * m_sensitivity.y;
+
+    if (m_rotation.y > this->maxPitch) {
+        m_rotation.y = this->maxPitch;
+    } else if (m_rotation.y < this->minPitch) {
+        m_rotation.y = this->minPitch;
     }
     this->adjustDirection();
 }
 
 
 
-void ::engine::graphic::opengl::ecs::component::Camera::setOrientation(
-    const float xOffset,
-    const float yOffset
+void ::engine::graphic::opengl::ecs::component::Camera::setRotation(
+    const ::glm::vec2& rotation
 )
 {
-    if (xOffset >= 360 || yOffset > this->maxPitch || yOffset < this->minPitch) {
-        throw std::logic_error("invalid orientation");
+    if (rotation.x >= 360 || rotation.y > this->maxPitch || rotation.y < this->minPitch) {
+        throw::std::logic_error("invalid orientation");
     }
-    m_orientation.x = xOffset;
-    m_orientation.y = yOffset;
+    m_rotation = rotation;
     this->adjustDirection();
 }
 
-void ::engine::graphic::opengl::ecs::component::Camera::setOrientation(
-    const ::glm::vec2& offset
+void ::engine::graphic::opengl::ecs::component::Camera::setRotation(
+    ::glm::vec2&& rotation
 )
 {
-    if (offset.x >= 360 || offset.y > this->maxPitch || offset.y < this->minPitch) {
-        throw std::logic_error("invalid orientation");
+    if (rotation.x >= 360 || rotation.y > this->maxPitch || rotation.y < this->minPitch) {
+        throw::std::logic_error("invalid orientation");
     }
-    m_orientation.x = offset.x;
-    m_orientation.y = offset.y;
+    m_rotation = ::std::move(rotation);
     this->adjustDirection();
+}
+
+
+void ::engine::graphic::opengl::ecs::component::Camera::setRotation(
+    const float yaw,
+    const float pitch
+)
+{
+    if (yaw >= 360 || pitch > this->maxPitch || pitch < this->minPitch) {
+        throw::std::logic_error("invalid orientation");
+    }
+    m_rotation.x = yaw;
+    m_rotation.y = pitch;
+    this->adjustDirection();
+}
+
+void ::engine::graphic::opengl::ecs::component::Camera::setYaw(
+    const float yaw
+)
+{
+    if (yaw >= 360) {
+        throw::std::logic_error("invalid yaw");
+    }
+    m_rotation.x = yaw;
+    this->adjustDirection();
+}
+
+void ::engine::graphic::opengl::ecs::component::Camera::setPitch(
+    const float pitch
+)
+{
+    if (pitch > this->maxPitch || pitch < this->minPitch) {
+        throw::std::logic_error("invalid orientation");
+    }
+    m_rotation.y = pitch;
+    this->adjustDirection();
+}
+
+
+
+
+[[ nodiscard ]] auto ::engine::graphic::opengl::ecs::component::Camera::getRotation() const
+    -> const ::glm::vec2&
+{
+    return m_rotation;
+}
+
+[[ nodiscard ]] auto ::engine::graphic::opengl::ecs::component::Camera::getDirection() const
+    -> const ::glm::vec3&
+{
+    return m_direction;
 }
 
 
@@ -108,14 +182,18 @@ void ::engine::graphic::opengl::ecs::component::Camera::setOrientation(
 // ------------------------------------------------------------------ configureUbo
 
 void ::engine::graphic::opengl::ecs::component::Camera::configureUbo(
-    const ::glm::vec3& position,
-    const ::glm::vec3& up
+    const ::engine::graphic::opengl::ecs::component::Transformable& transformable
 ) const
 {
-    auto cameraPos{ position + m_direction * -m_distance + m_position };
+    auto cameraPos{
+        transformable.getPosition() +
+        ::glm::vec3{ transformable.getDirection().x, m_direction.y, transformable.getDirection().z } *
+        -m_distance +
+        m_position
+    };
 
-    m_informationsUbo.setOneSubData(sizeof(glm::mat4),
-        ::glm::lookAt(cameraPos, position, up)
+    m_informationsUbo.setOneSubData(sizeof(::glm::mat4),
+        ::glm::lookAt(cameraPos, transformable.getPosition(), ::glm::vec3{ 0.0F, 1.0F, 0.0F })
     );
     m_positionUbo.setOneSubData(0, cameraPos);
 }
@@ -126,7 +204,9 @@ void ::engine::graphic::opengl::ecs::component::Camera::configureUbo(
 
 void ::engine::graphic::opengl::ecs::component::Camera::adjustDirection()
 {
-    m_direction.x = cos(::glm::radians(m_orientation.x)) * cos(::glm::radians(m_orientation.y));
-    m_direction.y = sin(::glm::radians(m_orientation.y));
-    m_direction.z = sin(::glm::radians(m_orientation.x)) * cos(::glm::radians(m_orientation.y));
+    m_direction = ::glm::normalize(::glm::vec3(
+        cos(::glm::radians(m_rotation.x)) * cos(::glm::radians(m_rotation.y)),
+        sin(::glm::radians(m_rotation.y)),
+        sin(::glm::radians(m_rotation.x)) * cos(::glm::radians(m_rotation.y))
+    ));
 }

@@ -57,12 +57,12 @@ namespace detail
     constexpr
     array_t
     shift_left( array_t const &arr ) const noexcept
-    { return shift_left_impl( arr, std::make_index_sequence<n_array>() ); }
+    { return shift_left_impl( arr,::std::make_index_sequence<n_array>() ); }
 
     constexpr
     array_t
     shift_right( array_t const &arr ) const noexcept
-    { return shift_right_impl( arr, std::make_index_sequence<n_array>() ); }
+    { return shift_right_impl( arr,::std::make_index_sequence<n_array>() ); }
 
     /// Used for <<= operator. Separate implementation for better performance.
     constexpr
@@ -122,13 +122,13 @@ namespace detail
           : rotate_left_impl( arr,
                               array_ops<N,T>(     m_n_shift_mod ),
                               array_ops<N,T>( N - m_n_shift_mod ),
-                              std::make_index_sequence<n_array>() );
+                             ::std::make_index_sequence<n_array>() );
     } // rotate_left
 
     constexpr
     array_t
     flip( array_t const &arr ) const noexcept
-    { return flip_impl( arr, std::make_index_sequence<n_array>() ); }
+    { return flip_impl( arr,::std::make_index_sequence<n_array>() ); }
 
     constexpr
     bool
@@ -176,7 +176,7 @@ namespace detail
     {
       return   n_array == 1
              ? array_t{{ base_t( reverse_bits<base_t>()(arr[0]) >> n_m_mod ) }}
-             : reverse_impl( arr, std::make_index_sequence<n_array>() );
+             : reverse_impl( arr,::std::make_index_sequence<n_array>() );
     } // reverse
 
 
@@ -204,7 +204,7 @@ namespace detail
     constexpr
     array_t
     shift_left_impl( array_t const &arr,
-                     std::index_sequence<S...> ) const noexcept
+                    ::std::index_sequence<S...> ) const noexcept
     { return {{ h_shift_left( S, arr )... }};  }
 
     constexpr
@@ -238,7 +238,7 @@ namespace detail
     constexpr
     array_t
     shift_right_impl( array_t const &arr,
-                      std::index_sequence<S...> ) const noexcept
+                     ::std::index_sequence<S...> ) const noexcept
     { return {{ h_shift_right( S, arr )... }};  }
 
     constexpr
@@ -266,7 +266,7 @@ namespace detail
     rotate_left_impl( array_t const &arr,
                       this_t  lft,
                       this_t  rgt,
-                      std::index_sequence<S...> ) const noexcept
+                     ::std::index_sequence<S...> ) const noexcept
     {
       return
         {{ ( S > lft.m_shft_div ? lft.h_shift_left( S, arr )
@@ -280,7 +280,7 @@ namespace detail
     template<size_t ... S>
     constexpr
     array_t
-    flip_impl( array_t const &arr, std::index_sequence<S...> ) const noexcept
+    flip_impl( array_t const &arr,::std::index_sequence<S...> ) const noexcept
     { return {{ h_flip( S, arr )... }}; }
 
     constexpr
@@ -296,7 +296,7 @@ namespace detail
     template<size_t ... S>
     constexpr
     array_t
-    reverse_impl( array_t const &arr, std::index_sequence<S...> ) const noexcept
+    reverse_impl( array_t const &arr,::std::index_sequence<S...> ) const noexcept
     { return {{ h_reverse( S, arr )... }}; }
 
     constexpr

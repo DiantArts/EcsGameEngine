@@ -19,9 +19,9 @@ static void keyCallback(
 {
     auto& events = *reinterpret_cast<::engine::core::event::Container*>(glfwGetWindowUserPointer(window));
     if (action == GLFW_PRESS) {
-        events.emplace<::engine::core::event::KeyPressed>(std::move(keyCode));
+        events.emplace<::engine::core::event::KeyPressed>(::std::move(keyCode));
     } else if (action == GLFW_RELEASE) {
-        events.emplace<::engine::core::event::KeyReleased>(std::move(keyCode));
+        events.emplace<::engine::core::event::KeyReleased>(::std::move(keyCode));
     }
 }
 
@@ -32,7 +32,7 @@ static void mouseMovedCallback(
 )
 {
     auto& events = *reinterpret_cast<::engine::core::event::Container*>(glfwGetWindowUserPointer(window));
-    events.emplace<::engine::core::event::MouseMoved>(std::move(xPos), std::move(yPos));
+    events.emplace<::engine::core::event::MouseMoved>(::std::move(xPos),::std::move(yPos));
 }
 
 void mouseScrollcallback(
@@ -53,14 +53,14 @@ static void GLAPIENTRY messageCallback(
 )
 {
     switch (severity) {
-    case GL_DEBUG_SEVERITY_HIGH: std::clog << "ERROR"; break;
-    case GL_DEBUG_SEVERITY_MEDIUM: std::clog << "ERROR"; break;
-    case GL_DEBUG_SEVERITY_LOW: std::clog << "Warning"; break;
-    case GL_DEBUG_SEVERITY_NOTIFICATION: std::clog << "notification"; break;
+    case GL_DEBUG_SEVERITY_HIGH: ::std::clog << "ERROR"; break;
+    case GL_DEBUG_SEVERITY_MEDIUM: ::std::clog << "ERROR"; break;
+    case GL_DEBUG_SEVERITY_LOW: ::std::clog << "Warning"; break;
+    case GL_DEBUG_SEVERITY_NOTIFICATION: ::std::clog << "notification"; break;
     }
-    std::clog << " (GL): " << message;
-    std::clog << " (src: " << source << ", type: " << type;
-    std::clog << ")" << std::endl;
+   ::std::clog << " (GL): " << message;
+   ::std::clog << " (src: " << source << ", type: " << type;
+   ::std::clog << ")" <<::std::endl;
 }
 
 void ::engine::graphic::opengl::detail::framebufferSizeCallback(
@@ -139,7 +139,7 @@ class OpenGLMemoryManager {
     OpenGLMemoryManager()
     {
         if (!glfwInit()) {
-            throw std::runtime_error("glwfInit failed");
+            throw::std::runtime_error("glwfInit failed");
         }
 
         stbi_set_flip_vertically_on_load(true);

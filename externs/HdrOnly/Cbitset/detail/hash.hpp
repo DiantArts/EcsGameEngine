@@ -31,7 +31,7 @@ template<size_t n_words,class T>
 struct hash_impl
 {
   using    base_t=        T;
-  using    result_type=   std::size_t;
+  using    result_type=  ::std::size_t;
   using    array_t=       typename h_types<T>::template array_t<n_words>;
 
   enum : size_t
@@ -84,7 +84,7 @@ struct hash_impl
       for( size_t c= 0; c < n_words; c += size_t_div )
       {
         result_type  r= 0;
-        auto const uppr= std::min( n_words, c + size_t_div );
+        auto const uppr=::std::min( n_words, c + size_t_div );
         for( size_t w= c; w < uppr; ++w )
              r |= ( result_type(arr[w]) << ((w-c)*base_t_n_bits) );
         do_combine( ret_val, r, c / size_t_div );

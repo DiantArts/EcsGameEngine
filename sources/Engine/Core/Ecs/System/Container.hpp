@@ -42,7 +42,8 @@ public:
     // ------------------------------------------------------------------ Vectors
 
     template <
-        auto func
+        auto func,
+        ::engine::core::ecs::component::ConceptType... BanishedComponentTypes
     > void emplace();
 
 

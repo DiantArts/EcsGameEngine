@@ -23,7 +23,7 @@ namespace detail
 {
 
 
-/// \brief Convert std::array<Tsrc,src_n> to std::array<Ttrgt,trgt_n>
+/// \brief Convert::std::array<Tsrc,src_n> to::std::array<Ttrgt,trgt_n>
 template<size_t trgt_n, size_t src_n, class Ttrgt, class Tsrc>
 struct array2array
 {
@@ -56,8 +56,8 @@ struct array2array
                 || (!small_to_large && src_base_n_bits % trgt_base_n_bits == 0),
                    "Conversion between arrays of these types not supported" );
     return small_to_large
-      ? conv_small_to_large( pttrn, src, std::make_index_sequence<trgt_n-1>() )
-      : conv_large_to_small( pttrn, src, std::make_index_sequence<trgt_n-1>() );
+      ? conv_small_to_large( pttrn, src,::std::make_index_sequence<trgt_n-1>() )
+      : conv_large_to_small( pttrn, src,::std::make_index_sequence<trgt_n-1>() );
   }
 
 
@@ -66,7 +66,7 @@ struct array2array
   trgt_array_t
   conv_small_to_large( Ttrgt                      pttrn,
                        src_array_t const          &src,
-                       std::index_sequence<S1...> ) const noexcept
+                      ::std::index_sequence<S1...> ) const noexcept
   {
     return {{ get_from_smaller( S1, src, S1 * ts_div )...,
               Ttrgt(   get_from_smaller( trgt_n-1, src, (trgt_n-1) * ts_div )
@@ -78,7 +78,7 @@ struct array2array
   trgt_array_t
   conv_large_to_small( Ttrgt                      pttrn,
                        src_array_t const          &src,
-                       std::index_sequence<S1...> ) const noexcept
+                      ::std::index_sequence<S1...> ) const noexcept
   {
     return
       {{ get_from_larger( S1 / ts_div, S1 % ts_div, src )...,

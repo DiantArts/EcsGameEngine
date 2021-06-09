@@ -107,22 +107,22 @@ public:
 
     void set(
         const ::std::string& name,
-        const glm::vec2& value
+        const ::glm::vec2& value
     ) const;
 
     void set(
         const ::std::string& name,
-        glm::vec2&& value
+        ::glm::vec2&& value
     ) const;
 
     void set(
         ::std::string&& name,
-        const glm::vec2& value
+        const ::glm::vec2& value
     ) const;
 
     void set(
         ::std::string&& name,
-        glm::vec2&& value
+        ::glm::vec2&& value
     ) const;
 
     void set(
@@ -139,22 +139,22 @@ public:
 
     void set(
         const ::std::string& name,
-        const glm::vec3& value
+        const ::glm::vec3& value
     ) const;
 
     void set(
         const ::std::string& name,
-        glm::vec3&& value
+        ::glm::vec3&& value
     ) const;
 
     void set(
         ::std::string&& name,
-        const glm::vec3& value
+        const ::glm::vec3& value
     ) const;
 
     void set(
         ::std::string&& name,
-        glm::vec3&& value
+        ::glm::vec3&& value
     ) const;
 
     void set(
@@ -173,22 +173,22 @@ public:
 
     void set(
         const ::std::string& name,
-        const glm::vec4& value
+        const ::glm::vec4& value
     ) const;
 
     void set(
         const ::std::string& name,
-        glm::vec4&& value
+        ::glm::vec4&& value
     ) const;
 
     void set(
         ::std::string&& name,
-        const glm::vec4& value
+        const ::glm::vec4& value
     ) const;
 
     void set(
         ::std::string&& name,
-        glm::vec4&& value
+        ::glm::vec4&& value
     ) const;
 
     void set(
@@ -211,62 +211,62 @@ public:
 
     void set(
         const ::std::string& name,
-        const glm::mat2& mat
+        const ::glm::mat2& mat
     ) const;
 
     void set(
         const ::std::string& name,
-        glm::mat2&& mat
+        ::glm::mat2&& mat
     ) const;
 
     void set(
         ::std::string&& name,
-        const glm::mat2& mat
+        const ::glm::mat2& mat
     ) const;
 
     void set(
         ::std::string&& name,
-        glm::mat2&& mat
+        ::glm::mat2&& mat
     ) const;
 
     void set(
         const ::std::string& name,
-        const glm::mat3& mat
+        const ::glm::mat3& mat
     ) const;
 
     void set(
         const ::std::string& name,
-        glm::mat3&& mat
+        ::glm::mat3&& mat
     ) const;
 
     void set(
         ::std::string&& name,
-        const glm::mat3& mat
+        const ::glm::mat3& mat
     ) const;
 
     void set(
         ::std::string&& name,
-        glm::mat3&& mat
+        ::glm::mat3&& mat
     ) const;
 
     void set(
         const ::std::string& name,
-        const glm::mat4& mat
+        const ::glm::mat4& mat
     ) const;
 
     void set(
         const ::std::string& name,
-        glm::mat4&& mat
+        ::glm::mat4&& mat
     ) const;
 
     void set(
         ::std::string&& name,
-        const glm::mat4& mat
+        const ::glm::mat4& mat
     ) const;
 
     void set(
         ::std::string&& name,
-        glm::mat4&& mat
+        ::glm::mat4&& mat
     ) const;
 
 

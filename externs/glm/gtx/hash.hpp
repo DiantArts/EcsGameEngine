@@ -6,7 +6,7 @@
 /// @defgroup gtx_hash GLM_GTX_hash
 /// @ingroup gtx
 ///
-/// @brief Add std::hash support for glm types
+/// @brief Add::std::hash support for glm types
 ///
 /// <glm/gtx/hash.hpp> need to be included to use these functionalities.
 
@@ -38,7 +38,7 @@
 #error "GLM_GTX_hash requires C++11 standard library support"
 #endif
 
-namespace std {
+namespace::std {
 template <typename T, glm::precision P>
 struct hash<glm::tvec1<T, P>> {
     GLM_FUNC_DECL size_t operator()(glm::tvec1<T, P> const& v) const;
@@ -113,6 +113,6 @@ template <typename T, glm::precision P>
 struct hash<glm::tmat4x4<T, P>> {
     GLM_FUNC_DECL size_t operator()(glm::tmat4x4<T, P> const& m) const;
 };
-} // namespace std
+} // namespace::std
 
 #include "hash.inl"

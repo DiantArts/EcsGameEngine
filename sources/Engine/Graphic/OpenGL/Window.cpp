@@ -17,7 +17,7 @@
 {
     if (!m_window) {
         glfwTerminate();
-        throw std::runtime_error("Window creation failed");
+        throw::std::runtime_error("Window creation failed");
     }
 
     glfwMakeContextCurrent(&*m_window);
@@ -25,7 +25,7 @@
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
         glfwTerminate();
-        throw std::runtime_error("glad initialization failed");
+        throw::std::runtime_error("glad initialization failed");
     }
 
     ::engine::graphic::opengl::detail::applyDefaultConfiguration(&*m_window, m_events);

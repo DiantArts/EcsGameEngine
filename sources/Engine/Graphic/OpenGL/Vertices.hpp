@@ -12,7 +12,7 @@ public:
 
     // put the number of array to draw into the ::std::size_t
     explicit Vertices(
-        const std::string& filepath,
+        const::std::string& filepath,
         ::std::size_t& numberOfArrayToDraw
     );
 
@@ -27,7 +27,7 @@ public:
 
 private:
 
-    std::vector<float> m_vertices;
+   ::std::vector<float> m_vertices;
 
 };
 

@@ -8,7 +8,7 @@
 
 namespace glm {
 namespace detail {
-template <typename T, std::size_t size, bool aligned>
+template <typename T,::std::size_t size, bool aligned>
 struct storage {
     typedef struct type {
         uint8 data[size];
