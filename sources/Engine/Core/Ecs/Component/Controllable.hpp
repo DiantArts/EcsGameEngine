@@ -17,7 +17,9 @@ public:
 
     // ------------------------------------------------------------------ *structors
 
-    explicit Controllable();
+    explicit Controllable(
+        bool ableToFly = false
+    );
 
     ~Controllable();
 
@@ -36,7 +38,17 @@ public:
 
     // ------------------------------------------------------------------ Movement State
 
-    virtual void updatePosition(
+    void updatePosition(
+        float deltaTime,
+        ::engine::graphic::opengl::ecs::component::Transformable& transformable
+    );
+
+    void updateFly(
+        float deltaTime,
+        ::engine::graphic::opengl::ecs::component::Transformable& transformable
+    );
+
+    void updateRun(
         float deltaTime,
         ::engine::graphic::opengl::ecs::component::Transformable& transformable
     );
@@ -138,6 +150,8 @@ private:
         Down = 5,
     };
     ::std::bitset<6> m_movementState;
+
+    bool m_ableToFly{ false };
 
     float m_speed{ 5.0f };
 

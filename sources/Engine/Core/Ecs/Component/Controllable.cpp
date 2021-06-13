@@ -5,7 +5,11 @@
 
 // ------------------------------------------------------------------ *structors
 
-::engine::core::ecs::component::Controllable::Controllable() = default;
+::engine::core::ecs::component::Controllable::Controllable(
+    bool ableToFly
+)
+    : m_ableToFly{ ableToFly }
+{}
 
 ::engine::core::ecs::component::Controllable::~Controllable() = default;
 
@@ -35,22 +39,113 @@ void ::engine::core::ecs::component::Controllable::updatePosition(
     ::engine::graphic::opengl::ecs::component::Transformable& transformable
 )
 {
+    if (m_ableToFly) {
+        this->updateFly(deltaTime, transformable);
+    } else {
+        this->updateRun(deltaTime, transformable);
+    }
+}
+
+void ::engine::core::ecs::component::Controllable::updateFly(
+    float deltaTime,
+    ::engine::graphic::opengl::ecs::component::Transformable& transformable
+)
+{
+    if (this->isMovingUp()) {
+        auto velocity = this->getSpeed() * deltaTime;
+        if (!this->isMovingDown()) {
+            if (this->isMovingForward()) {
+                if (!this->isMovingBackward()) {
+                    if (this->isMovingRight() || this->isMovingLeft()) { // if moving up-forward-side
+                        velocity /= 3;
+                    } else { // if moving up-forward
+                        velocity /= 2;
+                    }
+                    transformable.moveForward(velocity);
+                }
+            } else if (this->isMovingBackward()) {
+                if (this->isMovingRight() || this->isMovingLeft()) { // if moving up-backward-side
+                    velocity /= 4;
+                } else { // if moving up-backward
+                    velocity /= 3;
+                }
+                transformable.moveBackward(velocity);
+            } else {
+                if (this->isMovingRight() || this->isMovingLeft()) {
+                    velocity /= 2;
+                }
+            }
+            transformable.moveUp(velocity);
+            if (this->isMovingRight()) {
+                if (!this->isMovingLeft()) {
+                    transformable.moveRight(velocity);
+                }
+            } else if (this->isMovingLeft()) {
+                transformable.moveLeft(velocity);
+            }
+        }
+    } else if (this->isMovingDown()) { // if moving down
+        auto velocity = this->getSpeed() * deltaTime;
+        if (this->isMovingForward()) {
+            if (!this->isMovingBackward()) {
+                if (this->isMovingRight() || this->isMovingLeft()) { // if moving down-forward-side
+                    velocity /= 3;
+                } else {  // if moving down-forward
+                    velocity /= 2;
+                }
+                transformable.moveForward(velocity);
+            }
+        } else if (this->isMovingBackward()) {
+            if (this->isMovingRight() || this->isMovingLeft()) { // if moving down-backward-side
+                velocity /= 4;
+            } else { // if moving down-backward
+                velocity /= 3;
+            }
+            transformable.moveBackward(velocity);
+        } else {
+            if (this->isMovingRight() || this->isMovingLeft()) {
+                velocity /= 2;
+            }
+        }
+        transformable.moveDown(velocity);
+        if (this->isMovingRight()) {
+            if (!this->isMovingLeft()) {
+                transformable.moveRight(velocity);
+            }
+        } else if (this->isMovingLeft()) {
+            transformable.moveLeft(velocity);
+        }
+    } else {
+        this->updateRun(deltaTime, transformable);
+        return;
+    }
+}
+
+void ::engine::core::ecs::component::Controllable::updateRun(
+    float deltaTime,
+    ::engine::graphic::opengl::ecs::component::Transformable& transformable
+)
+{
     auto velocity = this->getSpeed() * deltaTime;
 
     if (this->isMovingForward()) {
-        if (this->isMovingRight() || this->isMovingLeft()) {
-            velocity *= (2.0F / 3.0F);
-        }
         if (!this->isMovingBackward()) {
+            if (this->isMovingRight() || this->isMovingLeft()) {
+                velocity /= 2;
+            }
             transformable.moveForward(velocity);
         }
     } else if (this->isMovingBackward()) {
         if (this->isMovingRight() || this->isMovingLeft()) {
-            velocity *= (1.0F / 3.0F);
+            velocity /= 3;
         } else {
-            velocity *= (3.0F / 5.0F);
+            velocity /= 2;
         }
         transformable.moveBackward(velocity);
+    } else {
+        if (this->isMovingRight() || this->isMovingLeft()) {
+            velocity /= 1.5;
+        }
     }
 
     if (this->isMovingRight()) {
@@ -59,14 +154,6 @@ void ::engine::core::ecs::component::Controllable::updatePosition(
         }
     } else if (this->isMovingLeft()) {
         transformable.moveLeft(velocity);
-    }
-
-    if (this->isMovingUp()) {
-        if (!this->isMovingDown()) {
-            transformable.moveUp(velocity);
-        }
-    } else if (this->isMovingDown()) {
-        transformable.moveDown(velocity);
     }
 }
 

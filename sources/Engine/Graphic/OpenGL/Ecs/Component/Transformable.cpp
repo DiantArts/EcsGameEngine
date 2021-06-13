@@ -78,7 +78,7 @@ void ::engine::graphic::opengl::ecs::component::Transformable::moveBackward(
     const float velocity
 )
 {
-    m_position -= velocity / 2 * m_direction;
+    m_position -= velocity * m_direction;
     this->generateModel();
 }
 

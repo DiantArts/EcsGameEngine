@@ -96,7 +96,7 @@ private:
 
 
     ::engine::core::ID m_controlledID{ m_entities.emplace(
-        ::engine::core::ecs::component::Controllable{},
+        ::engine::core::ecs::component::Controllable{ true },
         ::engine::graphic::opengl::ecs::component::Drawable{},
         ::engine::graphic::opengl::ecs::component::Transformable{ ::glm::vec3{ 0.0F, 0.0F, 5.0F } },
         ::engine::graphic::opengl::ecs::component::Camera{ m_window }
