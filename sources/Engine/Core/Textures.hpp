@@ -1,24 +1,28 @@
 #pragma once
 
 #include <Engine/Graphic/OpenGL/Texture.hpp>
-#include <Engine/Graphic/OpenGL/Ecs/Component/Drawable.hpp>
+
+namespace engine::graphic::opengl { class Shader; }
 
 
 
-namespace engine::graphic::opengl::ecs::component {
+namespace engine::core {
 
 
 
 class Textures
-    : public ::engine::core::ecs::AComponent<engine::graphic::opengl::ecs::component::Textures>
 {
 
 public:
 
     // ------------------------------------------------------------------ *structors
 
-    Textures(
-        ::std::initializer_list<::std::string> textureFilenames
+    explicit Textures();
+
+    // texture: name in shader, filename
+    explicit Textures(
+        ::std::initializer_list<::std::pair<::std::string, ::std::string>>&& textureinformations,
+        ::engine::graphic::opengl::Shader& shader
     );
 
     ~Textures();
@@ -53,10 +57,6 @@ public:
 
     // ------------------------------------------------------------------ Use
 
-    void init(
-        ::engine::graphic::opengl::ecs::component::Drawable& drawable
-    );
-
     void bind() const;
 
 
@@ -69,4 +69,4 @@ private:
 
 
 
-} // namespace engine::graphic::opengl::ecs::component
+} // namespace engine::core

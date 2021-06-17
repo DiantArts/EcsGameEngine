@@ -3,12 +3,13 @@
 #include <Engine/Core/Ecs/Entity/Container.hpp>
 #include <Engine/Core/Ecs/Component/Container.hpp>
 #include <Engine/Core/Ecs/System/Container.hpp>
-#include <Engine/Core/Ecs/Component/Position.hpp>
 #include <Engine/Core/Ecs/Component/Controllable.hpp>
 #include <Engine/Graphic/OpenGL/Ecs/Component/Drawable.hpp>
-#include <Engine/Graphic/OpenGL/Ecs/Component/Textures.hpp>
 #include <Engine/Graphic/OpenGL/Ecs/Component/Transformable.hpp>
 #include <Engine/Graphic/OpenGL/Ecs/Component/Camera.hpp>
+#include <Engine/Graphic/OpenGL/Ecs/Component/Light/Directional.hpp>
+#include <Engine/Graphic/OpenGL/Ecs/Component/Light/Point.hpp>
+#include <Engine/Graphic/OpenGL/Ecs/Component/Light/Spot.hpp>
 #include <Engine/Core/AWindow.hpp>
 
 namespace engine::core::event { class KeyPressed; }
@@ -27,8 +28,9 @@ public:
 
     // ------------------------------------------------------------------ *structors
 
-    AScene(
-        ::engine::core::AWindow& window
+    explicit AScene(
+        ::engine::core::AWindow& window,
+        ::engine::graphic::opengl::ecs::component::Drawable mainCharacter
     );
 
     virtual ~AScene() = 0;
@@ -48,15 +50,11 @@ public:
 
     void update();
 
-    virtual void onUpdate();
-
 
 
     // ------------------------------------------------------------------ Draw
 
     void draw() const;
-
-    virtual void onDraw() const;
 
 
 
@@ -78,10 +76,33 @@ public:
 
 protected:
 
+    // ------------------------------------------------------------------ Update
+
+    virtual void onUpdate();
+
+
+
+    // ------------------------------------------------------------------ Draw
+
+    virtual void onDraw() const;
+
+
+
+protected:
+
     ::engine::core::ecs::component::Container m_components;
     ::engine::core::ecs::entity::Container m_entities{ m_components };
     ::engine::core::ecs::system::Container m_drawSystems;
     ::engine::core::ecs::system::Container m_updateSystems;
+
+
+    // ::engine::core::ID m_lightID{
+        // m_entities.emplace(
+            // ::engine::graphic::opengl::ecs::component::Drawable{ "cube", "light" },
+            // ::engine::graphic::opengl::ecs::component::Transformable{ 0.0F, 1.0F, 0.0F },
+            // ::engine::graphic::opengl::ecs::component::light::Point{}
+        // ).getID()
+    // };
 
 
 
@@ -97,6 +118,11 @@ private:
 
 
 
+    // ------------------------------------------------------------------ Detail
+
+    void configureUbo() const;
+
+
 
 private:
 
@@ -107,17 +133,15 @@ private:
     ::engine::core::Clock m_systemsClock;
     mutable ::engine::core::Clock m_drawSystemsClock;
 
+    ::engine::graphic::opengl::Ubo m_lightsUbo;
+    static constexpr int m_lightsUboIndex{ 3 };
 
 
-    ::engine::core::ID m_controlledID{ m_entities.emplace(
-        ::engine::core::ecs::component::Controllable{ true },
-        ::engine::graphic::opengl::ecs::component::Drawable{},
-        ::engine::graphic::opengl::ecs::component::Transformable{ ::glm::vec3{ 0.0F, 0.0F, 5.0F } },
-        ::engine::graphic::opengl::ecs::component::Camera{ m_window },
-        ::engine::graphic::opengl::ecs::component::Textures{
-            "container.png", "containerBorders.png"
-        }
-    ).getID() };
+
+
+protected:
+
+    ::engine::core::ID m_controlledID;
 
 };
 

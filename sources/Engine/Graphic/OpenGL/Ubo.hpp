@@ -65,16 +65,16 @@ public:
     template <
         typename DataType
     > void setOneSubData(
-        ::GLintptr offset,
+        ::std::size_t offset,
         const DataType& data
     ) const;
 
     template <
         typename DataType
-    > void setSubData(
-        ::GLintptr offset,
+    > static void setSubData(
+        ::std::size_t offset,
         const DataType& data
-    ) const;
+    );
 
 
 

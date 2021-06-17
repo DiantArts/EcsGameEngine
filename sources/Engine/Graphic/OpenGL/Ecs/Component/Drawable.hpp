@@ -1,11 +1,10 @@
 #pragma once
 
 #include <Engine/Core/Ecs/AComponent.hpp>
+#include <Engine/Core/Textures.hpp>
 #include <Engine/Graphic/OpenGL/Shader.hpp>
 #include <Engine/Graphic/OpenGL/Vao.hpp>
 #include <Engine/Graphic/OpenGL/Vbo.hpp>
-#include <Engine/Graphic/OpenGL/Texture.hpp>
-#include <Engine/Core/Ecs/Component/Position.hpp>
 #include <Engine/Graphic/OpenGL/Ecs/Component/Transformable.hpp>
 
 
@@ -22,7 +21,16 @@ public:
 
     // ------------------------------------------------------------------ *structors
 
-    Drawable();
+    explicit Drawable(
+        const ::std::string& verticesFilename,
+        const ::std::string& shaderFilename
+    );
+
+    explicit Drawable(
+        ::std::initializer_list<::std::pair<::std::string, ::std::string>>&& textureinformations,
+        const ::std::string& verticesFilename,
+        const ::std::string& shaderFilename
+    );
 
     ~Drawable();
 
@@ -56,7 +64,7 @@ public:
 
     // ------------------------------------------------------------------ Use
 
-    [[ nodiscard ]] auto getShader()
+    [[ nodiscard ]] auto getShader() const
         -> ::engine::graphic::opengl::Shader&;
 
     void operator()(
@@ -65,13 +73,20 @@ public:
 
 
 
+protected:
+
+    mutable ::engine::graphic::opengl::Shader m_shader;
+
+
+
 private:
 
     ::engine::graphic::opengl::Vao m_vao;
     ::engine::graphic::opengl::Vbo m_vbo;
-    ::engine::graphic::opengl::Shader m_shader{ "cube" };
 
     ::std::size_t m_numberOfArrayToDraw;
+
+    ::engine::core::Textures m_textures;
 
 };
 

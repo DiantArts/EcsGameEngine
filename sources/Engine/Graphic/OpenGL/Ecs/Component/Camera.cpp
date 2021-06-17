@@ -10,6 +10,7 @@
 )
     : m_informationsUbo{ 2 * sizeof(::glm::mat4), m_informationsUboIndex }
     , m_positionUbo{ 1 * sizeof(::glm::vec4), m_positionUboIndex }
+    , m_configurationUbo{ 8, m_configurationUboIndex }
 {
     this->adjustDirection();
     m_informationsUbo.setOneSubData(0, ::glm::perspective(
@@ -18,6 +19,28 @@
             Camera::far,
             Camera::near
         ));
+    m_configurationUbo.setOneSubData(0, this->gamma);
+    m_configurationUbo.setOneSubData(4, this->blinn);
+}
+
+::engine::graphic::opengl::ecs::component::Camera::Camera(
+    ::engine::core::AWindow& window,
+    ::glm::vec3 position
+)
+    : m_informationsUbo{ 2 * sizeof(::glm::mat4), m_informationsUboIndex }
+    , m_positionUbo{ 1 * sizeof(::glm::vec4), m_positionUboIndex }
+    , m_configurationUbo{ 8, m_configurationUboIndex }
+    , m_position{ ::std::move(position) }
+{
+    this->adjustDirection();
+    m_informationsUbo.setOneSubData(0, ::glm::perspective(
+            ::glm::radians(m_zoom),
+            window.getSize().width / window.getSize().height,
+            Camera::far,
+            Camera::near
+        ));
+    m_configurationUbo.setOneSubData(0, this->gamma);
+    m_configurationUbo.setOneSubData(4, this->blinn);
 }
 
 ::engine::graphic::opengl::ecs::component::Camera::~Camera() = default;

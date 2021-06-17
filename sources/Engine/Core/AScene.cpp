@@ -1,14 +1,28 @@
 #include <pch.hpp>
 #include <Engine/Core/AScene.hpp>
+#include <nbLights.hpp>
 
 
 
 // ------------------------------------------------------------------ *structors
 
 ::engine::core::AScene::AScene(
-    ::engine::core::AWindow& window
+    ::engine::core::AWindow& window,
+    ::engine::graphic::opengl::ecs::component::Drawable mainCharacter
 )
     : m_window{ window }
+    , m_lightsUbo{
+            sizeof(::glm::vec4) +
+            MAX_NB_DIRECTIONAL_LIGHT * 0 +
+            MAX_NB_POINT_LIGHT * engine::graphic::opengl::ecs::component::light::Point::Parameters::sizetype +
+            MAX_NB_SPOT_LIGHT * 0
+        , m_lightsUboIndex }
+    , m_controlledID{ m_entities.emplace(
+            ::engine::core::ecs::component::Controllable{ true },
+            ::std::move(mainCharacter),
+            ::engine::graphic::opengl::ecs::component::Transformable{ 0.0F, 0.0F, 5.0F },
+            ::engine::graphic::opengl::ecs::component::Camera{ m_window, ::glm::vec3{ 0.0F, 1.0F, 0.0F } }
+        ).getID() }
 {
     this->runInitSystems();
     this->emplaceUpdateSystems();
@@ -53,10 +67,8 @@ void ::engine::core::AScene::onUpdate()
 void ::engine::core::AScene::draw() const
 {
     m_window.clear();
-    m_components.get<::engine::graphic::opengl::ecs::component::Camera>(m_controlledID).configureUbo(
-        m_components.get<::engine::graphic::opengl::ecs::component::Transformable>(m_controlledID)
-    );
-    m_drawSystems.run(m_drawSystemsClock.getRestart(), m_entities, m_components);
+    this->configureUbo();
+    // m_drawSystems.run(m_drawSystemsClock.getRestart(), m_entities, m_components);
     this->onDraw();
     m_window.draw();
 }
@@ -97,17 +109,7 @@ auto ::engine::core::AScene::getCamera()
 // ------------------------------------------------------------------ Systems
 
 void ::engine::core::AScene::runInitSystems()
-{
-    ::engine::core::ecs::System<
-        [](
-            ::engine::graphic::opengl::ecs::component::Drawable& drawable,
-            ::engine::graphic::opengl::ecs::component::Textures& texture
-        ){
-            texture.init(drawable);
-        }
-    >{}(0, m_entities, m_components);
-
-}
+{}
 
 void ::engine::core::AScene::emplaceUpdateSystems()
 {
@@ -128,21 +130,34 @@ void ::engine::core::AScene::emplaceDrawSystems()
     m_drawSystems.emplace<
         [](
             const ::engine::graphic::opengl::ecs::component::Drawable& draw,
-            const ::engine::graphic::opengl::ecs::component::Transformable& transformable,
-            const ::engine::graphic::opengl::ecs::component::Textures& texture
-        ){
-            texture.bind();
-            draw(transformable);
-        }
-    >();
-
-    m_drawSystems.emplace<
-        [](
-            const ::engine::graphic::opengl::ecs::component::Drawable& draw,
             const ::engine::graphic::opengl::ecs::component::Transformable& transformable
         ){
             draw(transformable);
-        },
-        ::engine::graphic::opengl::ecs::component::Textures
+        }
     >();
+}
+
+// ------------------------------------------------------------------ Detail
+
+void ::engine::core::AScene::configureUbo() const
+{
+    // Camera
+    m_components.get<::engine::graphic::opengl::ecs::component::Camera>(m_controlledID).configureUbo(
+        m_components.get<::engine::graphic::opengl::ecs::component::Transformable>(m_controlledID)
+    );
+
+    m_lightsUbo.bind();
+    ::std::size_t offset{ 0 };
+    ::engine::graphic::opengl::Ubo::setSubData(offset, MAX_NB_DIRECTIONAL_LIGHT);
+    offset += 4;
+    ::engine::graphic::opengl::Ubo::setSubData(offset, MAX_NB_POINT_LIGHT);
+    offset += 4;
+    ::engine::graphic::opengl::Ubo::setSubData(offset, MAX_NB_SPOT_LIGHT);
+    offset += 4;
+    offset += 4;
+    if (m_components.vectorExists<::engine::graphic::opengl::ecs::component::light::Point>()) {
+        for (const auto& light : m_components.getVector<::engine::graphic::opengl::ecs::component::light::Point>()) {
+            light.setIntoUbo(offset);
+        }
+    }
 }

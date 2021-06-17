@@ -202,6 +202,27 @@ template <
 
 
 
+template <
+    ::engine::core::ecs::component::ConceptType RawComponentType
+> auto ::engine::core::ecs::component::Container::getVector() const
+    -> const ::std::vector<RawComponentType>&
+{
+    using ComponentType = ::std::remove_cvref_t<RawComponentType>;
+    auto& pairComponentContainer{ this->getPairSubContainer<ComponentType>() };
+    return (*static_cast<Container::SubContainerType<ComponentType>*>(pairComponentContainer.second));
+}
+
+template <
+    ::engine::core::ecs::component::ConceptType RawComponentType
+> auto ::engine::core::ecs::component::Container::vectorExists() const
+    -> bool
+{
+    using ComponentType = ::std::remove_cvref_t<RawComponentType>;
+    return m_container.find(ComponentType::getID()) != m_container.end();
+}
+
+
+
 // ------------------------------------------------------------------ Private
 
 template <

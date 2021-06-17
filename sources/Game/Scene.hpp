@@ -3,6 +3,7 @@
 #include <Engine/Core/AScene.hpp>
 
 
+unsigned int loadTexture(char const * path, bool gammaCorrection);
 
 namespace game {
 
@@ -14,13 +15,15 @@ public:
 
     // ------------------------------------------------------------------ *structors
 
-    Scene(
+    explicit Scene(
         ::engine::core::AWindow& window
     );
 
     ~Scene();
 
 
+
+protected:
 
     // ------------------------------------------------------------------ Update
 
@@ -35,6 +38,15 @@ public:
 
 
 private:
+
+    ::engine::graphic::opengl::Shader floorShader{ "testingFloor" };
+
+    bool isFirst{ true };
+    unsigned int VBO, cubeVAO;
+    unsigned int lightCubeVAO;
+    unsigned int floorTexture = loadTexture("data/textures/woodFloor.jpg", false);
+    unsigned int floorTextureGammaCorrected = loadTexture("data/textures/woodFloor.jpg", true);
+    unsigned int planeVAO, planeVBO;
 
 };
 

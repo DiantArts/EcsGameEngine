@@ -23,6 +23,11 @@ public:
         ::engine::core::AWindow& window
     );
 
+    Camera(
+        ::engine::core::AWindow& window,
+        ::glm::vec3 position
+    );
+
     ~Camera();
 
 
@@ -124,8 +129,10 @@ private:
 
     ::engine::graphic::opengl::Ubo m_informationsUbo;
     ::engine::graphic::opengl::Ubo m_positionUbo;
+    ::engine::graphic::opengl::Ubo m_configurationUbo;
     static constexpr int m_informationsUboIndex{ 0 };
     static constexpr int m_positionUboIndex{ 1 };
+    static constexpr int m_configurationUboIndex{ 2 };
 
     ::glm::vec3 m_position{ 0.0f, 0.0f, 0.0f };
     float m_distance{ 5.0f };
@@ -142,6 +149,10 @@ private:
 
     static constexpr float far{ 0.1f };
     static constexpr float near{ 100.0f };
+
+    static inline bool gamma{ true };
+    static inline bool blinn{ false };
+
 
 };
 

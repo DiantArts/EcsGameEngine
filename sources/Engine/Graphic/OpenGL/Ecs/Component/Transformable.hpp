@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Engine/Core/Ecs/AComponent.hpp>
-#include <Engine/Core/Ecs/Component/Position.hpp>
 
 
 
@@ -20,11 +19,13 @@ public:
     Transformable();
 
     Transformable(
-        const ::glm::vec3& position
+        ::glm::vec3 position
     );
 
     Transformable(
-        ::glm::vec3&& position
+        float positionX,
+        float positionY,
+        float positionZ
     );
 
     ~Transformable();

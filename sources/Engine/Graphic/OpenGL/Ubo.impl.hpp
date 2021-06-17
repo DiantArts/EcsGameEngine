@@ -5,7 +5,7 @@
 template <
     typename DataType
 > void ::engine::graphic::opengl::Ubo::setOneSubData(
-    ::GLintptr offset,
+    ::std::size_t offset,
     const DataType& data
 ) const
 {
@@ -15,10 +15,10 @@ template <
 
 template <
     typename DataType
-> void ::engine::graphic::opengl::Ubo::setSubData(
-    ::GLintptr offset,
+> inline void ::engine::graphic::opengl::Ubo::setSubData(
+    ::std::size_t offset,
     const DataType& data
-) const
+)
 {
     glBufferSubData(GL_UNIFORM_BUFFER, offset, sizeof(data), &data);
 }

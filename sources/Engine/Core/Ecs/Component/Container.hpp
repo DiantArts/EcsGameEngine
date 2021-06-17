@@ -126,6 +126,18 @@ public:
 
 
 
+    template <
+        ::engine::core::ecs::component::ConceptType ComponentType
+    > [[ nodiscard ]] auto getVector() const
+        -> const ::std::vector<ComponentType>&;
+
+    template <
+        ::engine::core::ecs::component::ConceptType ComponentType
+    > [[ nodiscard ]] auto vectorExists() const
+        -> bool;
+
+
+
 private:
 
     // ------------------------------------------------------------------ Private

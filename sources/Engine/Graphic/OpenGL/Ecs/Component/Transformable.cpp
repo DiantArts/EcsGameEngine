@@ -13,18 +13,20 @@
 }
 
 ::engine::graphic::opengl::ecs::component::Transformable::Transformable(
-    const ::glm::vec3& position
+    ::glm::vec3 position
 )
-    : m_position{ position }
+    : m_position{ ::std::move(position) }
 {
     this->adjustDirection();
     this->generateModel();
 }
 
 ::engine::graphic::opengl::ecs::component::Transformable::Transformable(
-    ::glm::vec3&& position
+    const float positionX,
+    const float positionY,
+    const float positionZ
 )
-    : m_position{ ::std::move(position) }
+    : m_position{ positionX, positionY, positionZ }
 {
     this->adjustDirection();
     this->generateModel();
@@ -190,7 +192,7 @@ void ::engine::graphic::opengl::ecs::component::Transformable::setPositionX(
     const float position
 )
 {
-    m_position.x += position;
+    m_position.x = position;
     this->generateModel();
 }
 
@@ -198,7 +200,7 @@ void ::engine::graphic::opengl::ecs::component::Transformable::setPositionY(
     const float position
 )
 {
-    m_position.y += position;
+    m_position.y = position;
     this->generateModel();
 }
 
@@ -206,7 +208,7 @@ void ::engine::graphic::opengl::ecs::component::Transformable::setPositionZ(
     const float position
 )
 {
-    m_position.z += position;
+    m_position.z = position;
     this->generateModel();
 }
 
