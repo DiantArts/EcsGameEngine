@@ -6,6 +6,7 @@
 #include <Engine/Core/Ecs/Component/Position.hpp>
 #include <Engine/Core/Ecs/Component/Controllable.hpp>
 #include <Engine/Graphic/OpenGL/Ecs/Component/Drawable.hpp>
+#include <Engine/Graphic/OpenGL/Ecs/Component/Textures.hpp>
 #include <Engine/Graphic/OpenGL/Ecs/Component/Transformable.hpp>
 #include <Engine/Graphic/OpenGL/Ecs/Component/Camera.hpp>
 #include <Engine/Core/AWindow.hpp>
@@ -86,6 +87,19 @@ protected:
 
 private:
 
+    // ------------------------------------------------------------------ Systems
+
+    void runInitSystems();
+
+    void emplaceUpdateSystems();
+
+    void emplaceDrawSystems();
+
+
+
+
+private:
+
     ::engine::core::AWindow& m_window;
 
     bool m_isOver { false };
@@ -99,7 +113,10 @@ private:
         ::engine::core::ecs::component::Controllable{ true },
         ::engine::graphic::opengl::ecs::component::Drawable{},
         ::engine::graphic::opengl::ecs::component::Transformable{ ::glm::vec3{ 0.0F, 0.0F, 5.0F } },
-        ::engine::graphic::opengl::ecs::component::Camera{ m_window }
+        ::engine::graphic::opengl::ecs::component::Camera{ m_window },
+        ::engine::graphic::opengl::ecs::component::Textures{
+            "container.png", "containerBorders.png"
+        }
     ).getID() };
 
 };

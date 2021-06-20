@@ -170,7 +170,7 @@ void ::engine::graphic::opengl::Shader::set(
 
 void ::engine::graphic::opengl::Shader::set(
     const ::std::string& name,
-    const size_t value
+    const ::std::size_t value
 ) const
 {
     glUniform1ui(this->getOrCacheUniformLocation(name), value);
@@ -178,7 +178,7 @@ void ::engine::graphic::opengl::Shader::set(
 
 void ::engine::graphic::opengl::Shader::set(
     ::std::string&& name,
-    const size_t value
+    const ::std::size_t value
 ) const
 {
     glUniform1ui(this->getOrCacheUniformLocation(::std::move(name)), value);
@@ -626,7 +626,7 @@ void ::engine::graphic::opengl::Shader::set(
 
 void ::engine::graphic::opengl::Shader::setBlockBinding(
     const ::std::string& name,
-    const size_t index
+    const ::std::size_t index
 ) const
 {
     auto blockIndex { glGetUniformBlockIndex(this->m_id, name.c_str()) };

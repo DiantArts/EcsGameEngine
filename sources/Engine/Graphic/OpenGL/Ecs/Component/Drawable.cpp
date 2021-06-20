@@ -16,10 +16,6 @@
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
-
-    m_shader.use();
-    m_shader.set("texture1", 0);
-    m_shader.set("texture2", 1);
 }
 
 ::engine::graphic::opengl::ecs::component::Drawable::~Drawable() = default;
@@ -41,13 +37,16 @@ auto ::engine::graphic::opengl::ecs::component::Drawable::operator=(
 
 // ------------------------------------------------------------------ use
 
+auto ::engine::graphic::opengl::ecs::component::Drawable::getShader()
+    -> ::engine::graphic::opengl::Shader&
+{
+    return m_shader;
+}
+
 void ::engine::graphic::opengl::ecs::component::Drawable::operator()(
     const ::engine::graphic::opengl::ecs::component::Transformable& transformation
 ) const
 {
-    m_texture1.bind(0);
-    m_texture2.bind(1);
-
     m_shader.use();
     m_vao.bind();
     m_shader.set("model", transformation.getModel());

@@ -25,7 +25,7 @@ void ::engine::core::ID::operator=(ID::Type value)
 auto ::engine::core::ID::operator++()
     -> ID::Type
 {
-    m_value++;
+    ++m_value;
     return m_value;
 }
 
@@ -33,13 +33,13 @@ auto ::engine::core::ID::operator++(int)
     -> ID::Type
 {
     auto value { m_value };
-    m_value++;
+    ++m_value;
     return value;
 }
 
 void ::engine::core::ID::increment()
 {
-    m_value++;
+    ++m_value;
 }
 
 

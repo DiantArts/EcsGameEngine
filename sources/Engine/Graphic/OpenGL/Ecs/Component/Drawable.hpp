@@ -56,6 +56,9 @@ public:
 
     // ------------------------------------------------------------------ Use
 
+    [[ nodiscard ]] auto getShader()
+        -> ::engine::graphic::opengl::Shader&;
+
     void operator()(
         const ::engine::graphic::opengl::ecs::component::Transformable& transformation
     ) const;
@@ -69,9 +72,6 @@ private:
     ::engine::graphic::opengl::Shader m_shader{ "cube" };
 
     ::std::size_t m_numberOfArrayToDraw;
-
-    ::engine::graphic::opengl::Texture m_texture1{ "container.png" };
-    ::engine::graphic::opengl::Texture m_texture2{ "containerBorders.png" };
 
 };
 

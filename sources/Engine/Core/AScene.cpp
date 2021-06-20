@@ -10,43 +10,9 @@
 )
     : m_window{ window }
 {
-    m_updateSystems.emplace<
-        [](
-            ::engine::core::Time deltaTime,
-            ::engine::core::ecs::component::Controllable& controllable,
-            ::engine::graphic::opengl::ecs::component::Transformable& transformable
-        ){
-            controllable.updatePosition(deltaTime, transformable);
-            controllable.updateRotation(transformable);
-        }
-    >();
-
-    m_drawSystems.emplace<
-        [](
-            const ::engine::graphic::opengl::ecs::component::Drawable& draw,
-            const ::engine::graphic::opengl::ecs::component::Transformable& transformable
-        ){
-            draw(transformable);
-        }
-    >();
-
-    for (auto&& position : ::std::vector<::glm::vec3>{
-        ::glm::vec3( 0.0f,  0.0f,  0.0f),
-        ::glm::vec3( 2.0f,  5.0f, -15.0f),
-        ::glm::vec3(-1.5f, -2.2f, -2.5f),
-        ::glm::vec3(-3.8f, -2.0f, -12.3f),
-        ::glm::vec3( 2.4f, -0.4f, -3.5f),
-        ::glm::vec3(-1.7f,  3.0f, -7.5f),
-        ::glm::vec3( 1.3f, -2.0f, -2.5f),
-        ::glm::vec3( 1.5f,  2.0f, -2.5f),
-        ::glm::vec3( 1.5f,  0.2f, -1.5f),
-        ::glm::vec3(-1.3f,  1.0f, -1.5f)
-    }) {
-        m_entities.emplace(
-            ::engine::graphic::opengl::ecs::component::Drawable{},
-            ::engine::graphic::opengl::ecs::component::Transformable{ ::std::move(position) }
-        );
-    }
+    this->runInitSystems();
+    this->emplaceUpdateSystems();
+    this->emplaceDrawSystems();
 }
 
 ::engine::core::AScene::~AScene() = default;
@@ -124,4 +90,59 @@ auto ::engine::core::AScene::getCamera()
     -> ::engine::graphic::opengl::ecs::component::Camera&
 {
     return m_components.get<::engine::graphic::opengl::ecs::component::Camera>(m_controlledID);
+}
+
+
+
+// ------------------------------------------------------------------ Systems
+
+void ::engine::core::AScene::runInitSystems()
+{
+    ::engine::core::ecs::System<
+        [](
+            ::engine::graphic::opengl::ecs::component::Drawable& drawable,
+            ::engine::graphic::opengl::ecs::component::Textures& texture
+        ){
+            texture.init(drawable);
+        }
+    >{}(0, m_entities, m_components);
+
+}
+
+void ::engine::core::AScene::emplaceUpdateSystems()
+{
+    m_updateSystems.emplace<
+        [](
+            ::engine::core::Time deltaTime,
+            ::engine::core::ecs::component::Controllable& controllable,
+            ::engine::graphic::opengl::ecs::component::Transformable& transformable
+        ){
+            controllable.updatePosition(deltaTime, transformable);
+            controllable.updateRotation(transformable);
+        }
+    >();
+}
+
+void ::engine::core::AScene::emplaceDrawSystems()
+{
+    m_drawSystems.emplace<
+        [](
+            const ::engine::graphic::opengl::ecs::component::Drawable& draw,
+            const ::engine::graphic::opengl::ecs::component::Transformable& transformable,
+            const ::engine::graphic::opengl::ecs::component::Textures& texture
+        ){
+            texture.bind();
+            draw(transformable);
+        }
+    >();
+
+    m_drawSystems.emplace<
+        [](
+            const ::engine::graphic::opengl::ecs::component::Drawable& draw,
+            const ::engine::graphic::opengl::ecs::component::Transformable& transformable
+        ){
+            draw(transformable);
+        },
+        ::engine::graphic::opengl::ecs::component::Textures
+    >();
 }

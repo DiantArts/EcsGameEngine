@@ -85,12 +85,12 @@ public:
 
     void set(
         const ::std::string& name,
-        size_t value
+        ::std::size_t value
     ) const;
 
     void set(
         ::std::string&& name,
-        size_t value
+        ::std::size_t value
     ) const;
 
     void set(
@@ -361,7 +361,7 @@ public:
 
     void setBlockBinding(
         const ::std::string& name,
-        size_t index
+        ::std::size_t index
     ) const;
 
 
