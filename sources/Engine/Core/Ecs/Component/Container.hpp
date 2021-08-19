@@ -138,18 +138,17 @@ public:
 
 
 
-private:
-
-    // ------------------------------------------------------------------ Private
+    // ------------------------------------------------------------------ SubContainers
+    // Those functions are unsafe and should be use with caution
 
     template <
         ::engine::core::ecs::component::ConceptType ComponentType
-    > [[ nodiscard ]] auto getPairSubContainer()
+    > [[ nodiscard ]] auto getUnsafePairSubContainer()
         -> SubPairContainerType&;
 
     template <
         ::engine::core::ecs::component::ConceptType ComponentType
-    > [[ nodiscard ]] auto getPairSubContainer() const
+    > [[ nodiscard ]] auto getUnsafePairSubContainer() const
         -> const SubPairContainerType&;
 
 
@@ -157,7 +156,6 @@ private:
 private:
 
     Container::Type m_container;
-
 
 };
 

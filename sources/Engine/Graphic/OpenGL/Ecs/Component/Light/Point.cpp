@@ -1,5 +1,6 @@
 #include <pch.hpp>
 #include <Engine/Graphic/OpenGL/Ecs/Component/Light/Point.hpp>
+#include <Engine/Graphic/OpenGL/Ecs/Component/Transformable.hpp>
 #include <Engine/Graphic/OpenGL/Ubo.hpp>
 #include <nbLights.hpp>
 #include <Engine/Graphic/OpenGL/Shader.hpp>
@@ -42,10 +43,11 @@ auto ::engine::graphic::opengl::ecs::component::light::Point::operator=(
 // ------------------------------------------------------------------ Ubo
 
 void ::engine::graphic::opengl::ecs::component::light::Point::setIntoUbo(
-    ::std::size_t& offset
+    ::std::size_t& offset,
+    const ::engine::graphic::opengl::ecs::component::Transformable& transformation
 ) const
 {
-    ::engine::graphic::opengl::Ubo::setSubData(offset, ::glm::vec3(0, 0, sin(glfwGetTime())));
+    ::engine::graphic::opengl::Ubo::setSubData(offset, transformation.getPosition());
     offset += sizeof(::glm::vec4);
     ::engine::graphic::opengl::Ubo::setSubData(offset, m_parameters.color);
     offset += sizeof(::glm::vec4);

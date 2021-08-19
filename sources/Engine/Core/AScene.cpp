@@ -19,14 +19,14 @@
         , m_lightsUboIndex }
     , m_controlledID{ m_entities.emplace(
             ::engine::core::ecs::component::Controllable{ true },
-            ::std::move(mainCharacter),
+            // ::std::move(mainCharacter),
             ::engine::graphic::opengl::ecs::component::Transformable{ 0.0F, 0.0F, 5.0F },
             ::engine::graphic::opengl::ecs::component::Camera{ m_window, ::glm::vec3{ 0.0F, 1.0F, 0.0F } }
         ).getID() }
 {
     this->runInitSystems();
-    this->emplaceUpdateSystems();
     this->emplaceDrawSystems();
+    this->emplaceUpdateSystems();
 }
 
 ::engine::core::AScene::~AScene() = default;
@@ -111,6 +111,18 @@ auto ::engine::core::AScene::getCamera()
 void ::engine::core::AScene::runInitSystems()
 {}
 
+void ::engine::core::AScene::emplaceDrawSystems()
+{
+    m_drawSystems.emplace<
+        [](
+            const ::engine::graphic::opengl::ecs::component::Drawable& draw,
+            const ::engine::graphic::opengl::ecs::component::Transformable& transformable
+        ){
+            draw(transformable);
+        }
+    >();
+}
+
 void ::engine::core::AScene::emplaceUpdateSystems()
 {
     m_updateSystems.emplace<
@@ -125,17 +137,7 @@ void ::engine::core::AScene::emplaceUpdateSystems()
     >();
 }
 
-void ::engine::core::AScene::emplaceDrawSystems()
-{
-    m_drawSystems.emplace<
-        [](
-            const ::engine::graphic::opengl::ecs::component::Drawable& draw,
-            const ::engine::graphic::opengl::ecs::component::Transformable& transformable
-        ){
-            draw(transformable);
-        }
-    >();
-}
+
 
 // ------------------------------------------------------------------ Detail
 
@@ -155,9 +157,37 @@ void ::engine::core::AScene::configureUbo() const
     ::engine::graphic::opengl::Ubo::setSubData(offset, MAX_NB_SPOT_LIGHT);
     offset += 4;
     offset += 4;
+
+
     if (m_components.vectorExists<::engine::graphic::opengl::ecs::component::light::Point>()) {
-        for (const auto& light : m_components.getVector<::engine::graphic::opengl::ecs::component::light::Point>()) {
-            light.setIntoUbo(offset);
+        const auto& pairLightPoints{
+            m_components.getUnsafePairSubContainer<::engine::graphic::opengl::ecs::component::light::Point>()
+        };
+        const auto& pairTransformables{
+            m_components.getUnsafePairSubContainer<::engine::graphic::opengl::ecs::component::Transformable>()
+        };
+        for (::std::size_t i{ 0 }; i < pairLightPoints.first.size(); ++i) {
+            const auto& entityID{ pairLightPoints.first.at(i) };
+            const auto& lightPointComponent{
+                static_cast<
+                    ::std::vector<::engine::graphic::opengl::ecs::component::light::Point>*
+                >(pairLightPoints.second)->at(i)
+            };
+            const auto& it{ ::std::ranges::find(pairTransformables.first, entityID) };
+            if (it == pairTransformables.first.end()) {
+                throw ::std::runtime_error(
+                    "Entity '"s + static_cast<::std::string>(entityID) + "' doesn't contain a "s +
+                        "'Transformable' component but contains a 'Light Point' component"
+                );
+            }
+            const auto& transformableComponent{
+                static_cast<
+                    ::std::vector<::engine::graphic::opengl::ecs::component::Transformable>*
+                >(pairTransformables.second)->at(
+                    it - pairTransformables.first.begin()
+                )
+            };
+            lightPointComponent.setIntoUbo(offset, transformableComponent);
         }
     }
 }

@@ -81,7 +81,8 @@ public:
     // ------------------------------------------------------------------ Ubo
 
     void setIntoUbo(
-        ::std::size_t& offset
+        ::std::size_t& offset,
+        const ::engine::graphic::opengl::ecs::component::Transformable& transformation
     ) const;
 
     void setIntoShader(
